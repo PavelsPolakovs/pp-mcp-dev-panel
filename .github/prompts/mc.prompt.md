@@ -1,11 +1,31 @@
 ---
 mode: 'agent'
-description: 'Merge changes'
+description: 'Merge changes using the abstract Merge Branch Skill'
 ---
 
-Execute the following Git workflow:
-1. Prepare pull request for merging:
-   - Ensure that the current branch is up to date with the main branch by running: `git pull origin main`.
-   - Resolve any merge conflicts if they arise.
-2. Create a pull request on GitHub.
-3. Merge the pull request.
+Use the abstract Merge Branch Skill defined in `.github/skills/merge-branch-skill.md` to perform the merge flow.
+
+Recommended (automated) workflow:
+
+1. Prepare the pull request for merging:
+   - Ensure the feature branch is up to date with the base branch (default `main`). The skill will run the equivalent of:
+     - `git fetch origin main`
+     - `git checkout <branch>`
+     - `git pull origin main`
+   - If merge conflicts occur, the skill will stop and list conflicted files for manual resolution.
+2. Create the pull request on GitHub:
+   - The skill prefers the `gh` CLI; if `gh` is not available it will use the GitHub API when `GITHUB_TOKEN` is set, otherwise it opens the compare URL for manual creation.
+3. Merge the pull request:
+   - The skill supports `merge`, `squash`, and `rebase` strategies. By default it will perform a `merge` and optionally delete the source branch.
+
+How to run (examples):
+
+Run the bundled helper script which implements the skill:
+
+```bash
+cd /home/polakovs/PhpstormProjects/pp-mcp-dev-panel
+./.github/skill-scripts/merge_branch.sh            # merge current branch into main (default)
+./.github/skill-scripts/merge_branch.sh -b feature/foo -m squash --no-delete
+```
+
+See `.github/skills/merge-branch-skill.md` for the abstract specification and `.github/skill-scripts/merge_branch.sh` for a runnable implementation.

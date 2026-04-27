@@ -49,7 +49,7 @@ dev:
 	@echo "Run 'make server-dev' in one terminal and 'make client-dev' in another."
 	@echo "If you want to attempt to run both from one shell, use 'make dev-run'."
 
-# Run server dev (node --watch index.js)
+# Run server dev (node --watch index.js). The client should be built before running this, as the server serves the built client from /dist.
 server-dev:
 	cd $(SERVER_DIR) && $(NPM) run dev
 

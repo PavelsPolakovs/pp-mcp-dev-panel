@@ -36,3 +36,6 @@ coverage/
 # client/package-lock.json
 # server/package-lock.json
 
+# Ignore push record files created by helper scripts
+.github/push-records/
+
