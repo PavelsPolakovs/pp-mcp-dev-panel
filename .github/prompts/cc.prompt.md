@@ -5,4 +5,4 @@ description: 'Commit changes'
 
 Execute the following Git workflow:
 1. Stage all changes: `git add .`.
-2. Commit with a descriptive message.
+2. Commit with a descriptive message that describes the changes made.
