@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { FlaskConical, Hammer, ScanSearch, Wifi, WifiOff, FolderOpen } from "lucide-react";
 import CommandButton from "./components/CommandButton.jsx";
 import Terminal from "./components/Terminal.jsx";
+import ThemeToggle from "./components/ThemeToggle.jsx";
 import { useStore } from "./store/useStore.js";
 
 const TOOLS = [
@@ -35,6 +36,15 @@ export default function App() {
   const setActiveTask = useStore((s) => s.setActiveTask);
   const projectDir = useStore((s) => s.projectDir);
   const setProjectDir = useStore((s) => s.setProjectDir);
+  const theme = useStore((s) => s.theme);
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [theme]);
 
   useEffect(() => {
     const protocol = location.protocol === "https:" ? "wss:" : "ws:";
@@ -61,8 +71,8 @@ export default function App() {
       <div className="max-w-2xl mx-auto space-y-6">
 
         {/* Header */}
-        <div className="flex items-start justify-between">
-          <div>
+         <div className="flex items-start justify-between gap-4">
+           <div>
             <div className="flex items-center gap-2.5 mb-1">
               {/* Logo */}
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-label="MCP Dev Panel">
@@ -75,14 +85,17 @@ export default function App() {
             </div>
             <p className="text-xs text-zinc-500">Run project commands from Claude or the browser</p>
           </div>
-          <div className={`flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full border mt-0.5 ${
-            wsConnected
-              ? "border-green-800 bg-green-900/20 text-green-400"
-              : "border-zinc-800 bg-zinc-900 text-zinc-600"
-          }`}>
-            {wsConnected ? <Wifi size={11} /> : <WifiOff size={11} />}
-            {wsConnected ? "Live" : "Offline"}
-          </div>
+           <div className="flex items-center gap-2">
+             <div className={`flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full border mt-0.5 ${
+               wsConnected
+                 ? "border-green-800 bg-green-900/20 text-green-400"
+                 : "border-zinc-800 bg-zinc-900 text-zinc-600"
+             }`}>
+               {wsConnected ? <Wifi size={11} /> : <WifiOff size={11} />}
+               {wsConnected ? "Live" : "Offline"}
+             </div>
+             <ThemeToggle />
+           </div>
         </div>
 
         {/* Project dir override */}
