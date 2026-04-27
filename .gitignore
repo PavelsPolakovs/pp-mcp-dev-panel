@@ -1,0 +1,38 @@
+# Node.js
+node_modules/
+
+# Build output
+dist/
+client/dist/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+*.log
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDEs and editors
+.vscode/
+.idea/
+*.sublime-workspace
+
+# macOS
+.DS_Store
+
+# Test coverage
+coverage/
+
+# Package archives
+*.tgz
+
+# Lockfiles (keep package-lock.json committed in repo root if desired)
+# If you prefer not to track package-lock.json in subprojects, uncomment below
+# client/package-lock.json
+# server/package-lock.json
+
