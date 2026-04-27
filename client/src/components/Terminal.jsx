@@ -1,0 +1,51 @@
+import { useEffect, useRef } from "react";
+import { useStore } from "../store/useStore";
+
+export default function Terminal() {
+  const logs = useStore((s) => s.logs);
+  const clearLogs = useStore((s) => s.clearLogs);
+  const bottomRef = useRef(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [logs]);
+
+  const getClass = (log) => {
+    if (log.type === "task_start") return "text-cyan-400 font-medium";
+    if (log.type === "task_end" && log.status === "success") return "text-green-400 font-semibold";
+    if (log.type === "task_end" && log.status === "error") return "text-red-400 font-semibold";
+    if (log.type === "task_end" && log.status === "warning") return "text-yellow-400 font-semibold";
+    return "text-zinc-300";
+  };
+
+  return (
+    <div className="flex flex-col rounded-xl border border-zinc-800 overflow-hidden">
+      <div className="flex items-center justify-between px-4 py-2.5 bg-zinc-900 border-b border-zinc-800">
+        <div className="flex items-center gap-2">
+          <div className="w-3 h-3 rounded-full bg-zinc-700" />
+          <div className="w-3 h-3 rounded-full bg-zinc-700" />
+          <div className="w-3 h-3 rounded-full bg-zinc-700" />
+          <span className="ml-2 text-xs text-zinc-500 font-mono uppercase tracking-wider">Output</span>
+        </div>
+        <button
+          onClick={clearLogs}
+          className="text-xs text-zinc-600 hover:text-zinc-300 transition-colors"
+        >
+          Clear
+        </button>
+      </div>
+      <div className="flex-1 overflow-y-auto bg-zinc-950 p-4 font-mono text-xs leading-6 min-h-72 max-h-96">
+        {logs.length === 0 ? (
+          <span className="text-zinc-600">No output yet. Run a command to see results here.</span>
+        ) : (
+          logs.map((log, i) => (
+            <div key={i} className={`${getClass(log)} whitespace-pre-wrap`}>
+              {log.message || log.data}
+            </div>
+          ))
+        )}
+        <div ref={bottomRef} />
+      </div>
+    </div>
+  );
+}
