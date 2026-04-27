@@ -7,8 +7,8 @@ Execute the following Git workflow to push the current branch to origin and reco
 
 1. Preferred: use the repository helper which records pushes and prints a PR/compare URL:
 
-   - Dry-run (safe): `bash server/tools/push_changes.sh --dry-run -y`
-   - Actual push (auto-confirm): `bash server/tools/push_changes.sh -y`
+   - Dry-run (safe): `bash .github/skill-scripts/push_changes.sh --dry-run -y`
+   - Actual push (auto-confirm): `bash .github/skill-scripts/push_changes.sh -y`
 
    Optional flags:
    - `--upstream` to set upstream (`-u`)

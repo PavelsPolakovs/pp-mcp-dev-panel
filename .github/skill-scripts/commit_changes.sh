@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# commit_changes.sh
+# commit_changes.sh (moved copy)
 # Helper implementing the Commit Changes Skill described in
 # .github/skills/commit-changes-skill.md
 
@@ -179,4 +179,5 @@ else
 fi
 
 echo "Commit complete."
+
 

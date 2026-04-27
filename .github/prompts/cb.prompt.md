@@ -18,8 +18,8 @@ How to run (examples):
 
 ```bash
 cd /home/polakovs/PhpstormProjects/pp-mcp-dev-panel
-./server/tools/create_branch.sh -b feature/update-branch-name
-./server/tools/create_branch.sh -b feature/experiment -B main -s release/v1.2 --no-push
+./.github/skill-scripts/create_branch.sh -b feature/update-branch-name
+./.github/skill-scripts/create_branch.sh -b feature/experiment -B main -s release/v1.2 --no-push
 ```
 
-See `.github/skills/create-branch-skill.md` for the abstract specification and `server/tools/create_branch.sh` for a runnable implementation.
+See `.github/skills/create-branch-skill.md` for the abstract specification and `.github/skill-scripts/create_branch.sh` for a runnable implementation.

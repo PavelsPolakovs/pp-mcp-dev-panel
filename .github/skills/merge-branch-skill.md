@@ -55,14 +55,14 @@ Safety and conflict handling
 
 Examples
 --------
-Run the skill locally (using the helper script provided in `server/tools/merge_branch.sh`):
+Run the skill locally (using the helper script provided in `.github/skill-scripts/merge_branch.sh`):
 
 ```bash
 # merge current branch into main (default merge method, delete branch)
-server/tools/merge_branch.sh
+ .github/skill-scripts/merge_branch.sh
 
 # merge a specific branch without deleting it, using squash
-server/tools/merge_branch.sh -b feature/new -m squash --no-delete
+ .github/skill-scripts/merge_branch.sh -b feature/new -m squash --no-delete
 ```
 
 Notes

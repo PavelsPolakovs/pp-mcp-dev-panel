@@ -10,27 +10,27 @@ Execute the following Git workflow to stage and commit changes.
 
    - Interactive (suggested message, edit/accept):
 
-	 ```bash
-	 bash server/tools/commit_changes.sh
-	 ```
+				 ```bash
+				 bash .github/skill-scripts/commit_changes.sh
+				 ```
 
    - Auto-accept generated message:
 
-	 ```bash
-	 bash server/tools/commit_changes.sh -y
-	 ```
+				 ```bash
+				 bash .github/skill-scripts/commit_changes.sh -y
+				 ```
 
    - Provide an explicit message (skip suggestion):
 
-	 ```bash
-	 bash server/tools/commit_changes.sh -m "feat(scope): short summary"
-	 ```
+				 ```bash
+				 bash .github/skill-scripts/commit_changes.sh -m "feat(scope): short summary"
+				 ```
 
    - Amend last commit:
 
-	 ```bash
-	 bash server/tools/commit_changes.sh --amend -y
-	 ```
+				 ```bash
+				 bash .github/skill-scripts/commit_changes.sh --amend -y
+				 ```
 
 2. Fallback: if the helper is unavailable, run the manual steps:
 
@@ -40,5 +40,5 @@ Execute the following Git workflow to stage and commit changes.
    ```
 
 Notes:
-- `server/tools/commit_changes.sh` will stage all changes, analyze the staged files to suggest a short conventional-style message, and optionally open your `$EDITOR` to edit the message.
+- `.github/skill-scripts/commit_changes.sh` will stage all changes, analyze the staged files to suggest a short conventional-style message, and optionally open your `$EDITOR` to edit the message.
 - Use `-y` to assume yes and avoid interactive prompts.

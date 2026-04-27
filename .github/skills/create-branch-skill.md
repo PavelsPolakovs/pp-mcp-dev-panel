@@ -44,13 +44,13 @@ Examples
 Create a branch from `main` and push it to origin:
 
 ```bash
-server/tools/create_branch.sh -b feature/new-feature
+.github/skill-scripts/create_branch.sh -b feature/new-feature
 ```
 
 Create a branch from a specific start point without pushing:
 
 ```bash
-server/tools/create_branch.sh -b feature/experiment -B main -s release/v1.2 --no-push
+.github/skill-scripts/create_branch.sh -b feature/experiment -B main -s release/v1.2 --no-push
 ```
 
 Notes

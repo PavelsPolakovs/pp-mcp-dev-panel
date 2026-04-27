@@ -24,8 +24,8 @@ Run the bundled helper script which implements the skill:
 
 ```bash
 cd /home/polakovs/PhpstormProjects/pp-mcp-dev-panel
-./server/tools/merge_branch.sh            # merge current branch into main (default)
-./server/tools/merge_branch.sh -b feature/foo -m squash --no-delete
+./.github/skill-scripts/merge_branch.sh            # merge current branch into main (default)
+./.github/skill-scripts/merge_branch.sh -b feature/foo -m squash --no-delete
 ```
 
-See `.github/skills/merge-branch-skill.md` for the abstract specification and `server/tools/merge_branch.sh` for a runnable implementation.
+See `.github/skills/merge-branch-skill.md` for the abstract specification and `.github/skill-scripts/merge_branch.sh` for a runnable implementation.

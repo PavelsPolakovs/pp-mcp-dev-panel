@@ -39,16 +39,16 @@ Examples
 Stage all changes and commit with an auto-generated message (prompt to edit):
 
 ```bash
-server/tools/commit_changes.sh
+.github/skill-scripts/commit_changes.sh
 ```
 
 Automatically generate and amend the last commit without prompting (use with care):
 
 ```bash
-server/tools/commit_changes.sh --amend -y
+.github/skill-scripts/commit_changes.sh --amend -y
 ```
 
 Notes
 -----
-- This is an abstract skill. The companion helper script `server/tools/commit_changes.sh` implements the heuristics and interactive flow.
+- This is an abstract skill. The companion helper script `.github/skill-scripts/commit_changes.sh` implements the heuristics and interactive flow.
 
