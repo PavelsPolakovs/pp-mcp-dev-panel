@@ -1,13 +1,16 @@
 import { spawn } from 'child_process'
 
-export async function runTests(cwd: string, broadcast: (payload: unknown) => void): Promise<string> {
+export async function runTests(
+  cwd: string,
+  broadcast: (payload: unknown) => void
+): Promise<string> {
   return new Promise((resolve, reject) => {
     broadcast({ type: 'task_start', tool: 'run-tests', message: '\u25b6 Running tests...' })
 
     const proc = spawn('npm', ['test', '--', '--watchAll=false'], {
       cwd,
       shell: true,
-      env: { ...process.env, FORCE_COLOR: '0' },
+      env: { ...process.env, FORCE_COLOR: '0' }
     })
 
     proc.stdout.on('data', (d) =>

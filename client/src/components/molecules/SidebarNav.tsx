@@ -18,8 +18,8 @@ const navSections: NavSection[] = [
     items: [
       { to: '/dashboard', icon: 'layout-dashboard', label: 'Dashboard' },
       { to: '/analytics', icon: 'trending-up', label: 'Analytics' },
-      { to: '/reports', icon: 'bar-chart-2', label: 'Reports' },
-    ],
+      { to: '/reports', icon: 'bar-chart-2', label: 'Reports' }
+    ]
   },
   {
     label: 'Управление',
@@ -27,17 +27,17 @@ const navSections: NavSection[] = [
       { to: '/users', icon: 'users', label: 'Users', badge: 12 },
       { to: '/orders', icon: 'shopping-cart', label: 'Orders', badge: 5 },
       { to: '/products', icon: 'package', label: 'Products' },
-      { to: '/content', icon: 'file-text', label: 'Content' },
-    ],
+      { to: '/content', icon: 'file-text', label: 'Content' }
+    ]
   },
   {
     label: 'Система',
     items: [
       { to: '/integrations', icon: 'plug', label: 'Integrations' },
       { to: '/settings', icon: 'settings', label: 'Settings' },
-      { to: '/logs', icon: 'terminal', label: 'Logs' },
-    ],
-  },
+      { to: '/logs', icon: 'terminal', label: 'Logs' }
+    ]
+  }
 ]
 
 const LucideIcon: React.FC = () => {
@@ -51,7 +51,7 @@ const LucideIcon: React.FC = () => {
         display: 'inline-block',
         background: 'currentColor',
         opacity: 0.5,
-        borderRadius: 2,
+        borderRadius: 2
       }}
     />
   )
@@ -82,7 +82,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ collapsed }) => (
             }
             key={item.to}
           >
-             <LucideIcon />
+            <LucideIcon />
             <span
               className={`text-sm font-medium overflow-hidden transition-all duration-200 ${collapsed ? 'opacity-0 w-0' : 'opacity-100 w-auto'}`}
             >

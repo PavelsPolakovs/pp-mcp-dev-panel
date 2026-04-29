@@ -15,7 +15,7 @@ export default function CommandButton({
   label,
   description,
   icon: Icon,
-  colorClass,
+  colorClass
 }: CommandButtonProps) {
   const activeTask = useStore((s: { activeTask: string | null }) => s.activeTask)
   const projectDir = useStore((s: { projectDir: string }) => s.projectDir)
@@ -30,11 +30,16 @@ export default function CommandButton({
       await fetch('/api/run-tool', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tool, projectDir: projectDir || undefined }),
+        body: JSON.stringify({ tool, projectDir: projectDir || undefined })
       })
     } catch (err: unknown) {
       let message = 'Unknown error'
-      if (err && typeof err === 'object' && 'message' in err && typeof (err as any).message === 'string') {
+      if (
+        err &&
+        typeof err === 'object' &&
+        'message' in err &&
+        typeof (err as any).message === 'string'
+      ) {
         message = (err as any).message
       }
       useStore.getState().addLog({

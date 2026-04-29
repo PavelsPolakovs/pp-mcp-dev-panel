@@ -1,7 +1,7 @@
-const { FlatCompat } = require('@eslint/eslintrc');
+const { FlatCompat } = require('@eslint/eslintrc')
 const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
+  baseDirectory: __dirname
+})
 
 module.exports = [
   // TypeScript/React/JSX files: use TS parser
@@ -14,22 +14,22 @@ module.exports = [
       parserOptions: {
         project: ['./client/tsconfig.json', './server/tsconfig.json'],
         tsconfigRootDir: __dirname,
-        ecmaFeatures: { jsx: true },
+        ecmaFeatures: { jsx: true }
       },
       globals: {
-        React: true,
-      },
+        React: true
+      }
     },
     plugins: {
       '@typescript-eslint': require('@typescript-eslint/eslint-plugin'),
       react: require('eslint-plugin-react'),
       'jsx-a11y': require('eslint-plugin-jsx-a11y'),
       import: require('eslint-plugin-import'),
-      'react-hooks': require('eslint-plugin-react-hooks'),
+      'react-hooks': require('eslint-plugin-react-hooks')
     },
     rules: {
-      'no-extra-semi': 'error',
-      'comma-dangle': ['error', 'never']
+      'comma-dangle': ['error', 'never'],
+      semi: ['error', 'never']
     },
     settings: {
       react: {
@@ -49,18 +49,19 @@ module.exports = [
       ecmaVersion: 'latest',
       sourceType: 'module',
       globals: {
-        React: true,
-      },
+        React: true
+      }
     },
     plugins: {
       react: require('eslint-plugin-react'),
       'jsx-a11y': require('eslint-plugin-jsx-a11y'),
       import: require('eslint-plugin-import'),
-      'react-hooks': require('eslint-plugin-react-hooks'),
+      'react-hooks': require('eslint-plugin-react-hooks')
     },
     rules: {
       'no-extra-semi': 'error',
-      'comma-dangle': ['error', 'never']
+      'comma-dangle': ['error', 'never'],
+      semi: ['error', 'never']
     },
     settings: {
       react: {
@@ -70,6 +71,14 @@ module.exports = [
         typescript: {
           project: ['./client/tsconfig.json', './server/tsconfig.json']
         }
+      }
+    }
+  },
+  {
+    files: ['client/vite.config.ts'],
+    languageOptions: {
+      parserOptions: {
+        project: null
       }
     }
   },
@@ -84,20 +93,20 @@ module.exports = [
       'vite.config.*',
       'postcss.config.*',
       'tailwind.config.*',
-      '*.d.ts',
-    ],
+      '*.d.ts'
+    ]
   },
   // Suppress require() rule for config files
   {
     files: ['eslint.config.*', '*.config.*'],
     rules: {
-      '@typescript-eslint/no-require-imports': 'off',
-    },
+      '@typescript-eslint/no-require-imports': 'off'
+    }
   },
   ...compat.extends('plugin:@typescript-eslint/recommended'),
   ...compat.extends('plugin:react/recommended'),
   ...compat.extends('plugin:jsx-a11y/recommended'),
   ...compat.extends('plugin:import/recommended'),
   ...compat.extends('plugin:react-hooks/recommended'),
-  require('eslint-config-prettier'),
-];
+  require('eslint-config-prettier')
+]

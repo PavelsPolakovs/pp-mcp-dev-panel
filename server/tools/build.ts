@@ -7,7 +7,7 @@ export async function build(cwd: string, broadcast: (payload: unknown) => void):
     const proc = spawn('npm', ['run', 'build'], {
       cwd,
       shell: true,
-      env: { ...process.env, FORCE_COLOR: '0' },
+      env: { ...process.env, FORCE_COLOR: '0' }
     })
 
     proc.stdout.on('data', (d) => broadcast({ type: 'output', tool: 'build', data: d.toString() }))

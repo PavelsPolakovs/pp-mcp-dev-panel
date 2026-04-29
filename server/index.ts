@@ -61,7 +61,12 @@ app.post('/api/run-tool', async (req, res) => {
     res.json({ ok: true, result })
   } catch (err: unknown) {
     let message = 'Unknown error'
-    if (err && typeof err === 'object' && 'message' in err && typeof (err as any).message === 'string') {
+    if (
+      err &&
+      typeof err === 'object' &&
+      'message' in err &&
+      typeof (err as any).message === 'string'
+    ) {
       message = (err as any).message
     }
     res.status(500).json({ ok: false, error: message })
@@ -80,14 +85,14 @@ httpServer.listen(UI_PORT, () => {
 const server = new McpServer({ name: 'mcp-dev-panel', version: '1.0.0' })
 
 server.tool('open-dashboard', 'Opens the MCP Dev Panel UI in the browser', {}, async () => {
-    await open(`http://localhost:${UI_PORT}`)
-    return { content: [{ type: 'text', text: `Dashboard opened at http://localhost:${UI_PORT}` }] }
+  await open(`http://localhost:${UI_PORT}`)
+  return { content: [{ type: 'text', text: `Dashboard opened at http://localhost:${UI_PORT}` }] }
 })
 server.tool(
   'run-tests',
   'Runs npm test in the project directory and streams output to the dashboard',
   { projectDir: z.string().optional().describe('Absolute path to the project.') },
-  async ({ projectDir }): Promise<{ content: { type: 'text', text: string }[] }> => {
+  async ({ projectDir }): Promise<{ content: { type: 'text'; text: string }[] }> => {
     const result = await runTests(projectDir || PROJECT_DIR, broadcast)
     return { content: [{ type: 'text', text: String(result) }] }
   }
@@ -96,19 +101,19 @@ server.tool(
   'build-project',
   'Runs npm run build and streams output to the dashboard',
   { projectDir: z.string().optional().describe('Absolute path to the project.') },
-  async ({ projectDir }): Promise<{ content: { type: 'text', text: string }[] }> => {
+  async ({ projectDir }): Promise<{ content: { type: 'text'; text: string }[] }> => {
     const result = await build(projectDir || PROJECT_DIR, broadcast)
     return { content: [{ type: 'text', text: String(result) }] }
-  },
+  }
 )
 server.tool(
   'lint-project',
   'Runs ESLint on the project and streams output to the dashboard',
   { projectDir: z.string().optional().describe('Absolute path to the project.') },
-  async ({ projectDir }): Promise<{ content: { type: 'text', text: string }[] }> => {
+  async ({ projectDir }): Promise<{ content: { type: 'text'; text: string }[] }> => {
     const result = await lint(projectDir || PROJECT_DIR, broadcast)
     return { content: [{ type: 'text', text: String(result) }] }
-  },
+  }
 )
 
 const transport = new StdioServerTransport()

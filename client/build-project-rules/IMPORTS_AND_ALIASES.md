@@ -1,4 +1,3 @@
-
 # Skill: Managing Imports and Aliases in a TypeScript + Vite Project
 
 This guide describes best practices for simplifying imports and using path aliases in a TypeScript React project with Vite. It covers index file usage, alias configuration, refactoring, and troubleshooting.
@@ -32,15 +31,14 @@ import { ThemeToggle } from '@atoms'
 
 ---
 
-
 ## 2. Configure Path Aliases
 
 ### Vite (`vite.config.ts`)
 
 ```ts
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import { resolve } from 'path';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import { resolve } from 'path'
 
 export default defineConfig({
   plugins: [react()],
@@ -49,11 +47,11 @@ export default defineConfig({
       '@molecules': resolve(__dirname, 'src/components/molecules'),
       '@organisms': resolve(__dirname, 'src/components/organisms'),
       '@atoms': resolve(__dirname, 'src/components/atoms'),
-      '@store': resolve(__dirname, 'src/store'),
+      '@store': resolve(__dirname, 'src/store')
       // Add more as needed
-    },
-  },
-});
+    }
+  }
+})
 ```
 
 ### TypeScript (`tsconfig.json`)
@@ -81,7 +79,6 @@ export default defineConfig({
 
 ---
 
-
 ## 3. Refactor Imports
 
 - Replace imports like:
@@ -104,7 +101,6 @@ import { ThemeToggle } from '@atoms'
 
 ---
 
-
 ## 4. Troubleshooting
 
 - **IDE not resolving aliases:**
@@ -120,7 +116,6 @@ import { ThemeToggle } from '@atoms'
   - Make sure all files use `.ts` or `.tsx` extensions and strict typing is enabled.
 
 ---
-
 
 ## 5. Best Practices
 

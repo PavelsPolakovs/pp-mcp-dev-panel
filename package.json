@@ -1,5 +1,4 @@
 {
-
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.10.2",
     "cors": "^2.8.5",

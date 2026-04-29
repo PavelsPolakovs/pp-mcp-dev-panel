@@ -12,22 +12,22 @@ const TOOLS = [
     label: 'Run Tests',
     description: 'npm test --watchAll=false',
     icon: FlaskConical,
-    colorClass: 'text-green-500',
+    colorClass: 'text-green-500'
   },
   {
     tool: 'build',
     label: 'Build Project',
     description: 'npm run build',
     icon: Hammer,
-    colorClass: 'text-blue-500',
+    colorClass: 'text-blue-500'
   },
   {
     tool: 'lint',
     label: 'Lint Code',
     description: 'eslint . --ext .js,.jsx,.ts,.tsx',
     icon: ScanSearch,
-    colorClass: 'text-yellow-500',
-  },
+    colorClass: 'text-yellow-500'
+  }
 ]
 
 export default function App() {
@@ -120,7 +120,10 @@ export default function App() {
 
             {/* Project dir override */}
             <div>
-              <label htmlFor="project-dir-input" className="text-xs text-zinc-500 dark:text-zinc-400 uppercase tracking-wider font-medium block mb-1.5">
+              <label
+                htmlFor="project-dir-input"
+                className="text-xs text-zinc-500 dark:text-zinc-400 uppercase tracking-wider font-medium block mb-1.5"
+              >
                 <FolderOpen size={11} className="inline mr-1.5" />
                 Project directory (optional override)
               </label>
