@@ -29,17 +29,18 @@ module.exports = [
     },
     rules: {
       'no-extra-semi': 'error',
+      'comma-dangle': ['error', 'never']
     },
     settings: {
       react: {
-        version: 'detect',
+        version: 'detect'
       },
       'import/resolver': {
         typescript: {
-          project: ['./client/tsconfig.json', './server/tsconfig.json'],
-        },
-      },
-    },
+          project: ['./client/tsconfig.json', './server/tsconfig.json']
+        }
+      }
+    }
   },
   // JS files: use default parser
   {
@@ -59,17 +60,18 @@ module.exports = [
     },
     rules: {
       'no-extra-semi': 'error',
+      'comma-dangle': ['error', 'never']
     },
     settings: {
       react: {
-        version: 'detect',
+        version: 'detect'
       },
       'import/resolver': {
         typescript: {
-          project: ['./client/tsconfig.json', './server/tsconfig.json'],
-        },
-      },
-    },
+          project: ['./client/tsconfig.json', './server/tsconfig.json']
+        }
+      }
+    }
   },
   {
     ignores: [

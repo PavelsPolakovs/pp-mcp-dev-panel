@@ -66,7 +66,7 @@ export default function App() {
     }
 
     return () => ws.close()
-  }, [])
+  }, [addLog, setActiveTask, setWsConnected])
 
   const handleToggleSidebar = () => setCollapsed((c) => !c)
 
@@ -120,11 +120,12 @@ export default function App() {
 
             {/* Project dir override */}
             <div>
-              <label className="text-xs text-zinc-500 dark:text-zinc-400 uppercase tracking-wider font-medium block mb-1.5">
+              <label htmlFor="project-dir-input" className="text-xs text-zinc-500 dark:text-zinc-400 uppercase tracking-wider font-medium block mb-1.5">
                 <FolderOpen size={11} className="inline mr-1.5" />
                 Project directory (optional override)
               </label>
               <input
+                id="project-dir-input"
                 type="text"
                 value={projectDir}
                 onChange={(e) => setProjectDir(e.target.value)}

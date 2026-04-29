@@ -68,5 +68,5 @@ export const useStore = create<StoreState>((set) => ({
 
   setWsConnected: (val: boolean) => set({ wsConnected: val }),
 
-  setProjectDir: (dir: string) => set({ projectDir: dir }),
+  setProjectDir: (dir: string) => set({ projectDir: dir })
 }))

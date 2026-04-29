@@ -1,4 +1,6 @@
+// eslint-disable-next-line import/no-unresolved
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
+// eslint-disable-next-line import/no-unresolved
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import express from 'express'
 import { createServer } from 'http'
@@ -57,8 +59,12 @@ app.post('/api/run-tool', async (req, res) => {
     else if (tool === 'lint') result = await lint(cwd, broadcast)
     else return res.status(400).json({ error: `Unknown tool: ${tool}` })
     res.json({ ok: true, result })
-  } catch (err: any) {
-    res.status(500).json({ ok: false, error: err.message })
+  } catch (err: unknown) {
+    let message = 'Unknown error'
+    if (err && typeof err === 'object' && 'message' in err && typeof (err as any).message === 'string') {
+      message = (err as any).message
+    }
+    res.status(500).json({ ok: false, error: message })
   }
 })
 

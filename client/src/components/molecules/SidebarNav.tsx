@@ -40,7 +40,7 @@ const navSections: NavSection[] = [
   },
 ]
 
-const LucideIcon: React.FC<{ name: string }> = ({ name }) => {
+const LucideIcon: React.FC = () => {
   // Replace with Lucide React icons if available, fallback to SVG or span
   // For now, use a placeholder box
   return (
@@ -82,7 +82,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ collapsed }) => (
             }
             key={item.to}
           >
-            <LucideIcon name={item.icon} />
+             <LucideIcon />
             <span
               className={`text-sm font-medium overflow-hidden transition-all duration-200 ${collapsed ? 'opacity-0 w-0' : 'opacity-100 w-auto'}`}
             >

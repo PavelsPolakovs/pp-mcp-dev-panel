@@ -32,11 +32,15 @@ export default function CommandButton({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ tool, projectDir: projectDir || undefined }),
       })
-    } catch (err: any) {
+    } catch (err: unknown) {
+      let message = 'Unknown error'
+      if (err && typeof err === 'object' && 'message' in err && typeof (err as any).message === 'string') {
+        message = (err as any).message
+      }
       useStore.getState().addLog({
         type: 'task_end',
         status: 'error',
-        message: `Connection error: ${err.message}`,
+        message: `Connection error: ${message}`
       })
     } finally {
       useStore.getState().setActiveTask(null)
