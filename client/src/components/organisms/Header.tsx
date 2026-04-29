@@ -1,6 +1,6 @@
 // Header component for the dashboard layout, styled after admin-dashboard.html
 import React from 'react'
-import ThemeToggle from '@atoms/ThemeToggle'
+import { ThemeToggle } from '@atoms'
 
 export interface HeaderProps {
   onToggleSidebar: () => void

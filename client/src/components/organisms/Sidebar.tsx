@@ -1,6 +1,6 @@
 // Sidebar component for the dashboard layout, styled after admin-dashboard.html
 import React from 'react'
-import SidebarNav from '@molecules/SidebarNav'
+import { SidebarNav } from '@molecules'
 
 export interface SidebarProps {
   collapsed: boolean

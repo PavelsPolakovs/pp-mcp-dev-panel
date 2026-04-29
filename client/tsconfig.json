@@ -4,9 +4,10 @@
     "jsx": "react-jsx",
     "baseUrl": "./src",
     "paths": {
-      "@molecules": ["components/molecules/index.ts"],
-      "@organisms": ["components/organisms/index.ts"],
-      "@atoms": ["components/atoms/ThemeToggle.tsx"],
+      "@molecules": ["components/molecules"],
+      "@organisms": ["components/organisms"],
+      "@atoms": ["components/atoms"],
+      "@atoms/*": ["components/atoms/*"],
       "@store/*": ["store/*"]
     }
   },
