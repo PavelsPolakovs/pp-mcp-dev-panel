@@ -1,6 +1,6 @@
 // Sidebar component for the dashboard layout, styled after admin-dashboard.html
 import React from 'react';
-import SidebarNav from './SidebarNav';
+import SidebarNav from '../molecules/SidebarNav';
 
 const Sidebar = ({ collapsed }) => (
   <aside className="sidebar">

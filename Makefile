@@ -4,7 +4,7 @@ CLIENT_DIR := client
 SERVER_DIR := server
 
 .PHONY: help install server-install client-install dev server-dev client-dev \
-        build client-build server-start start lint server-test client-test clean
+        build client-build server-start start lint server-test client-test clean prettier format
 
 help:
 	@echo "Usage: make <target>"
@@ -80,9 +80,16 @@ start:
 	cd $(CLIENT_DIR) && $(NPM) run preview
 
 # Lint & tests
+prettier:
+	@echo "Running prettier check (requires prettier available via npx or installed deps)..."
+	npx prettier --check . || true
+
+format:
+	@echo "Formatting code with prettier (requires prettier available via npx or installed deps)..."
+	npx prettier --write .
+
 lint:
 	@echo "Running eslint (requires eslint available via npx or installed deps)..."
-	# run eslint from repo root; adjust path if you prefer per-subproject
 	npx eslint . --ext .js,.jsx,.ts,.tsx || true
 
 server-test:

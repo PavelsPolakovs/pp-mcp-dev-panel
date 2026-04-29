@@ -1,6 +1,6 @@
 // Header component for the dashboard layout, styled after admin-dashboard.html
 import React from 'react';
-import ThemeButton from './ThemeButton';
+import ThemeButton from '../atoms/ThemeButton';
 
 const Header = ({ onToggleSidebar, onToggleTheme }) => (
   <header className="header">
