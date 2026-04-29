@@ -38,9 +38,9 @@ export default function CommandButton({
         err &&
         typeof err === 'object' &&
         'message' in err &&
-        typeof (err as any).message === 'string'
+        typeof (err as { message?: unknown }).message === 'string'
       ) {
-        message = (err as any).message
+        message = (err as { message: string }).message
       }
       useStore.getState().addLog({
         type: 'task_end',

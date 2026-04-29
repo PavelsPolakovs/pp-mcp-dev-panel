@@ -65,9 +65,9 @@ app.post('/api/run-tool', async (req, res) => {
       err &&
       typeof err === 'object' &&
       'message' in err &&
-      typeof (err as any).message === 'string'
+      typeof (err as { message?: unknown }).message === 'string'
     ) {
-      message = (err as any).message
+      message = (err as { message: string }).message
     }
     res.status(500).json({ ok: false, error: message })
   }
@@ -91,8 +91,8 @@ server.tool('open-dashboard', 'Opens the MCP Dev Panel UI in the browser', {}, a
 server.tool(
   'run-tests',
   'Runs npm test in the project directory and streams output to the dashboard',
-  { projectDir: z.string().optional().describe('Absolute path to the project.') },
-  async ({ projectDir }): Promise<{ content: { type: 'text'; text: string }[] }> => {
+  { projectDir: z.string().optional().describe('Absolute path to the project.') } as Record<string, unknown>,
+  async ({ projectDir }: { projectDir?: string }): Promise<{ content: { type: 'text'; text: string }[] }> => {
     const result = await runTests(projectDir || PROJECT_DIR, broadcast)
     return { content: [{ type: 'text', text: String(result) }] }
   }
@@ -100,8 +100,8 @@ server.tool(
 server.tool(
   'build-project',
   'Runs npm run build and streams output to the dashboard',
-  { projectDir: z.string().optional().describe('Absolute path to the project.') },
-  async ({ projectDir }): Promise<{ content: { type: 'text'; text: string }[] }> => {
+  { projectDir: z.string().optional().describe('Absolute path to the project.') } as Record<string, unknown>,
+  async ({ projectDir }: { projectDir?: string }): Promise<{ content: { type: 'text'; text: string }[] }> => {
     const result = await build(projectDir || PROJECT_DIR, broadcast)
     return { content: [{ type: 'text', text: String(result) }] }
   }
@@ -109,8 +109,8 @@ server.tool(
 server.tool(
   'lint-project',
   'Runs ESLint on the project and streams output to the dashboard',
-  { projectDir: z.string().optional().describe('Absolute path to the project.') },
-  async ({ projectDir }): Promise<{ content: { type: 'text'; text: string }[] }> => {
+  { projectDir: z.string().optional().describe('Absolute path to the project.') } as Record<string, unknown>,
+  async ({ projectDir }: { projectDir?: string }): Promise<{ content: { type: 'text'; text: string }[] }> => {
     const result = await lint(projectDir || PROJECT_DIR, broadcast)
     return { content: [{ type: 'text', text: String(result) }] }
   }

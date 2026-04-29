@@ -12,7 +12,7 @@ module.exports = [
       sourceType: 'module',
       parser: require('@typescript-eslint/parser'),
       parserOptions: {
-        project: ['./client/tsconfig.json', './server/tsconfig.json'],
+        project: ['./tsconfig.json', './client/tsconfig.json', './server/tsconfig.json'],
         tsconfigRootDir: __dirname,
         ecmaFeatures: { jsx: true }
       },
@@ -37,7 +37,7 @@ module.exports = [
       },
       'import/resolver': {
         typescript: {
-          project: ['./client/tsconfig.json', './server/tsconfig.json']
+          project: ['./tsconfig.json', './client/tsconfig.json', './server/tsconfig.json']
         }
       }
     }
@@ -69,7 +69,7 @@ module.exports = [
       },
       'import/resolver': {
         typescript: {
-          project: ['./client/tsconfig.json', './server/tsconfig.json']
+          project: ['./tsconfig.json', './client/tsconfig.json', './server/tsconfig.json']
         }
       }
     }

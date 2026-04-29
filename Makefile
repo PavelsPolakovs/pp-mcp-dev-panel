@@ -4,7 +4,7 @@ CLIENT_DIR := client
 SERVER_DIR := server
 
 .PHONY: help install server-install client-install dev server-dev client-dev \
-        build client-build server-start start lint server-test client-test clean prettier format
+        build client-build server-start start lint server-test client-test clean prettier format typecheck
 
 help:
 	@echo "Usage: make <target>"
@@ -22,6 +22,7 @@ help:
 	@echo "  lint            Run eslint (requires npx eslint available)"
 	@echo "  server-test     Run tests in server (if defined)"
 	@echo "  client-test     Run tests in client (if defined)"
+	@echo "  typecheck       Run TypeScript type checking (npx tsc --noEmit)"
 	@echo "  clean           Remove build outputs and node_modules"
 
 
@@ -87,6 +88,11 @@ server-test:
 client-test:
 	@echo "Running client tests (if 'test' script exists)..."
 	cd $(CLIENT_DIR) && $(NPM) test || true
+
+
+# TypeScript type checking
+typecheck:
+	npx tsc --noEmit
 
 
 # Perform a clean by removing build outputs and node_modules. Use with caution!
