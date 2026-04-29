@@ -1,5 +1,5 @@
 import { Sun, Moon } from "lucide-react";
-import { useStore } from "../store/useStore.js";
+import { useStore } from "../../store/useStore.js";
 
 export default function ThemeToggle() {
   const theme = useStore((s) => s.theme);

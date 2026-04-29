@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useStore } from "../store/useStore";
+import { useStore } from "../../store/useStore.js";
 
 export default function Terminal() {
   const logs = useStore((s) => s.logs);
