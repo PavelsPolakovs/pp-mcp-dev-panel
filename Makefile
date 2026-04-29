@@ -25,6 +25,7 @@ help:
 	@echo "  clean           Remove build outputs and node_modules"
 
 
+
 ### Dependency installation
 # Install dependencies for both server and client
 install:
@@ -32,10 +33,7 @@ install:
 	npm i
 	@echo "Dependencies installed."
 
-# Install dependencies for client.
-client-install:
-	@echo "Installing client dependencies..."
-	cd $(CLIENT_DIR) && $(NPM) install
+
 
 # Development helpers
 # Note: recommended to run server-dev and client-dev in separate terminals (or use tmux).
@@ -49,20 +47,15 @@ server-dev:
 
 # Run client dev (vite)
 client-dev:
-	cd $(CLIENT_DIR) && $(NPM) run dev
+	npm run client:dev
 
-# Optional helper to try to run both in background (may behave differently across shells)
-dev-run:
-	@echo "Starting server and client in background (useful for quick local dev)."
-	# start server in background, then client in foreground
-	cd $(SERVER_DIR) && $(NPM) run dev & \
-	cd $(CLIENT_DIR) && $(NPM) run dev
+
 
 # Build / start
 build: client-build
 
 client-build:
-	cd $(CLIENT_DIR) && $(NPM) run build
+	npm run client:build
 
 server-start:
 	npm run server:start
@@ -70,8 +63,9 @@ server-start:
 start:
 	@echo "Starting server and previewing client."
 	# Start server in background and preview client (preview runs in foreground)
-	npm run server:start & \
-	cd $(CLIENT_DIR) && $(NPM) run preview
+	npm run server:start & npm run client:preview
+
+
 
 # Lint & tests
 prettier:
@@ -94,10 +88,10 @@ client-test:
 	@echo "Running client tests (if 'test' script exists)..."
 	cd $(CLIENT_DIR) && $(NPM) test || true
 
+
+# Perform a clean by removing build outputs and node_modules. Use with caution!
 clean:
-	@echo "Cleaning build outputs and node_modules (client + server)..."
+	@echo "Cleaning build outputs and node_modules..."
 	rm -rf $(CLIENT_DIR)/dist
-	rm -rf $(CLIENT_DIR)/node_modules
-	rm -rf $(SERVER_DIR)/dist
-	rm -rf $(SERVER_DIR)/node_modules
+	rm -rf /node_modules
 
