@@ -1,6 +1,6 @@
 // Sidebar component for the dashboard layout, styled after admin-dashboard.html
 import React from 'react';
-import SidebarNav from '../molecules/SidebarNav';
+import SidebarNav from '@molecules/SidebarNav';
 
 const Sidebar = ({ collapsed }) => (
   <aside className="flex flex-col bg-zinc-50 dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800 h-full w-[240px] transition-all duration-200 overflow-hidden z-20">

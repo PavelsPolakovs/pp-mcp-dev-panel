@@ -1,5 +1,5 @@
 import { Loader2 } from "lucide-react";
-import { useStore } from "../../store/useStore.js";
+import { useStore } from "@store/useStore.js";
 
 export default function CommandButton({ tool, label, description, icon: Icon, colorClass }) {
   const activeTask = useStore((s) => s.activeTask);

@@ -1,6 +1,6 @@
 // Header component for the dashboard layout, styled after admin-dashboard.html
 import React from 'react';
-import ThemeToggle from '../atoms/ThemeToggle';
+import ThemeToggle from '@atoms/ThemeToggle';
 
 const Header = ({ onToggleSidebar }) => (
   <header className="flex items-center gap-8 px-8 py-0 h-14 bg-zinc-50 dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 sticky top-0 z-10 shadow-sm">

@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { FlaskConical, Hammer, ScanSearch, Wifi, WifiOff, FolderOpen } from "lucide-react";
 
-import CommandButton from "./components/molecules/CommandButton.jsx";
-import Terminal from "./components/organisms/Terminal.jsx";
-import Header from "./components/organisms/Header";
-import Sidebar from "./components/organisms/Sidebar";
-import { useStore } from "./store/useStore.js";
+import CommandButton from "@molecules/CommandButton.jsx";
+import Terminal from "@organisms/Terminal.jsx";
+import Header from "@organisms/Header";
+import Sidebar from "@organisms/Sidebar";
+import { useStore } from "@store/useStore.js";
 
 const TOOLS = [
 	{
