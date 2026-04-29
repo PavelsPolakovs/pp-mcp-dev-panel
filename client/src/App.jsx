@@ -41,7 +41,6 @@ export default function App() {
 	const projectDir = useStore((s) => s.projectDir);
 	const setProjectDir = useStore((s) => s.setProjectDir);
 	const theme = useStore((s) => s.theme);
-	const setTheme = useStore((s) => s.setTheme);
 
 	useEffect(() => {
 		if (theme === "dark") {
@@ -72,19 +71,15 @@ export default function App() {
 	}, []);
 
 	const handleToggleSidebar = () => setCollapsed((c) => !c);
-	const handleToggleTheme = () => {
-		setTheme(theme === "dark" ? "light" : "dark");
-	};
 
 	return (
 		<BrowserRouter>
 			<div className={"app" + (collapsed ? " collapsed" : "")}>
 				<Sidebar collapsed={collapsed} />
 				<div className="content-area">
-					<Header
-						onToggleSidebar={handleToggleSidebar}
-						onToggleTheme={handleToggleTheme}
-					/>
+																				<Header
+																					onToggleSidebar={handleToggleSidebar}
+																				/>
 					<main className="main" role="main">
 						{/* Header */}
 						<div className="flex items-start justify-between gap-4">
