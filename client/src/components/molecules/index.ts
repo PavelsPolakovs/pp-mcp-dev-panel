@@ -1,1 +1,1 @@
-export { default as CommandButton } from "./CommandButton";
+export { default as CommandButton } from './CommandButton';

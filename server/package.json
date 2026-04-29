@@ -5,8 +5,8 @@
   "description": "MCP Server with React UI Dashboard",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "node --watch index.js"
+    "start": "node dist/index.js",
+    "dev": "ts-node index.ts"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.10.2",
@@ -15,5 +15,9 @@
     "open": "^10.1.0",
     "ws": "^8.17.0",
     "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "typescript": "^6.0.3"
   }
 }

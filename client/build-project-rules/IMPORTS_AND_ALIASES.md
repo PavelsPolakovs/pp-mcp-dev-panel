@@ -10,19 +10,19 @@ This guide describes best practices for simplifying imports and using path alias
 
 ```ts
 // client/src/components/molecules/index.ts
-export { default as CommandButton } from "./CommandButton";
+export { default as CommandButton } from './CommandButton';
 
 // client/src/components/organisms/index.ts
-export { default as Terminal } from "./Terminal";
-export { default as Header } from "./Header";
-export { default as Sidebar } from "./Sidebar";
+export { default as Terminal } from './Terminal';
+export { default as Header } from './Header';
+export { default as Sidebar } from './Sidebar';
 ```
 
 - This allows you to import components like:
 
 ```ts
-import { CommandButton } from "@molecules";
-import { Terminal, Header, Sidebar } from "@organisms";
+import { CommandButton } from '@molecules';
+import { Terminal, Header, Sidebar } from '@organisms';
 ```
 
 ---
@@ -34,15 +34,16 @@ import { Terminal, Header, Sidebar } from "@organisms";
 ```ts
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import path from 'path';
+import { resolve } from 'path';
 
 export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@molecules': path.resolve(__dirname, 'src/components/molecules'),
-      '@organisms': path.resolve(__dirname, 'src/components/organisms'),
-      '@store': path.resolve(__dirname, 'src/store'),
+      '@molecules': resolve(__dirname, 'src/components/molecules'),
+      '@organisms': resolve(__dirname, 'src/components/organisms'),
+      '@store': resolve(__dirname, 'src/store'),
+      '@atoms': resolve(__dirname, 'src/components/atoms'),
       // Add more as needed
     },
   },
@@ -59,6 +60,7 @@ export default defineConfig({
       "@molecules": ["components/molecules"],
       "@organisms": ["components/organisms"],
       "@store": ["store"],
+      "@atoms": ["components/atoms"]
       // Add more as needed
     }
   }
@@ -72,23 +74,23 @@ export default defineConfig({
 - Replace imports like:
 
 ```ts
-import CommandButton from "@molecules/CommandButton";
-import Terminal from "@organisms/Terminal";
-import Header from "@organisms/Header";
-import Sidebar from "@organisms/Sidebar";
+import CommandButton from '@molecules/CommandButton';
+import Terminal from '@organisms/Terminal';
+import Header from '@organisms/Header';
+import Sidebar from '@organisms/Sidebar';
 ```
 
 - With:
 
 ```ts
-import { CommandButton } from "@molecules";
-import { Terminal, Header, Sidebar } from "@organisms";
+import { CommandButton } from '@molecules';
+import { Terminal, Header, Sidebar } from '@organisms';
 ```
 
 - For default-only folders, you can also do:
 
 ```ts
-import CommandButton from "@molecules";
+import CommandButton from '@molecules';
 ```
 
 ---
@@ -104,6 +106,7 @@ import CommandButton from "@molecules";
   - Ensure `index.ts` files exist and export all needed components.
 - **TypeScript errors:**
   - Check for missing or incorrect types in your exports.
+  - Make sure all files use `.ts` or `.tsx` extensions and strict typing is enabled.
 
 ---
 
@@ -114,6 +117,8 @@ import CommandButton from "@molecules";
 - Prefer grouped named imports for folders with multiple components.
 - Keep alias names short and descriptive.
 - Document new aliases in this guide as your project grows.
+- Use `.ts` for logic and `.tsx` for React components.
+- Enable `strict` mode in `tsconfig.json` for maximum type safety.
 
 ---
 

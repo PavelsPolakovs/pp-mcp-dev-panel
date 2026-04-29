@@ -1,6 +1,6 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import { resolve } from "path";
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { resolve } from 'path';
 
 export default defineConfig({
   plugins: [react()],
@@ -16,9 +16,9 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      "/api": "http://localhost:3333",
-      "/ws": { target: "ws://localhost:3333", ws: true },
+      '/api': 'http://localhost:3333',
+      '/ws': { target: 'ws://localhost:3333', ws: true },
     },
   },
-  build: { outDir: "dist" },
+  build: { outDir: 'dist' },
 });

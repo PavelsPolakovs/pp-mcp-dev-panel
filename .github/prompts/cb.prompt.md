@@ -9,8 +9,8 @@ Recommended (automated) workflow:
 
 1. Create and switch to the new branch:
    - The skill/script will run the equivalent of:
-	 - `git fetch origin <base>`
-	 - `git checkout -b <new-branch> <start-point|origin/<base>>`
+   - `git fetch origin <base>`
+   - `git checkout -b <new-branch> <start-point|origin/<base>>`
 2. Optionally push the new branch to `origin` and set upstream:
    - `git push -u origin <new-branch>`
 
