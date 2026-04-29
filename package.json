@@ -40,11 +40,11 @@
     "vite": "^8.0.10"
   },
   "scripts": {
-    "server:start": "node server/index.ts",
-    "server:dev": "node --watch server/index.ts",
-    "client:dev": "vite --port 5173 --root client",
+    "client:dev": "vite client --port 5173",
     "client:build": "vite build client",
-    "client:preview": "vite preview --root client"
+    "client:preview": "vite preview client",
+    "server:start": "node server/index.ts",
+    "server:dev": "node --watch server/index.ts"
   },
   "type": "module"
 }
