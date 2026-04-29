@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { FlaskConical, Hammer, ScanSearch, Wifi, WifiOff, FolderOpen } from "lucide-react";
 
-import CommandButton from "@molecules/CommandButton.jsx";
-import Terminal from "@organisms/Terminal.jsx";
-import Header from "@organisms/Header";
-import Sidebar from "@organisms/Sidebar";
+import { CommandButton } from "@molecules";
+import { Terminal, Header, Sidebar } from "@organisms";
 import { useStore } from "@store/useStore.js";
 
 const TOOLS = [
