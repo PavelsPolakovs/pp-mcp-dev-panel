@@ -1,6 +1,6 @@
 import { spawn } from 'child_process';
 
-export async function lint(cwd, broadcast) {
+export async function lint(cwd: string, broadcast: (payload: unknown) => void): Promise<string> {
   return new Promise((resolve, reject) => {
     broadcast({ type: 'task_start', tool: 'lint', message: '▶ Running ESLint...' });
 

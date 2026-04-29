@@ -1,6 +1,6 @@
 import { spawn } from 'child_process';
 
-export async function build(cwd, broadcast) {
+export async function build(cwd: string, broadcast: (payload: unknown) => void): Promise<string> {
   return new Promise((resolve, reject) => {
     broadcast({ type: 'task_start', tool: 'build', message: '▶ Building project...' });
 

@@ -14,7 +14,7 @@ help:
 	@echo "  server-install  Install server dependencies"
 	@echo "  client-install  Install client dependencies"
 	@echo "  dev             How to run both dev servers (see details)"
-	@echo "  server-dev      Run server dev (node --watch index.js)"
+	@echo "  server-dev      Run server dev (npm run server:dev)"
 	@echo "  client-dev      Run client dev (vite)"
 	@echo "  build           Build the client"
 	@echo "  client-build    Build client (vite build)"
@@ -51,7 +51,7 @@ dev:
 
 # Run server dev (node --watch index.js). The client should be built before running this, as the server serves the built client from /dist.
 server-dev:
-	cd $(SERVER_DIR) && $(NPM) run dev
+	npm run server:dev
 
 # Run client dev (vite)
 client-dev:
@@ -71,12 +71,12 @@ client-build:
 	cd $(CLIENT_DIR) && $(NPM) run build
 
 server-start:
-	cd $(SERVER_DIR) && $(NPM) run start
+	npm run server:start
 
 start:
 	@echo "Starting server and previewing client."
 	# Start server in background and preview client (preview runs in foreground)
-	cd $(SERVER_DIR) && $(NPM) run start & \
+	npm run server:start & \
 	cd $(CLIENT_DIR) && $(NPM) run preview
 
 # Lint & tests
