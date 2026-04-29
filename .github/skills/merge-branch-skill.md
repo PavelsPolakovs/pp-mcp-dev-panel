@@ -1,11 +1,11 @@
 ---
-title: "Merge Branch Skill"
+title: 'Merge Branch Skill'
 id: merge-branch-skill
-summary: "Abstract, reusable skill to prepare, create and merge a pull request from a feature branch into main. Produces a merge-record artifact after successful merge."
+summary: 'Abstract, reusable skill to prepare, create and merge a pull request from a feature branch into main. Produces a merge-record artifact after successful merge.'
 ---
 
-Description
------------
+## Description
+
 This skill codifies the merge workflow recorded in `.github/merge-records/*` and the `.github/prompts/mc.prompt.md` instruction set. It's an abstract, repeatable process you can run for any feature branch to:
 
 - Ensure the feature branch is up to date with `main` (pull and detect conflicts)
@@ -14,8 +14,8 @@ This skill codifies the merge workflow recorded in `.github/merge-records/*` and
 - Merge the Pull Request with a chosen merge method (merge/squash/rebase)
 - Optionally delete the branch and create a merge-record metadata file under `.github/merge-records/`
 
-Inputs / variables
-------------------
+## Inputs / variables
+
 - REPO_PATH: path to repository root (defaults to current working directory)
 - BRANCH: source branch to merge (defaults to current git branch)
 - BASE: target branch (defaults to `main`)
@@ -25,8 +25,8 @@ Inputs / variables
 - BODY: pull request body
 - GITHUB_TOKEN: (optional) GitHub token used when `gh` is not available
 
-Behavior / Steps (abstract)
----------------------------
+## Behavior / Steps (abstract)
+
 1. Move to `REPO_PATH` and detect the current branch if `BRANCH` is not provided.
 2. Fetch latest `BASE` from `origin` and merge it into `BRANCH`:
    - git fetch origin <BASE>
@@ -43,18 +43,18 @@ Behavior / Steps (abstract)
    - With API: call the merge endpoint for the PR number.
 6. After merge success, optionally delete the branch and create a merge-record under `.github/merge-records/` with metadata (timestamp, PR number/URL, merge commit, author).
 
-Outputs / Artifacts
--------------------
+## Outputs / Artifacts
+
 - A merge-record markdown file created at `.github/merge-records/<timestamp>-<branch>-merged.md` that includes:
   - repository, branch, PR URL/number, merge commit hash (short + full), timestamp, merge method, who merged it, and the commands executed.
 
-Safety and conflict handling
----------------------------
+## Safety and conflict handling
+
 - The skill stops if merge conflicts are detected during `git pull`. Resolve conflicts manually and then re-run the skill.
 - The skill never force-pushes. If a force-push is required, handle that manually.
 
-Examples
---------
+## Examples
+
 Run the skill locally (using the helper script provided in `.github/skill-scripts/merge_branch.sh`):
 
 ```bash
@@ -65,10 +65,9 @@ Run the skill locally (using the helper script provided in `.github/skill-script
  .github/skill-scripts/merge_branch.sh -b feature/new -m squash --no-delete
 ```
 
-Notes
------
+## Notes
+
 - This is an abstract skill — implementers can call the helper script, or integrate these steps into automation (CI job, bot account, GitHub Action) that has appropriate permissions.
 - When integrated into CI or bots, prefer using a dedicated GitHub App or token with limited scope rather than a personal token.
 
 If you want, I can also add a GitHub Action that invokes this skill with configurable inputs.
-

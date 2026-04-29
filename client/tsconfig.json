@@ -1,0 +1,17 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "baseUrl": "./src",
+    "paths": {
+      "@molecules": ["components/molecules"],
+      "@organisms": ["components/organisms"],
+      "@atoms": ["components/atoms"],
+      "@atoms/*": ["components/atoms/*"],
+      "@store/*": ["store/*"]
+    },
+    "composite": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}
