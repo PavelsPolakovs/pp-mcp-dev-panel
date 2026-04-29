@@ -29,14 +29,8 @@ help:
 # Install dependencies for both server and client
 install:
 	@echo "Installing dependencies..."
-	$(MAKE) server-install
-	$(MAKE) client-install
-	@echo "Installed server and client dependencies."
-
-# Install dependencies for server.
-server-install:
-	@echo "Installing server dependencies..."
-	cd $(SERVER_DIR) && $(NPM) install
+	npm i
+	@echo "Dependencies installed."
 
 # Install dependencies for client.
 client-install:

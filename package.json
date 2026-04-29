@@ -27,7 +27,7 @@
     "typescript": "^6.0.3"
   },
   "scripts": {
-    "server:start": "node server/dist/index.js",
+    "server:start": "node server/index.ts",
     "server:dev": "ts-node server/index.ts"
   },
   "type": "module"
