@@ -1,34 +1,34 @@
-import { create } from 'zustand';
+import { create } from 'zustand'
 
-export type Theme = 'light' | 'dark';
+export type Theme = 'light' | 'dark'
 export interface LogEntry {
-  type: string;
-  status?: string;
-  message?: string;
-  data?: string;
+  type: string
+  status?: string
+  message?: string
+  data?: string
 }
 export interface StoreState {
-  logs: LogEntry[];
-  activeTask: string | null;
-  wsConnected: boolean;
-  projectDir: string;
-  theme: Theme;
-  setTheme: (theme: Theme) => void;
-  toggleTheme: () => void;
-  addLog: (entry: LogEntry) => void;
-  clearLogs: () => void;
-  setActiveTask: (tool: string | null) => void;
-  setWsConnected: (val: boolean) => void;
-  setProjectDir: (dir: string) => void;
+  logs: LogEntry[]
+  activeTask: string | null
+  wsConnected: boolean
+  projectDir: string
+  theme: Theme
+  setTheme: (theme: Theme) => void
+  toggleTheme: () => void
+  addLog: (entry: LogEntry) => void
+  clearLogs: () => void
+  setActiveTask: (tool: string | null) => void
+  setWsConnected: (val: boolean) => void
+  setProjectDir: (dir: string) => void
 }
 
 function getInitialTheme(): Theme {
   if (typeof window !== 'undefined') {
-    const stored = localStorage.getItem('theme');
-    if (stored === 'dark' || stored === 'light') return stored;
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) return 'dark';
+    const stored = localStorage.getItem('theme')
+    if (stored === 'dark' || stored === 'light') return stored
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) return 'dark'
   }
-  return 'light';
+  return 'light'
 }
 
 export const useStore = create<StoreState>((set) => ({
@@ -39,25 +39,25 @@ export const useStore = create<StoreState>((set) => ({
 
   theme: getInitialTheme(),
   setTheme: (theme: Theme) => {
-    set({ theme });
+    set({ theme })
     if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
+      document.documentElement.classList.add('dark')
     } else {
-      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.remove('dark')
     }
-    localStorage.setItem('theme', theme);
+    localStorage.setItem('theme', theme)
   },
   toggleTheme: () => {
     set((state) => {
-      const newTheme: Theme = state.theme === 'dark' ? 'light' : 'dark';
+      const newTheme: Theme = state.theme === 'dark' ? 'light' : 'dark'
       if (newTheme === 'dark') {
-        document.documentElement.classList.add('dark');
+        document.documentElement.classList.add('dark')
       } else {
-        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.remove('dark')
       }
-      localStorage.setItem('theme', newTheme);
-      return { theme: newTheme };
-    });
+      localStorage.setItem('theme', newTheme)
+      return { theme: newTheme }
+    })
   },
 
   addLog: (entry: LogEntry) => set((state) => ({ logs: [...state.logs, entry] })),
@@ -69,4 +69,4 @@ export const useStore = create<StoreState>((set) => ({
   setWsConnected: (val: boolean) => set({ wsConnected: val }),
 
   setProjectDir: (dir: string) => set({ projectDir: dir }),
-}));
+}))

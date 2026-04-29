@@ -27,7 +27,9 @@ module.exports = [
       import: require('eslint-plugin-import'),
       'react-hooks': require('eslint-plugin-react-hooks'),
     },
-    rules: {},
+    rules: {
+      'no-extra-semi': 'error',
+    },
     settings: {
       react: {
         version: 'detect',
@@ -55,7 +57,9 @@ module.exports = [
       import: require('eslint-plugin-import'),
       'react-hooks': require('eslint-plugin-react-hooks'),
     },
-    rules: {},
+    rules: {
+      'no-extra-semi': 'error',
+    },
     settings: {
       react: {
         version: 'detect',

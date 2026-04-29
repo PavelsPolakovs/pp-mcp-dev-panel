@@ -1,13 +1,13 @@
-import { Loader2 } from 'lucide-react';
-import { useStore } from '@store/useStore';
-import React from 'react';
+import { Loader2 } from 'lucide-react'
+import { useStore } from '@store/useStore'
+import React from 'react'
 
 export interface CommandButtonProps {
-  tool: string;
-  label: string;
-  description: string;
-  icon: React.ComponentType<{ size?: number | string }>;
-  colorClass: string;
+  tool: string
+  label: string
+  description: string
+  icon: React.ComponentType<{ size?: number | string }>
+  colorClass: string
 }
 
 export default function CommandButton({
@@ -17,31 +17,31 @@ export default function CommandButton({
   icon: Icon,
   colorClass,
 }: CommandButtonProps) {
-  const activeTask = useStore((s: { activeTask: string | null }) => s.activeTask);
-  const projectDir = useStore((s: { projectDir: string }) => s.projectDir);
-  const isRunning = activeTask === tool;
-  const isDisabled = !!activeTask && !isRunning;
+  const activeTask = useStore((s: { activeTask: string | null }) => s.activeTask)
+  const projectDir = useStore((s: { projectDir: string }) => s.projectDir)
+  const isRunning = activeTask === tool
+  const isDisabled = !!activeTask && !isRunning
 
   const run = async () => {
-    if (activeTask) return;
-    useStore.getState().setActiveTask(tool);
-    useStore.getState().clearLogs();
+    if (activeTask) return
+    useStore.getState().setActiveTask(tool)
+    useStore.getState().clearLogs()
     try {
       await fetch('/api/run-tool', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ tool, projectDir: projectDir || undefined }),
-      });
+      })
     } catch (err: any) {
       useStore.getState().addLog({
         type: 'task_end',
         status: 'error',
         message: `Connection error: ${err.message}`,
-      });
+      })
     } finally {
-      useStore.getState().setActiveTask(null);
+      useStore.getState().setActiveTask(null)
     }
-  };
+  }
 
   return (
     <button
@@ -78,5 +78,5 @@ export default function CommandButton({
         </span>
       )}
     </button>
-  );
+  )
 }

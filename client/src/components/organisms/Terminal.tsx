@@ -1,22 +1,22 @@
-import { useEffect, useRef } from 'react';
-import { useStore, LogEntry } from '@store/useStore';
+import { useEffect, useRef } from 'react'
+import { useStore, LogEntry } from '@store/useStore'
 
 export default function Terminal() {
-  const logs = useStore((s: { logs: LogEntry[] }) => s.logs);
-  const clearLogs = useStore((s: { clearLogs: () => void }) => s.clearLogs);
-  const bottomRef = useRef<HTMLDivElement | null>(null);
+  const logs = useStore((s: { logs: LogEntry[] }) => s.logs)
+  const clearLogs = useStore((s: { clearLogs: () => void }) => s.clearLogs)
+  const bottomRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [logs]);
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [logs])
 
   const getClass = (log: LogEntry) => {
-    if (log.type === 'task_start') return 'text-cyan-400 font-medium';
-    if (log.type === 'task_end' && log.status === 'success') return 'text-green-400 font-semibold';
-    if (log.type === 'task_end' && log.status === 'error') return 'text-red-400 font-semibold';
-    if (log.type === 'task_end' && log.status === 'warning') return 'text-yellow-400 font-semibold';
-    return 'text-zinc-300';
-  };
+    if (log.type === 'task_start') return 'text-cyan-400 font-medium'
+    if (log.type === 'task_end' && log.status === 'success') return 'text-green-400 font-semibold'
+    if (log.type === 'task_end' && log.status === 'error') return 'text-red-400 font-semibold'
+    if (log.type === 'task_end' && log.status === 'warning') return 'text-yellow-400 font-semibold'
+    return 'text-zinc-300'
+  }
 
   return (
     <div className="flex flex-col rounded-xl border border-zinc-300 dark:border-zinc-800 overflow-hidden">
@@ -51,5 +51,5 @@ export default function Terminal() {
         <div ref={bottomRef} />
       </div>
     </div>
-  );
+  )
 }

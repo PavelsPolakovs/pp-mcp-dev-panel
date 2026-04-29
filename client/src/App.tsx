@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import { FlaskConical, Hammer, ScanSearch, Wifi, WifiOff, FolderOpen } from 'lucide-react';
+import React, { useEffect, useState } from 'react'
+import { BrowserRouter } from 'react-router-dom'
+import { FlaskConical, Hammer, ScanSearch, Wifi, WifiOff, FolderOpen } from 'lucide-react'
 
-import { CommandButton } from '@molecules';
-import { Terminal, Header, Sidebar } from '@organisms';
-import { useStore, StoreState } from '@store/useStore';
+import { CommandButton } from '@molecules'
+import { Terminal, Header, Sidebar } from '@organisms'
+import { useStore, StoreState } from '@store/useStore'
 
 const TOOLS = [
   {
@@ -28,47 +28,47 @@ const TOOLS = [
     icon: ScanSearch,
     colorClass: 'text-yellow-500',
   },
-];
+]
 
 export default function App() {
-  const [collapsed, setCollapsed] = useState(false);
-  const wsConnected = useStore((s: StoreState) => s.wsConnected);
-  const setWsConnected = useStore((s: StoreState) => s.setWsConnected);
-  const addLog = useStore((s: StoreState) => s.addLog);
-  const setActiveTask = useStore((s: StoreState) => s.setActiveTask);
-  const projectDir = useStore((s: StoreState) => s.projectDir);
-  const setProjectDir = useStore((s: StoreState) => s.setProjectDir);
-  const theme = useStore((s: StoreState) => s.theme);
+  const [collapsed, setCollapsed] = useState(false)
+  const wsConnected = useStore((s: StoreState) => s.wsConnected)
+  const setWsConnected = useStore((s: StoreState) => s.setWsConnected)
+  const addLog = useStore((s: StoreState) => s.addLog)
+  const setActiveTask = useStore((s: StoreState) => s.setActiveTask)
+  const projectDir = useStore((s: StoreState) => s.projectDir)
+  const setProjectDir = useStore((s: StoreState) => s.setProjectDir)
+  const theme = useStore((s: StoreState) => s.theme)
 
   useEffect(() => {
     if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
+      document.documentElement.classList.add('dark')
     } else {
-      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.remove('dark')
     }
-  }, [theme]);
+  }, [theme])
 
   useEffect(() => {
-    const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const ws = new WebSocket(`${protocol}//${location.host}`);
+    const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:'
+    const ws = new WebSocket(`${protocol}//${location.host}`)
 
-    ws.onopen = () => setWsConnected(true);
-    ws.onclose = () => setWsConnected(false);
-    ws.onerror = () => setWsConnected(false);
+    ws.onopen = () => setWsConnected(true)
+    ws.onclose = () => setWsConnected(false)
+    ws.onerror = () => setWsConnected(false)
 
     ws.onmessage = (e) => {
       try {
-        const msg = JSON.parse(e.data);
-        if (msg.type === 'connected') return;
-        if (msg.type === 'task_end') setActiveTask(null);
-        addLog(msg);
+        const msg = JSON.parse(e.data)
+        if (msg.type === 'connected') return
+        if (msg.type === 'task_end') setActiveTask(null)
+        addLog(msg)
       } catch {}
-    };
+    }
 
-    return () => ws.close();
-  }, []);
+    return () => ws.close()
+  }, [])
 
-  const handleToggleSidebar = () => setCollapsed((c) => !c);
+  const handleToggleSidebar = () => setCollapsed((c) => !c)
 
   return (
     <BrowserRouter>
@@ -163,5 +163,5 @@ export default function App() {
         </div>
       </div>
     </BrowserRouter>
-  );
+  )
 }

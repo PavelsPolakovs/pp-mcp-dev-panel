@@ -1,15 +1,15 @@
 // SidebarNav component for navigation links, using React Router NavLink
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React from 'react'
+import { NavLink } from 'react-router-dom'
 
 interface NavSection {
-  label: string;
+  label: string
   items: Array<{
-    to: string;
-    icon: string;
-    label: string;
-    badge?: number;
-  }>;
+    to: string
+    icon: string
+    label: string
+    badge?: number
+  }>
 }
 
 const navSections: NavSection[] = [
@@ -38,7 +38,7 @@ const navSections: NavSection[] = [
       { to: '/logs', icon: 'terminal', label: 'Logs' },
     ],
   },
-];
+]
 
 const LucideIcon: React.FC<{ name: string }> = ({ name }) => {
   // Replace with Lucide React icons if available, fallback to SVG or span
@@ -54,11 +54,11 @@ const LucideIcon: React.FC<{ name: string }> = ({ name }) => {
         borderRadius: 2,
       }}
     />
-  );
-};
+  )
+}
 
 export interface SidebarNavProps {
-  collapsed: boolean;
+  collapsed: boolean
 }
 
 const SidebarNav: React.FC<SidebarNavProps> = ({ collapsed }) => (
@@ -100,6 +100,6 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ collapsed }) => (
       </div>
     ))}
   </nav>
-);
+)
 
-export default SidebarNav;
+export default SidebarNav

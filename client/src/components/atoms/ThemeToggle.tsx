@@ -1,9 +1,9 @@
-import { Sun, Moon } from 'lucide-react';
-import { useStore, Theme } from '@store/useStore';
+import { Sun, Moon } from 'lucide-react'
+import { useStore, Theme } from '@store/useStore'
 
 export default function ThemeToggle() {
-  const theme = useStore((s: { theme: Theme }) => s.theme);
-  const toggleTheme = useStore((s: { toggleTheme: () => void }) => s.toggleTheme);
+  const theme = useStore((s: { theme: Theme }) => s.theme)
+  const toggleTheme = useStore((s: { toggleTheme: () => void }) => s.toggleTheme)
 
   return (
     <button
@@ -19,5 +19,5 @@ export default function ThemeToggle() {
         <Moon size={16} className="text-zinc-600" />
       )}
     </button>
-  );
+  )
 }

@@ -1,27 +1,27 @@
-import { spawn } from 'child_process';
+import { spawn } from 'child_process'
 
 export async function lint(cwd: string, broadcast: (payload: unknown) => void): Promise<string> {
   return new Promise((resolve, reject) => {
-    broadcast({ type: 'task_start', tool: 'lint', message: '▶ Running ESLint...' });
+    broadcast({ type: 'task_start', tool: 'lint', message: '\u25b6 Running ESLint...' })
 
     const proc = spawn('npx', ['eslint', '.', '--ext', '.js,.jsx,.ts,.tsx'], {
       cwd,
       shell: true,
       env: { ...process.env, FORCE_COLOR: '0' },
-    });
+    })
 
-    proc.stdout.on('data', (d) => broadcast({ type: 'output', tool: 'lint', data: d.toString() }));
-    proc.stderr.on('data', (d) => broadcast({ type: 'output', tool: 'lint', data: d.toString() }));
+    proc.stdout.on('data', (d) => broadcast({ type: 'output', tool: 'lint', data: d.toString() }))
+    proc.stderr.on('data', (d) => broadcast({ type: 'output', tool: 'lint', data: d.toString() }))
 
     proc.on('close', (code) => {
-      const status = code === 0 ? 'success' : 'warning';
-      const message = code === 0 ? '✅ No lint errors' : `⚠️ Lint issues found (exit ${code})`;
-      broadcast({ type: 'task_end', tool: 'lint', status, message });
-      resolve(message);
-    });
+      const status = code === 0 ? 'success' : 'warning'
+      const message = code === 0 ? '\u2705 No lint errors' : `\u26a0\ufe0f Lint issues found (exit ${code})`
+      broadcast({ type: 'task_end', tool: 'lint', status, message })
+      resolve(message)
+    })
     proc.on('error', (err) => {
-      broadcast({ type: 'task_end', tool: 'lint', status: 'error', message: err.message });
-      reject(err);
-    });
-  });
+      broadcast({ type: 'task_end', tool: 'lint', status: 'error', message: err.message })
+      reject(err)
+    })
+  })
 }
