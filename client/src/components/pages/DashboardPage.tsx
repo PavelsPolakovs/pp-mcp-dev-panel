@@ -1,5 +1,5 @@
 import React from 'react'
-import { FlaskConical, Hammer, ScanSearch, Wifi, WifiOff, FolderOpen } from 'lucide-react'
+import { FlaskConical, Hammer, ScanSearch, Wifi, WifiOff, FolderOpen, LayoutDashboard } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { CommandButton } from '@molecules'
 import { Terminal } from '@organisms'
@@ -40,12 +40,7 @@ export default function DashboardPage() {
       <div className="flex items-start justify-between gap-4">
         <div>
           <div className="flex items-center gap-2.5 mb-1">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-label="MCP Dev Panel">
-              <rect x="2" y="2" width="9" height="9" rx="2" fill="#4f98a3" />
-              <rect x="13" y="2" width="9" height="9" rx="2" fill="#3f3f46" />
-              <rect x="2" y="13" width="9" height="9" rx="2" fill="#3f3f46" />
-              <rect x="13" y="13" width="9" height="9" rx="2" fill="#4f98a3" opacity="0.5" />
-            </svg>
+            <LayoutDashboard size={20} className="text-cyan-600 dark:text-cyan-400" />
             <h1 className="text-base font-semibold text-zinc-900 dark:text-zinc-100 tracking-tight">
               {t('dashboard.title')}
             </h1>

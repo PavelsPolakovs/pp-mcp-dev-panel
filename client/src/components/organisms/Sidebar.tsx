@@ -1,5 +1,6 @@
 import React from 'react'
 import { SidebarNav } from '@molecules'
+import { AppLogo } from '@atoms'
 import { useStore } from '@store/useStore'
 
 export interface SidebarProps {
@@ -12,24 +13,13 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
   return (
     <aside className="flex flex-col bg-zinc-50 dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800 h-full w-full transition-all duration-200 overflow-hidden z-20">
       <div className="flex items-center gap-3 px-4 h-14 border-b border-zinc-200 dark:border-zinc-800 flex-shrink-0">
-        <svg
-          className="w-7 h-7 text-cyan-600 dark:text-cyan-400 flex-shrink-0"
-          viewBox="0 0 28 28"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-label="AdminOS Logo"
-        >
-          <rect x="2" y="2" width="10" height="10" rx="2.5" fill="currentColor" opacity="0.9" />
-          <rect x="16" y="2" width="10" height="10" rx="2.5" fill="currentColor" opacity="0.5" />
-          <rect x="2" y="16" width="10" height="10" rx="2.5" fill="currentColor" opacity="0.5" />
-          <rect x="16" y="16" width="10" height="10" rx="2.5" fill="currentColor" opacity="0.2" />
-        </svg>
+        <AppLogo className="w-7 h-7 flex-shrink-0" />
         <span
           className={`text-base font-bold tracking-tight text-zinc-900 dark:text-zinc-100 whitespace-nowrap overflow-hidden transition-all duration-200 ${
             collapsed ? 'opacity-0 w-0' : 'opacity-100'
           }`}
         >
-          AdminOS
+          MCP Dev Panel
         </span>
       </div>
       <SidebarNav collapsed={collapsed} />

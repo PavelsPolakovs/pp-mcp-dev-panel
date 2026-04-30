@@ -30,7 +30,7 @@ const en = {
     admin: 'Admin',
   },
   dashboard: {
-    title: 'MCP Dev Panel',
+    title: 'Dashboard',
     subtitle: 'Run project commands from Claude or the browser',
     commands: 'Commands',
     output: 'Output',

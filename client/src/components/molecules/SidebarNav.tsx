@@ -37,17 +37,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ collapsed }) => {
                 }`
               }
             >
-              <span
-                style={{
-                  width: 16,
-                  height: 16,
-                  display: 'inline-block',
-                  background: 'currentColor',
-                  opacity: 0.5,
-                  borderRadius: 2,
-                  flexShrink: 0,
-                }}
-              />
+              <item.icon size={16} className="flex-shrink-0" />
               <span
                 className={`text-sm font-medium overflow-hidden transition-all duration-200 ${
                   collapsed ? 'opacity-0 w-0' : 'opacity-100 w-auto'
