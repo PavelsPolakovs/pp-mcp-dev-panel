@@ -9,9 +9,12 @@ export default defineConfig({
       '@components': resolve(__dirname, 'src/components'),
       '@store': resolve(__dirname, 'src/store'),
       '@css': resolve(__dirname, 'src/css'),
+      '@config': resolve(__dirname, 'src/config'),
+      '@i18n': resolve(__dirname, 'src/i18n'),
       '@atoms': resolve(__dirname, 'src/components/atoms'),
       '@molecules': resolve(__dirname, 'src/components/molecules'),
-      '@organisms': resolve(__dirname, 'src/components/organisms')
+      '@organisms': resolve(__dirname, 'src/components/organisms'),
+      '@pages': resolve(__dirname, 'src/components/pages')
     }
   },
   server: {

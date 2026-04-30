@@ -1,18 +1,27 @@
 import { create } from 'zustand'
 
 export type Theme = 'light' | 'dark'
+
 export interface LogEntry {
   type: string
   status?: string
   message?: string
   data?: string
 }
+
+export interface User {
+  name: string
+  initials: string
+  role: string
+}
+
 export interface StoreState {
   logs: LogEntry[]
   activeTask: string | null
   wsConnected: boolean
   projectDir: string
   theme: Theme
+  user: User
   setTheme: (theme: Theme) => void
   toggleTheme: () => void
   addLog: (entry: LogEntry) => void
@@ -20,6 +29,7 @@ export interface StoreState {
   setActiveTask: (tool: string | null) => void
   setWsConnected: (val: boolean) => void
   setProjectDir: (dir: string) => void
+  setUser: (user: Partial<User>) => void
 }
 
 function getInitialTheme(): Theme {
@@ -36,6 +46,7 @@ export const useStore = create<StoreState>((set) => ({
   activeTask: null,
   wsConnected: false,
   projectDir: '',
+  user: { name: 'Pavels P.', initials: 'PP', role: 'Admin' },
 
   theme: getInitialTheme(),
   setTheme: (theme: Theme) => {
@@ -68,5 +79,7 @@ export const useStore = create<StoreState>((set) => ({
 
   setWsConnected: (val: boolean) => set({ wsConnected: val }),
 
-  setProjectDir: (dir: string) => set({ projectDir: dir })
+  setProjectDir: (dir: string) => set({ projectDir: dir }),
+
+  setUser: (user: Partial<User>) => set((state) => ({ user: { ...state.user, ...user } })),
 }))

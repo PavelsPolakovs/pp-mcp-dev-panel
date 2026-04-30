@@ -1,0 +1,75 @@
+const en = {
+  nav: {
+    sections: {
+      overview: 'Overview',
+      management: 'Management',
+      system: 'System',
+    },
+    items: {
+      dashboard: 'Dashboard',
+      analytics: 'Analytics',
+      reports: 'Reports',
+      users: 'Users',
+      orders: 'Orders',
+      products: 'Products',
+      content: 'Content',
+      integrations: 'Integrations',
+      settings: 'Settings',
+      logs: 'Logs',
+    },
+  },
+  theme: {
+    switchToLight: 'Switch to light theme',
+    switchToDark: 'Switch to dark theme',
+  },
+  header: {
+    searchPlaceholder: 'Search...',
+    toggleSidebar: 'Toggle sidebar',
+    notifications: 'Notifications',
+    messages: 'Messages',
+    admin: 'Admin',
+  },
+  dashboard: {
+    title: 'MCP Dev Panel',
+    subtitle: 'Run project commands from Claude or the browser',
+    commands: 'Commands',
+    output: 'Output',
+    projectDir: 'Project directory (optional override)',
+    projectDirPlaceholder: '/absolute/path/to/your/project',
+    statusLive: 'Live',
+    statusOffline: 'Offline',
+    mcpTools: 'MCP tools',
+  },
+  settings: {
+    title: 'Settings',
+    subtitle: 'Manage preferences and configuration',
+    appearance: 'Appearance',
+    colorScheme: 'Color scheme',
+    light: 'Light',
+    dark: 'Dark',
+    project: 'Project',
+    projectDirLabel: 'Default project directory',
+    projectDirPlaceholder: '/absolute/path/to/your/project',
+    projectDirHint: 'Used as the default target for all run commands.',
+  },
+  users: {
+    title: 'Users',
+    subtitle: 'Manage team members and access',
+    name: 'Name',
+    role: 'Role',
+    email: 'Email',
+    status: 'Status',
+    active: 'Active',
+    inactive: 'Inactive',
+  },
+  logs: {
+    title: 'Logs',
+    subtitle: 'Task and WebSocket output',
+  },
+  page: {
+    comingSoon: 'Coming soon',
+    comingSoonSubtitle: 'This section is under construction.',
+  },
+}
+
+export default en
