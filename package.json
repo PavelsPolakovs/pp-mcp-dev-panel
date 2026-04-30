@@ -1,4 +1,6 @@
 {
+  "name": "pp-mcp-dev-panel",
+  "description": "Developer panel for Model Context Protocol — React client (Vite) + Express/WebSocket server",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.10.2",
     "cors": "^2.8.5",
@@ -42,12 +44,15 @@
     "client:dev": "vite client --port 5173",
     "client:build": "vite build client",
     "client:preview": "vite preview client",
-    "server:start": "node server/index.ts",
     "server:dev": "node --watch server/index.ts",
+    "server:start": "node server/index.ts",
+    "start": "npm run server:start & npm run client:preview",
     "lint": "eslint .",
     "typecheck": "tsc -p client/tsconfig.json --noEmit && tsc -p server/tsconfig.json --noEmit",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "clean": "rm -rf client/dist server/dist",
+    "clean:all": "rm -rf client/dist server/dist node_modules"
   },
   "type": "module"
 }
