@@ -43,7 +43,11 @@
     "client:build": "vite build client",
     "client:preview": "vite preview client",
     "server:start": "node server/index.ts",
-    "server:dev": "node --watch server/index.ts"
+    "server:dev": "node --watch server/index.ts",
+    "lint": "eslint .",
+    "typecheck": "tsc -p client/tsconfig.json --noEmit && tsc -p server/tsconfig.json --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "type": "module"
 }

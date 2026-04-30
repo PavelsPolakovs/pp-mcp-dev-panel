@@ -71,7 +71,7 @@ start:
 # Lint & tests
 prettier:
 	@echo "Running prettier check (requires prettier available via npx or installed deps)..."
-	npx prettier --check . || true
+	npx prettier --check .
 
 format:
 	@echo "Formatting code with prettier (requires prettier available via npx or installed deps)..."
@@ -79,7 +79,7 @@ format:
 
 lint:
 	@echo "Running eslint (requires eslint available via npx or installed deps)..."
-	npx eslint . --ext .js,.jsx,.ts,.tsx || true
+	npx eslint .
 
 server-test:
 	@echo "Running server tests (if 'test' script exists)..."
@@ -92,12 +92,12 @@ client-test:
 
 # TypeScript type checking
 typecheck:
-	npx tsc --noEmit
+	npx tsc -p client/tsconfig.json --noEmit && npx tsc -p server/tsconfig.json --noEmit
 
 
 # Perform a clean by removing build outputs and node_modules. Use with caution!
 clean:
 	@echo "Cleaning build outputs and node_modules..."
 	rm -rf $(CLIENT_DIR)/dist
-	rm -rf /node_modules
+	rm -rf ./node_modules
 
