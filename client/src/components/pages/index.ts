@@ -1,0 +1,5 @@
+export { default as DashboardPage } from './DashboardPage'
+export { default as SettingsPage } from './SettingsPage'
+export { default as LogsPage } from './LogsPage'
+export { default as UsersPage } from './UsersPage'
+export { default as PlaceholderPage } from './PlaceholderPage'

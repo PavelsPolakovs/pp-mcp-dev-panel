@@ -1,103 +1,70 @@
-# Project Makefile for mcp-dev-panel
+# MCP Dev Panel — Makefile
+# All commands delegate to npm scripts defined in package.json.
+# Run `make help` to see available targets.
+
 NPM ?= npm
-CLIENT_DIR := client
-SERVER_DIR := server
 
-.PHONY: help install server-install client-install dev server-dev client-dev \
-        build client-build server-start start lint server-test client-test clean prettier format typecheck
+.PHONY: help install dev server-dev client-dev build client-build server-start start \
+        lint format format-check typecheck ci test clean clean-all
 
-help:
-	@echo "Usage: make <target>"
-	@echo ""
-	@echo "Common targets:"
-	@echo "  install         Install dependencies for server and client"
-	@echo "  server-install  Install server dependencies"
-	@echo "  client-install  Install client dependencies"
-	@echo "  dev             How to run both dev servers (see details)"
-	@echo "  server-dev      Run server dev (npm run server:dev)"
-	@echo "  client-dev      Run client dev (vite)"
-	@echo "  build           Build the client"
-	@echo "  client-build    Build client (vite build)"
-	@echo "  start           Start server and preview client"
-	@echo "  lint            Run eslint (requires npx eslint available)"
-	@echo "  server-test     Run tests in server (if defined)"
-	@echo "  client-test     Run tests in client (if defined)"
-	@echo "  typecheck       Run TypeScript type checking (npx tsc --noEmit)"
-	@echo "  clean           Remove build outputs and node_modules"
+## ——— General ————————————————————————————————————————————————————————————————
 
+help: ## Show this help message
+	@grep -E '^[a-zA-Z_-]+:.*##' $(MAKEFILE_LIST) | \
+	  awk 'BEGIN {FS = ":.*##"}; {printf "  \033[36m%-18s\033[0m %s\n", $$1, $$2}' | sort
 
+install: ## Install all project dependencies (npm install)
+	$(NPM) install
 
-### Dependency installation
-# Install dependencies for both server and client
-install:
-	@echo "Installing dependencies..."
-	npm i
-	@echo "Dependencies installed."
+## ——— Development ————————————————————————————————————————————————————————————
 
-
-
-# Development helpers
-# Note: recommended to run server-dev and client-dev in separate terminals (or use tmux).
-dev:
+dev: ## Print instructions for running client and server dev servers concurrently
 	@echo "Run 'make server-dev' in one terminal and 'make client-dev' in another."
-	@echo "If you want to attempt to run both from one shell, use 'make dev-run'."
+	@echo "Tip: use tmux or a split terminal for convenience."
 
-# Run server dev (node --watch index.js). The client should be built before running this, as the server serves the built client from /dist.
-server-dev:
-	npm run server:dev
+server-dev: ## Start the server in watch mode — auto-restarts on any file change
+	$(NPM) run server:dev
 
-# Run client dev (vite)
-client-dev:
-	npm run client:dev
+client-dev: ## Start the Vite dev server for the client on port 5173 with HMR
+	$(NPM) run client:dev
 
+## ——— Build & Start ——————————————————————————————————————————————————————————
 
+build: client-build ## Build all artefacts (alias for client-build)
 
-# Build / start
-build: client-build
+client-build: ## Compile and bundle the React client for production into client/dist
+	$(NPM) run client:build
 
-client-build:
-	npm run client:build
+server-start: ## Start the server in production mode — serves the built client from client/dist
+	$(NPM) run server:start
 
-server-start:
-	npm run server:start
+start: ## Start server in the background and preview the built client concurrently
+	$(NPM) run start
 
-start:
-	@echo "Starting server and previewing client."
-	# Start server in background and preview client (preview runs in foreground)
-	npm run server:start & npm run client:preview
+## ——— Quality ————————————————————————————————————————————————————————————————
 
+lint: ## Run ESLint across all TypeScript and JavaScript source files
+	$(NPM) run lint
 
+format: ## Auto-format all source files with Prettier (writes changes in place)
+	$(NPM) run format
 
-# Lint & tests
-prettier:
-	@echo "Running prettier check (requires prettier available via npx or installed deps)..."
-	npx prettier --check . || true
+format-check: ## Check formatting with Prettier without writing changes — use in CI
+	$(NPM) run format:check
 
-format:
-	@echo "Formatting code with prettier (requires prettier available via npx or installed deps)..."
-	npx prettier --write .
+typecheck: ## Type-check both the client and server TypeScript projects (no emit)
+	$(NPM) run typecheck
 
-lint:
-	@echo "Running eslint (requires eslint available via npx or installed deps)..."
-	npx eslint . --ext .js,.jsx,.ts,.tsx || true
+ci: ## Run all quality checks in sequence — lint, typecheck, format:check (for CI pipelines)
+	$(NPM) run ci
 
-server-test:
-	@echo "Running server tests (if 'test' script exists)..."
-	cd $(SERVER_DIR) && $(NPM) test || true
+test: ## Run the test suite (no runner configured yet — exits non-zero)
+	$(NPM) run test
 
-client-test:
-	@echo "Running client tests (if 'test' script exists)..."
-	cd $(CLIENT_DIR) && $(NPM) test || true
+## ——— Maintenance ————————————————————————————————————————————————————————————
 
+clean: ## Remove build output directories (client/dist, server/dist)
+	$(NPM) run clean
 
-# TypeScript type checking
-typecheck:
-	npx tsc --noEmit
-
-
-# Perform a clean by removing build outputs and node_modules. Use with caution!
-clean:
-	@echo "Cleaning build outputs and node_modules..."
-	rm -rf $(CLIENT_DIR)/dist
-	rm -rf /node_modules
-
+clean-all: ## Remove build outputs AND node_modules — requires npm install afterwards
+	$(NPM) run clean:all
