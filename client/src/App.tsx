@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { TrendingUp, FileText, ShoppingCart, Package, FileEdit, Plug2 } from 'lucide-react'
 
 import { Header, Sidebar } from '@organisms'
 import { useStore, StoreState } from '@store/useStore'
@@ -51,13 +52,13 @@ export default function App() {
             <Routes>
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route path="/dashboard" element={<DashboardPage />} />
-              <Route path="/analytics" element={<PlaceholderPage titleKey="nav.items.analytics" />} />
-              <Route path="/reports" element={<PlaceholderPage titleKey="nav.items.reports" />} />
+              <Route path="/analytics" element={<PlaceholderPage titleKey="nav.items.analytics" icon={TrendingUp} />} />
+              <Route path="/reports" element={<PlaceholderPage titleKey="nav.items.reports" icon={FileText} />} />
               <Route path="/users" element={<UsersPage />} />
-              <Route path="/orders" element={<PlaceholderPage titleKey="nav.items.orders" />} />
-              <Route path="/products" element={<PlaceholderPage titleKey="nav.items.products" />} />
-              <Route path="/content" element={<PlaceholderPage titleKey="nav.items.content" />} />
-              <Route path="/integrations" element={<PlaceholderPage titleKey="nav.items.integrations" />} />
+              <Route path="/orders" element={<PlaceholderPage titleKey="nav.items.orders" icon={ShoppingCart} />} />
+              <Route path="/products" element={<PlaceholderPage titleKey="nav.items.products" icon={Package} />} />
+              <Route path="/content" element={<PlaceholderPage titleKey="nav.items.content" icon={FileEdit} />} />
+              <Route path="/integrations" element={<PlaceholderPage titleKey="nav.items.integrations" icon={Plug2} />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/logs" element={<LogsPage />} />
             </Routes>

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Users } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 
 const MOCK_USERS = [
@@ -13,7 +14,10 @@ export default function UsersPage() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h1 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">{t('users.title')}</h1>
+        <div className="flex items-center gap-2.5 mb-1">
+          <Users size={20} className="text-cyan-600 dark:text-cyan-400" />
+          <h1 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">{t('users.title')}</h1>
+        </div>
         <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-0.5">{t('users.subtitle')}</p>
       </div>
 
