@@ -5,7 +5,7 @@
 NPM ?= npm
 
 .PHONY: help install dev server-dev client-dev build client-build server-start start \
-        lint format format-check typecheck clean clean-all
+        lint format format-check typecheck ci test clean clean-all
 
 ## ——— General ————————————————————————————————————————————————————————————————
 
@@ -54,6 +54,12 @@ format-check: ## Check formatting with Prettier without writing changes — use 
 
 typecheck: ## Type-check both the client and server TypeScript projects (no emit)
 	$(NPM) run typecheck
+
+ci: ## Run all quality checks in sequence — lint, typecheck, format:check (for CI pipelines)
+	$(NPM) run ci
+
+test: ## Run the test suite (no runner configured yet — exits non-zero)
+	$(NPM) run test
 
 ## ——— Maintenance ————————————————————————————————————————————————————————————
 
