@@ -1,10 +1,11 @@
 import { spawn } from 'child_process'
+import type { WsMessage } from '../ws.ts'
 
-export async function lint(cwd: string, broadcast: (payload: unknown) => void): Promise<string> {
+export async function lint(cwd: string, broadcast: (payload: WsMessage) => void): Promise<string> {
   return new Promise((resolve, reject) => {
     broadcast({ type: 'task_start', tool: 'lint', message: '\u25b6 Running ESLint...' })
 
-    const proc = spawn('npx', ['eslint', '.', '--ext', '.js,.jsx,.ts,.tsx'], {
+    const proc = spawn('npm', ['run', 'lint'], {
       cwd,
       shell: true,
       env: { ...process.env, FORCE_COLOR: '0' }

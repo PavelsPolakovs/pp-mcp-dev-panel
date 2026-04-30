@@ -54,6 +54,7 @@ export default [
       ...reactHooksPlugin.configs.recommended.rules,
       ...jsxA11yPlugin.configs.recommended.rules,
       ...importPlugin.configs.recommended.rules,
+      'import/no-unresolved': ['error', { ignore: ['^@modelcontextprotocol/'] }],
       'comma-dangle': ['error', 'never'],
       semi: ['error', 'never']
     },
