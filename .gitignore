@@ -20,8 +20,9 @@ logs/
 .env.local
 .env.*.local
 
-# Claude credentials
+# Claude credentials and memory
 .claude/credentials.json
+.claude/memory/
 
 # IDEs and editors
 .vscode/
