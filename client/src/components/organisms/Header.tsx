@@ -1,7 +1,7 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { ThemeToggle } from '@atoms'
+import { ThemeToggle, SessionStatusBadge } from '@atoms'
 import { useStore } from '@store/useStore'
 import { findNavEntry } from '@config/navigation'
 
@@ -83,6 +83,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
         />
       </div>
       <div className="flex items-center gap-2">
+        <SessionStatusBadge />
         <button
           className="relative w-9 h-9 flex items-center justify-center rounded-md text-zinc-400 hover:bg-zinc-200 hover:text-zinc-700 dark:text-zinc-500 dark:hover:bg-zinc-800 dark:hover:text-zinc-200 transition-colors"
           aria-label={t('header.notifications')}

@@ -16,6 +16,7 @@ export function useWebSocketConnection(): void {
       useStore.getState().setWsConnected(true)
       const { sessionId, userId } = useSessionStore.getState().startSession()
       ws.send(JSON.stringify({ type: 'session_init', sessionId, userId }))
+      void useSessionStore.getState().fetchHistory(userId)
     }
 
     ws.onclose = () => {

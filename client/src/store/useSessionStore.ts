@@ -77,8 +77,19 @@ export const useSessionStore = create<SessionStoreState>((set, get) => ({
     if (!userId) return
     set({ historyLoading: true })
     try {
-      const res = await fetch(`/api/history/user/${encodeURIComponent(userId)}`)
-      if (!res.ok) throw new Error(`History request failed: ${res.status}`)
+      const res = await fetch(`/api/history/user/${encodeURIComponent(userId)}`, {
+        headers: { Accept: 'application/json' }
+      })
+      if (!res.ok) {
+        throw new Error(`History request failed: ${res.status} ${res.statusText}`)
+      }
+      const ct = res.headers.get('content-type') ?? ''
+      if (!ct.includes('application/json')) {
+        throw new Error(
+          `History endpoint returned non-JSON (content-type: ${ct || 'unset'}). ` +
+            `Likely the API server is not running or a proxy is intercepting the request.`
+        )
+      }
       const data: ActionRecord[] = await res.json()
       set({ history: data })
     } finally {

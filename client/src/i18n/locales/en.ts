@@ -87,7 +87,28 @@ const en = {
     browseButton: 'Browse file',
     confirmButton: 'Confirm',
     closeButton: 'Close',
-    noFileSelected: 'No file selected yet.'
+    noFileSelected: 'No file selected yet.',
+    activePlan: {
+      title: 'Active Plan',
+      loaded: 'Loaded',
+      show: 'Show preview',
+      hide: 'Hide preview',
+      clear: 'Clear plan'
+    }
+  },
+  session: {
+    none: 'no session',
+    status: {
+      idle: 'Idle',
+      active: 'Active',
+      ended: 'Ended'
+    },
+    tooltip: {
+      status: 'Status',
+      id: 'Session',
+      user: 'User',
+      startedAt: 'Started'
+    }
   }
 }
 

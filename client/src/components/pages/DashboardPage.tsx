@@ -11,7 +11,7 @@ import {
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { CommandButton, TaskPlanCard } from '@molecules'
-import { Terminal, TaskPlanPanel } from '@organisms'
+import { Terminal, TaskPlanPanel, ActivePlanPanel } from '@organisms'
 import { useStore } from '@store/useStore'
 import { useSessionStore } from '@store/useSessionStore'
 
@@ -100,6 +100,8 @@ export default function DashboardPage() {
           className="w-full bg-zinc-100 border border-zinc-300 dark:bg-zinc-900 dark:border-zinc-800 rounded-lg px-3 py-2 text-xs font-mono text-zinc-900 dark:text-zinc-300 placeholder-zinc-400 dark:placeholder-zinc-600 focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition-colors"
         />
       </div>
+
+      <ActivePlanPanel />
 
       <div>
         <h2 className="text-xs text-zinc-500 dark:text-zinc-400 uppercase tracking-wider font-medium mb-2">
