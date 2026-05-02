@@ -1,9 +1,11 @@
 # pp-mcp-dev-panel — Project Instructions
 
 ## About
+
 A local developer panel powered by MCP (Model Context Protocol) — lets Claude trigger project commands (e.g. lint) and stream the output to a live React UI in the browser. The server exposes MCP tools over stdio so any MCP-compatible host (e.g. Claude Desktop) can control the panel.
 
 ## Tech Stack
+
 - **Language:** TypeScript 6, ESM (`"type": "module"`)
 - **Server:** Node.js native TS (`node --watch`), Express 4, WebSocket (`ws`), `@modelcontextprotocol/sdk`
 - **Client:** React 18, Vite 8, Tailwind CSS 3, react-router-dom 7, Zustand 5, i18next 26
@@ -52,9 +54,9 @@ No test runner configured (`make test` exits non-zero).
 
 ## Environment Variables
 
-| Variable | Default | Description |
-|---|---|---|
-| `UI_PORT` | `3333` | HTTP + WebSocket port |
+| Variable      | Default   | Description                                 |
+| ------------- | --------- | ------------------------------------------- |
+| `UI_PORT`     | `3333`    | HTTP + WebSocket port                       |
 | `PROJECT_DIR` | repo root | Default target directory for tool execution |
 
 ## Architecture & Patterns

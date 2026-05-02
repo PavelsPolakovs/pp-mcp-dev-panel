@@ -6,12 +6,12 @@ Coordinates all frontend-related development tasks by routing to the appropriate
 
 ## Sub-agents
 
-| File | Responsibility |
-|------|---------------|
-| [developer.md](./developer.md) | Implement UI features and fixes across the `www/` multi-brand frontend |
-| [quality.md](./quality.md) | Run Prettier, ESLint, Typecheck, and Build across all `www/` projects; loop until all pass |
-| [reviewer.md](./reviewer.md) | Review frontend code changes for correctness, brand isolation, accessibility, and quality before committing |
-| [test.md](./test.md) | Run Jest tests across all `www/` projects; loop until all suites pass |
+| File                           | Responsibility                                                                                              |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| [developer.md](./developer.md) | Implement UI features and fixes across the `www/` multi-brand frontend                                      |
+| [quality.md](./quality.md)     | Run Prettier, ESLint, Typecheck, and Build across all `www/` projects; loop until all pass                  |
+| [reviewer.md](./reviewer.md)   | Review frontend code changes for correctness, brand isolation, accessibility, and quality before committing |
+| [test.md](./test.md)           | Run Jest tests across all `www/` projects; loop until all suites pass                                       |
 
 ---
 
@@ -50,32 +50,39 @@ node .a-local-workflow/workflow/scripts/session/session.js get action
 
 1. **Develop feature**
    a. Set the session action to `develop`:
-      ```bash
-      node .a-local-workflow/workflow/scripts/session/session.js set action "develop"
-      ```
+
+   ```bash
+   node .a-local-workflow/workflow/scripts/session/session.js set action "develop"
+   ```
+
    b. Load `.a-local-workflow/workflow/agents/frontend/developer.md` and follow its steps.
 
 2. **Quality checks**
    a. Set the session action to `quality-check`:
-      ```bash
-      node .a-local-workflow/workflow/scripts/session/session.js set action "quality-check"
-      ```
+
+   ```bash
+   node .a-local-workflow/workflow/scripts/session/session.js set action "quality-check"
+   ```
+
    b. Load `.a-local-workflow/workflow/agents/frontend/quality.md` and follow its steps.
 
 3. **Review code**
    a. Set the session action to `review`:
-      ```bash
-      node .a-local-workflow/workflow/scripts/session/session.js set action "review"
-      ```
+
+   ```bash
+   node .a-local-workflow/workflow/scripts/session/session.js set action "review"
+   ```
+
    b. Load `.a-local-workflow/workflow/agents/frontend/reviewer.md` and follow its steps.
 
 4. **Run tests**
    a. Set the session action to `test`:
-      ```bash
-      node .a-local-workflow/workflow/scripts/session/session.js set action "test"
-      ```
+
+   ```bash
+   node .a-local-workflow/workflow/scripts/session/session.js set action "test"
+   ```
+
    b. Load `.a-local-workflow/workflow/agents/frontend/test.md` and follow its steps.
 
 5. **Back**
    a. Load `.a-local-workflow/workflow/menu/task-lifecycle/index.md` and return control to the **Task Lifecycle Orchestrator**.
-

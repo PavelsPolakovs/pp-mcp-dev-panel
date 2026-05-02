@@ -29,6 +29,7 @@ The project is a developer panel for the Model Context Protocol (MCP). It is a m
 ### Server (`server/`)
 
 Entry point is `server/index.ts`. It creates a single HTTP server that does three things simultaneously:
+
 1. Serves the Express app (`app.ts`) — REST API + static `client/dist`
 2. Attaches a WebSocket server (`ws.ts`) — broadcasts `WsMessage` events to all connected browser clients
 3. Connects an MCP stdio transport (`mcp.ts`) — exposes tools to MCP hosts over stdin/stdout
@@ -46,6 +47,7 @@ React 18 + Vite + TypeScript + Tailwind CSS + react-router-dom v7 + i18next + Zu
 In dev, Vite proxies `/api` → `http://localhost:3333` and `/ws` → `ws://localhost:3333`.
 
 **Component structure** follows Atomic Design — place components in the matching layer:
+
 - `atoms/` — smallest reusable elements
 - `molecules/` — atoms composed together
 - `organisms/` — complex sections (Sidebar, Header, Terminal)

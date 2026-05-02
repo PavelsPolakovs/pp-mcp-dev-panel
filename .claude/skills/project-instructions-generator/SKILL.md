@@ -111,9 +111,11 @@ Use the template below. Only include what you actually found in the code — do 
 # [Project Name] — Project Instructions
 
 ## About
+
 [1–3 sentences: what the project does, who it's for, what problem it solves]
 
 ## Tech Stack
+
 - **Language:** [language + version if known]
 - **Framework:** [main framework]
 - **Database:** [if any]
@@ -121,42 +123,54 @@ Use the template below. Only include what you actually found in the code — do 
 - **Infrastructure:** [Docker, CI/CD, hosting]
 
 ## Project Structure
+
 [Brief description of key directories and their responsibilities]
 
 /src
-  /module-a   — [responsibility]
-  /module-b   — [responsibility]
-/config       — [configuration]
+/module-a — [responsibility]
+/module-b — [responsibility]
+/config — [configuration]
 
 ## Key Commands
+
 # Install dependencies
+
 [command]
 
 # Run in dev mode
+
 [command]
 
 # Tests
+
 [command]
 
 # Build
+
 [command]
 
 ## Environment Variables
+
 [List of required ENV vars with descriptions, no values]
 
 ## Architecture & Patterns
+
 [How the code is organized, key patterns, important conventions]
 
 ## Module Relationships
+
 [How modules interact, what depends on what]
 
 ## Active Context / Open Tasks
+
 [TODOs, unfinished features, or open issues found in code or docs — if any]
 
 ## Code Conventions
+
 [Naming, file structure, import style — if consistent patterns are visible]
 
 ## Important Notes
+
 [Non-obvious decisions, gotchas, anything a developer needs to know upfront]
 ```
 
@@ -181,7 +195,7 @@ Use the template below. Only include what you actually found in the code — do 
 1. Save the result to `.claude/project-instructions.md`
 2. Append the `.claude/ folder` section to `CLAUDE.md` if not already present (see Storage section above)
 3. Print the contents of `project-instructions.md` in the chat for quick copying
-4. Tell the user: *"Copy the content above and paste it into the Project Instructions field in your claude.ai Project settings."*
+4. Tell the user: _"Copy the content above and paste it into the Project Instructions field in your claude.ai Project settings."_
 
 ---
 
@@ -222,14 +236,14 @@ find . \
 
 Notify the user if **at least one** of the following appears in the list of newer files:
 
-| Signal | Files |
-|--------|-------|
-| New module or directory | New folder in `/src`, `/lib`, `/modules`, `/packages` |
-| Dependency changes | `package.json`, `pyproject.toml`, `Cargo.toml`, `go.mod` |
-| New ENV variables | `.env.example`, `.env.template` |
-| Infrastructure changes | `Dockerfile`, `docker-compose.yml` |
-| New entry point | `index.*`, `main.*`, `app.*` at root level |
-| Config changes | `config/`, `settings.*`, `*.config.*` |
+| Signal                  | Files                                                    |
+| ----------------------- | -------------------------------------------------------- |
+| New module or directory | New folder in `/src`, `/lib`, `/modules`, `/packages`    |
+| Dependency changes      | `package.json`, `pyproject.toml`, `Cargo.toml`, `go.mod` |
+| New ENV variables       | `.env.example`, `.env.template`                          |
+| Infrastructure changes  | `Dockerfile`, `docker-compose.yml`                       |
+| New entry point         | `index.*`, `main.*`, `app.*` at root level               |
+| Config changes          | `config/`, `settings.*`, `*.config.*`                    |
 
 ### What to say
 
@@ -237,7 +251,7 @@ If triggers are found — show a short message at the start of the session:
 
 > ⚠️ **Project Instructions may be outdated**
 > Changed since last update: [list of files]
-> Say *"update project instructions"* and I'll compare with the current codebase and show you what changed.
+> Say _"update project instructions"_ and I'll compare with the current codebase and show you what changed.
 
 If no triggers — say nothing, continue normally.
 

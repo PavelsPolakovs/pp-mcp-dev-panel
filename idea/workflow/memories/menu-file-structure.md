@@ -3,7 +3,7 @@
 Menu definitions live in `.a-local-workflow/workflow/menu/`.
 Each file covers one menu level and follows this layout:
 
-```markdown
+````markdown
 # <Menu Name>
 
 <One-sentence description of what this menu does.>
@@ -13,12 +13,13 @@ Each file covers one menu level and follows this layout:
 ## <Menu Name>
 
 \```
+
 - question: "<question text>"
 - header: "<≤12 chars>"
 - options:
-  1. label "<Label>"  — description "<description>"
-  2. label "Back"     — description "Return to the previous menu"
-\```
+  1. label "<Label>" — description "<description>"
+  2. label "Back" — description "Return to the previous menu"
+     \```
 
 ### Routing
 
@@ -26,7 +27,7 @@ Each file covers one menu level and follows this layout:
    session writes, and which agent file to load next>.
 
 2. **Back** — return to `menu/<parent>.md`.
-```
+````
 
 ---
 
@@ -73,4 +74,3 @@ Branch accordingly:
 
 - **Entry point** | Users trigger the workflow via `/workflow-menu` (Claude slash command in `.claude/commands/`)
 - **Slash command** | `.claude/commands/` is excluded from git via `.git/info/exclude` — local-only, not committed
-

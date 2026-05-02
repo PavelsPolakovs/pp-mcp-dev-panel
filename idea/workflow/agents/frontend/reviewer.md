@@ -42,19 +42,24 @@ For every changed file, verify:
 ## Startup
 
 1. Read task context from the session:
+
    ```bash
    node .a-local-workflow/workflow/scripts/session/session.js get
    ```
+
    Parse the `task` object (`link`, `title`, `description`) and the `branch` value.
 
 2. Get the list of changed files in `www/`:
+
    ```bash
    git diff --name-only HEAD
    git diff --name-only --cached
    ```
+
    Filter to files under `www/`. If no `www/` files changed, print:
+
    > _"No www/ files changed — nothing to review."_
-   and go directly to [On Approval](#on-approval).
+   > and go directly to [On Approval](#on-approval).
 
 3. Compose the message:
    ```bash
@@ -62,7 +67,7 @@ For every changed file, verify:
    ```
    Print the message:
    > _"`$MSG`"_
-   Log the message:
+   > Log the message:
    ```bash
    node .a-local-workflow/workflow/scripts/logger.js log "$MSG"
    ```
@@ -74,6 +79,7 @@ For every changed file, verify:
 **Repeat the review loop until all issues are resolved.**
 
 1. Read the full diff of changed `www/` files:
+
    ```bash
    git diff HEAD -- 'www/**'
    git diff --cached -- 'www/**'
@@ -128,12 +134,16 @@ When all checklist items pass, print the approval summary:
 ```
 
 Compose the message:
+
 ```bash
 MSG="Code review passed at \`$(date '+%Y-%m-%d %H:%M:%S')\` for task: **$TASK_TITLE** ($TASK_LINK)."
 ```
+
 Print the message:
+
 > _"`$MSG`"_
-Log the message:
+> Log the message:
+
 ```bash
 node .a-local-workflow/workflow/scripts/logger.js log "$MSG"
 ```
@@ -141,9 +151,9 @@ node .a-local-workflow/workflow/scripts/logger.js log "$MSG"
 ## Clean up and return control
 
 a. Unset the `action` key from the session:
-   ```bash
-   node .a-local-workflow/workflow/scripts/session/session.js unset action
-   ```
+
+```bash
+node .a-local-workflow/workflow/scripts/session/session.js unset action
+```
 
 b. Load `.a-local-workflow/workflow/menu/task-lifecycle.md` and transfer control to the **Task Lifecycle Orchestrator**.
-

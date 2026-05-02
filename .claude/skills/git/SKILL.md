@@ -43,30 +43,30 @@ fi
 
 ## Operations
 
-| Action | GitHub (`gh`) | GitLab (`glab`) |
-|---|---|---|
-| **Issues** | | |
-| Create | `gh issue create` | `glab issue create` |
-| List | `gh issue list` | `glab issue list` |
-| View | `gh issue view <n>` | `glab issue view <n>` |
-| Add label | `gh issue edit <n> --add-label <label>` | `glab issue update <n> --label <label>` |
-| Assign | `gh issue edit <n> --add-assignee <user>` | `glab issue update <n> --assignee <user>` |
-| Set milestone | `gh issue edit <n> --milestone <name>` | `glab issue update <n> --milestone <id>` |
-| Comment | `gh issue comment <n> -b "<text>"` | `glab issue note <n> -m "<text>"` |
-| Close | `gh issue close <n>` | `glab issue close <n>` |
-| Reopen | `gh issue reopen <n>` | `glab issue reopen <n>` |
-| **PR / MR** | | |
-| Create | `gh pr create` | `glab mr create` |
-| List | `gh pr list` | `glab mr list` |
-| View | `gh pr view <n>` | `glab mr view <n>` |
-| Comment | `gh pr comment <n> -b "<text>"` | `glab mr note <n> -m "<text>"` |
-| Approve | `gh pr review <n> --approve` | `glab mr approve <n>` |
-| Merge | `gh pr merge <n>` | `glab mr merge <n>` |
-| Close | `gh pr close <n>` | `glab mr close <n>` |
-| **Branches** | | |
-| Create | `gh api -X POST /repos/$REPO_PATH/git/refs -f ref="refs/heads/<name>" -f sha="<sha>"` | `glab repo branch create <name> --ref <ref>` |
-| List | `gh api /repos/$REPO_PATH/branches` | `glab repo branch list` |
-| Delete | `gh api -X DELETE /repos/$REPO_PATH/git/refs/heads/<name>` | `glab repo branch delete <name>` |
+| Action        | GitHub (`gh`)                                                                         | GitLab (`glab`)                              |
+| ------------- | ------------------------------------------------------------------------------------- | -------------------------------------------- |
+| **Issues**    |                                                                                       |                                              |
+| Create        | `gh issue create`                                                                     | `glab issue create`                          |
+| List          | `gh issue list`                                                                       | `glab issue list`                            |
+| View          | `gh issue view <n>`                                                                   | `glab issue view <n>`                        |
+| Add label     | `gh issue edit <n> --add-label <label>`                                               | `glab issue update <n> --label <label>`      |
+| Assign        | `gh issue edit <n> --add-assignee <user>`                                             | `glab issue update <n> --assignee <user>`    |
+| Set milestone | `gh issue edit <n> --milestone <name>`                                                | `glab issue update <n> --milestone <id>`     |
+| Comment       | `gh issue comment <n> -b "<text>"`                                                    | `glab issue note <n> -m "<text>"`            |
+| Close         | `gh issue close <n>`                                                                  | `glab issue close <n>`                       |
+| Reopen        | `gh issue reopen <n>`                                                                 | `glab issue reopen <n>`                      |
+| **PR / MR**   |                                                                                       |                                              |
+| Create        | `gh pr create`                                                                        | `glab mr create`                             |
+| List          | `gh pr list`                                                                          | `glab mr list`                               |
+| View          | `gh pr view <n>`                                                                      | `glab mr view <n>`                           |
+| Comment       | `gh pr comment <n> -b "<text>"`                                                       | `glab mr note <n> -m "<text>"`               |
+| Approve       | `gh pr review <n> --approve`                                                          | `glab mr approve <n>`                        |
+| Merge         | `gh pr merge <n>`                                                                     | `glab mr merge <n>`                          |
+| Close         | `gh pr close <n>`                                                                     | `glab mr close <n>`                          |
+| **Branches**  |                                                                                       |                                              |
+| Create        | `gh api -X POST /repos/$REPO_PATH/git/refs -f ref="refs/heads/<name>" -f sha="<sha>"` | `glab repo branch create <name> --ref <ref>` |
+| List          | `gh api /repos/$REPO_PATH/branches`                                                   | `glab repo branch list`                      |
+| Delete        | `gh api -X DELETE /repos/$REPO_PATH/git/refs/heads/<name>`                            | `glab repo branch delete <name>`             |
 
 ## Notes
 

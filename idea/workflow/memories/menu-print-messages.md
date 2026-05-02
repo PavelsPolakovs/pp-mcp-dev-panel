@@ -20,20 +20,25 @@ Use blockquote + italic syntax for all agent status/confirmation messages:
 
 Whenever a step both prints a status message **and** logs it, compose `$MSG` first, then print and log from the variable — so the text is defined exactly once:
 
-```markdown
+````markdown
 c. Compose the message:
-   ```bash
-   MSG="<message text with `runtime values`>."
-   ```
+
+```bash
+MSG="<message text with `runtime values`>."
+```
+````
 
 d. Print the message:
-   > _"`$MSG`"_
+
+> _"`$MSG`"_
 
 e. Log the message:
-   ```bash
-   node .a-local-workflow/workflow/scripts/logger.js log "$MSG"
-   ```
+
+```bash
+node .a-local-workflow/workflow/scripts/logger.js log "$MSG"
 ```
+
+````
 
 ### Rules
 
@@ -51,31 +56,37 @@ e. Log the message:
 c. Compose the message:
    ```bash
    MSG="Session started at `$START_TIME`."
-   ```
+````
 
 d. Print the message:
-   > _"`$MSG`"_
+
+> _"`$MSG`"_
 
 e. Log the message:
-   ```bash
-   node .a-local-workflow/workflow/scripts/logger.js log "$MSG"
-   ```
+
+```bash
+node .a-local-workflow/workflow/scripts/logger.js log "$MSG"
 ```
+
+````
 
 ```markdown
 c. Compose the message:
    ```bash
    MSG="Issue \`$PLAN_TITLE\` ($ISSUE_URL) created successfully (\`#$ISSUE_IID\`, \`$ISSUE_TYPE\`, \`workflow::new\`)."
-   ```
+````
 
 d. Print the message:
-   > _"`$MSG`"_
+
+> _"`$MSG`"_
 
 e. Log the message:
-   ```bash
-   node .a-local-workflow/workflow/scripts/logger.js log "$MSG"
-   ```
+
+```bash
+node .a-local-workflow/workflow/scripts/logger.js log "$MSG"
 ```
+
+````
 
 ---
 
@@ -84,5 +95,4 @@ e. Log the message:
 > _"Branch `feat/my-feature` created successfully."_
 > _"Switched to branch `feat/my-feature`. Task: **Add login page** — Implement the login page UI."_
 > _"No task found in the current session. Please create a task first."_
-```
-
+````

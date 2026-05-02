@@ -37,7 +37,10 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
           <path d="M9 3v18" />
         </svg>
       </button>
-      <nav className="flex items-center gap-2 text-sm text-zinc-400 dark:text-zinc-500" aria-label="Breadcrumb">
+      <nav
+        className="flex items-center gap-2 text-sm text-zinc-400 dark:text-zinc-500"
+        aria-label="Breadcrumb"
+      >
         <span>{sectionLabel}</span>
         {pageLabel && (
           <>

@@ -48,4 +48,3 @@ Two steps that both hand off to the same agent:
    a. Set the session action...
    b. → **[Handoff to GitLab Orchestrator]**
 ```
-

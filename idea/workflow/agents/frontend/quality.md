@@ -31,22 +31,22 @@ Fixes auto-fixable issues, hands off unfixable errors to the **Frontend Develope
 
 1. Discover all `www/` projects dynamically:
    a. Run:
-      ```bash
-      npx nx show projects --json 2>/dev/null \
-        | node -e "
-            const data = JSON.parse(require('fs').readFileSync('/dev/stdin','utf8'));
-            const list = data.filter(name => {
-              try {
-                const pj = require(\`./\${name}/project.json\`);
-                return (pj.root || '').startsWith('www/');
-              } catch { return false; }
-            });
-            console.log(list.join(','));
-          "
-      ```
+   ```bash
+   npx nx show projects --json 2>/dev/null \
+     | node -e "
+         const data = JSON.parse(require('fs').readFileSync('/dev/stdin','utf8'));
+         const list = data.filter(name => {
+           try {
+             const pj = require(\`./\${name}/project.json\`);
+             return (pj.root || '').startsWith('www/');
+           } catch { return false; }
+         });
+         console.log(list.join(','));
+       "
+   ```
    b. Store the comma-separated result as `WWW_PROJECTS` for use in all `--projects` flags below.
    c. If the command fails or returns empty, fall back to:
-      `brand-a,brand-b,brand-c,ui,core,brand-a-theme,brand-b-theme,brand-c-theme`
+   `brand-a,brand-b,brand-c,ui,core,brand-a-theme,brand-b-theme,brand-c-theme`
 
 ---
 
@@ -58,70 +58,88 @@ Every time control returns from the **Frontend Developer** agent after a fix, re
 **Before starting the loop:**
 
 a. Compose the message:
-   ```bash
-   MSG="Quality checks started at \`$(date '+%Y-%m-%d %H:%M:%S')\`."
-   ```
+
+```bash
+MSG="Quality checks started at \`$(date '+%Y-%m-%d %H:%M:%S')\`."
+```
+
 b. Print the message:
-   > _"`$MSG`"_
-c. Log the message:
-   ```bash
-   node .a-local-workflow/workflow/scripts/logger.js log "$MSG"
-   ```
+
+> _"`$MSG`"_
+> c. Log the message:
+
+```bash
+node .a-local-workflow/workflow/scripts/logger.js log "$MSG"
+```
 
 1. **Prettier**
    a. Check formatting:
-      ```bash
-      npx prettier --check "www/**/*.{ts,tsx,mjs,json}" --ignore-path .gitignore 2>&1
-      ```
+
+   ```bash
+   npx prettier --check "www/**/*.{ts,tsx,mjs,json}" --ignore-path .gitignore 2>&1
+   ```
+
    b. If check fails — auto-fix:
-      ```bash
-      npx prettier --write "www/**/*.{ts,tsx,mjs,json}" --ignore-path .gitignore 2>&1
-      ```
+
+   ```bash
+   npx prettier --write "www/**/*.{ts,tsx,mjs,json}" --ignore-path .gitignore 2>&1
+   ```
+
    c. Re-check after fix:
-      ```bash
-      npx prettier --check "www/**/*.{ts,tsx,mjs,json}" --ignore-path .gitignore 2>&1
-      ```
+
+   ```bash
+   npx prettier --check "www/**/*.{ts,tsx,mjs,json}" --ignore-path .gitignore 2>&1
+   ```
+
    d. If re-check passes → continue to step 2.
-      If still fails → **hand off to Frontend Developer** (see [Hand-off Format](#hand-off-format)) and **restart from step 1** when control returns.
+   If still fails → **hand off to Frontend Developer** (see [Hand-off Format](#hand-off-format)) and **restart from step 1** when control returns.
 
 2. **ESLint**
    a. Run:
-      ```bash
-      npx nx run-many -t lint --projects=$WWW_PROJECTS 2>&1
-      ```
+
+   ```bash
+   npx nx run-many -t lint --projects=$WWW_PROJECTS 2>&1
+   ```
+
    b. Errors **must be fixed in code** — no blanket auto-fix. Do **not** suggest `// eslint-disable` unless the rule is a confirmed false positive with no alternative.
    c. If no errors → continue to step 3.
-      If errors found → **hand off to Frontend Developer** (see [Hand-off Format](#hand-off-format)) and **restart from step 1** when control returns.
+   If errors found → **hand off to Frontend Developer** (see [Hand-off Format](#hand-off-format)) and **restart from step 1** when control returns.
 
 3. **TypeScript Typecheck**
    a. Run:
-      ```bash
-      npx nx run-many -t typecheck --projects=$WWW_PROJECTS 2>&1
-      ```
+
+   ```bash
+   npx nx run-many -t typecheck --projects=$WWW_PROJECTS 2>&1
+   ```
+
    b. Do **not** suggest `as any`, `@ts-ignore`, or `@ts-expect-error` unless caused by a known third-party library gap with no alternative.
    c. If no errors → continue to step 4.
-      If errors found → **hand off to Frontend Developer** (see [Hand-off Format](#hand-off-format)) and **restart from step 1** when control returns.
+   If errors found → **hand off to Frontend Developer** (see [Hand-off Format](#hand-off-format)) and **restart from step 1** when control returns.
 
 4. **Build** — runs **all** `www/` projects, not just affected ones.
    a. Run:
-      ```bash
-      npx nx run-many -t build --projects=$WWW_PROJECTS 2>&1
-      ```
+   ```bash
+   npx nx run-many -t build --projects=$WWW_PROJECTS 2>&1
+   ```
    b. If build succeeds → **all checks passed** → see [On Full Success](#on-full-success).
-       If build fails → **hand off to Frontend Developer** (see [Hand-off Format](#hand-off-format)) and **restart from step 1** when control returns.
+   If build fails → **hand off to Frontend Developer** (see [Hand-off Format](#hand-off-format)) and **restart from step 1** when control returns.
 
 **After the loop completes (all checks passed):**
 
 a. Compose the message:
-   ```bash
-   MSG="Quality checks finished at \`$(date '+%Y-%m-%d %H:%M:%S')\` — status: \`passed\`."
-   ```
+
+```bash
+MSG="Quality checks finished at \`$(date '+%Y-%m-%d %H:%M:%S')\` — status: \`passed\`."
+```
+
 b. Print the message:
-   > _"`$MSG`"_
-c. Log the message:
-   ```bash
-   node .a-local-workflow/workflow/scripts/logger.js log "$MSG"
-   ```
+
+> _"`$MSG`"_
+> c. Log the message:
+
+```bash
+node .a-local-workflow/workflow/scripts/logger.js log "$MSG"
+```
 
 ## Hand-off Format
 
@@ -160,8 +178,9 @@ When Steps 1, 2, 3, and 4 all pass, print the summary:
 ## Clean up and return control
 
 a. Unset the `action` key from the session:
-   ```bash
-   node .a-local-workflow/workflow/scripts/session/session.js unset action
-   ```
+
+```bash
+node .a-local-workflow/workflow/scripts/session/session.js unset action
+```
 
 b. Load `.a-local-workflow/workflow/menu/task-lifecycle.md` and transfer control to the **Task Lifecycle Orchestrator**.
