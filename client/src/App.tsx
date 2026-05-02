@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { TrendingUp, FileText, ShoppingCart, Package, FileEdit, Plug2 } from 'lucide-react'
 
 import { Header, Sidebar } from '@organisms'
 import { useStore, StoreState } from '@store/useStore'
 import { useSessionStore } from '@store/useSessionStore'
-import { setSocket } from '@ws/socket'
+import { useWebSocketConnection } from '@ws/useWebSocketConnection'
 import {
   DashboardPage,
   SettingsPage,
@@ -17,46 +17,9 @@ import {
 
 export default function App() {
   const [collapsed, setCollapsed] = useState(false)
-  const setWsConnected = useStore((s: StoreState) => s.setWsConnected)
-  const addLog = useStore((s: StoreState) => s.addLog)
-  const setActiveTask = useStore((s: StoreState) => s.setActiveTask)
   const projectDir = useStore((s: StoreState) => s.projectDir)
 
-  useEffect(() => {
-    const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:'
-    const ws = new WebSocket(`${protocol}//${location.host}`)
-    setSocket(ws)
-
-    ws.onopen = () => {
-      setWsConnected(true)
-      const { sessionId, userId } = useSessionStore.getState().startSession()
-      ws.send(JSON.stringify({ type: 'session_init', sessionId, userId }))
-    }
-    ws.onclose = () => {
-      setWsConnected(false)
-      setSocket(null)
-      useSessionStore.getState().endSession()
-    }
-    ws.onerror = () => setWsConnected(false)
-
-    ws.onmessage = (e) => {
-      try {
-        const msg = JSON.parse(e.data)
-        if (msg.type === 'connected') return
-        if (msg.type === 'history_update') {
-          useSessionStore.getState().addHistoryRecord(msg.record)
-          return
-        }
-        if (msg.type === 'task_end') setActiveTask(null)
-        addLog(msg)
-      } catch {}
-    }
-
-    return () => {
-      setSocket(null)
-      ws.close()
-    }
-  }, [addLog, setActiveTask, setWsConnected])
+  useWebSocketConnection()
 
   useEffect(() => {
     useSessionStore.getState().resetPlan()
