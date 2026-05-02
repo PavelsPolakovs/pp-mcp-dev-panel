@@ -5,9 +5,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-# Development (run in two separate terminals)
-make server-dev      # Express server on :3333, restarts on file change
-make client-dev      # Vite dev server on :5173 with HMR
+# Run — single canonical command, single port (http://localhost:3333)
+make dev             # build client + start server, watches both for changes
 
 # Quality
 make lint            # ESLint
@@ -15,10 +14,17 @@ make typecheck       # tsc --noEmit for both client and server
 make format          # Prettier (writes)
 make ci              # lint + typecheck + format:check (full pre-push check)
 
-# Production
-make client-build    # bundles React into client/dist
-make server-start    # serves built client + MCP stdio transport
+# Maintenance
+make install         # npm install
+make clean           # remove client/dist and server/dist
+make clean-all       # clean + remove node_modules
 ```
+
+`make dev` does an initial production build of the client and then runs
+`vite build client --watch` and `node --watch server/index.ts` concurrently
+via `concurrently`. Express on :3333 serves the built client, REST API,
+and WebSocket. There is no separate Vite dev server, no preview server,
+no proxy. After saving a file, refresh the browser tab.
 
 No test runner is configured (`make test` exits non-zero).
 
@@ -42,9 +48,9 @@ Tool execution results are streamed to the UI via `broadcast()` from `ws.ts`.
 
 ### Client (`client/`)
 
-React 18 + Vite + TypeScript + Tailwind CSS + react-router-dom v7 + i18next + Zustand.
+React 18 + Vite (build only) + TypeScript + Tailwind CSS + react-router-dom v7 + i18next + Zustand.
 
-In dev, Vite proxies `/api` → `http://localhost:3333` and `/ws` → `ws://localhost:3333`.
+The client bundle is built by `vite build` into `client/dist`; the Express server then serves those static assets alongside the API and WebSocket on the same origin (`:3333`). There is no Vite dev server in this project — `vite build --watch` rebuilds on file changes and the browser is refreshed manually.
 
 **Component structure** follows Atomic Design — place components in the matching layer:
 

@@ -1,45 +1,36 @@
 # MCP Dev Panel — Makefile
-# All commands delegate to npm scripts defined in package.json.
-# Run `make help` to see available targets.
+#
+# One canonical approach: `make dev` does an initial production-quality
+# build of the client, then concurrently watches the client (rebuilds on
+# any file change) and the server (auto-restarts via `node --watch`).
+# Both serve from a single origin — http://localhost:3333. No HMR, no
+# Vite dev server, no preview server, no port juggling. After saving a
+# file, refresh the browser tab to see the change.
+#
+# All other targets are quality gates (`lint`, `typecheck`, `format`,
+# `format-check`, `ci`) and housekeeping (`install`, `clean`, `clean-all`).
+# The MCP stdio transport is exposed by `node server/index.ts` and is
+# typically launched by an MCP host (e.g. Claude Code) — not via make.
 
 NPM ?= npm
 
-.PHONY: help install dev server-dev client-dev build client-build server-start start \
-        lint format format-check typecheck ci test clean clean-all
+.DEFAULT_GOAL := help
+
+.PHONY: help install dev lint format format-check typecheck ci test clean clean-all
 
 ## ——— General ————————————————————————————————————————————————————————————————
 
 help: ## Show this help message
 	@grep -E '^[a-zA-Z_-]+:.*##' $(MAKEFILE_LIST) | \
-	  awk 'BEGIN {FS = ":.*##"}; {printf "  \033[36m%-18s\033[0m %s\n", $$1, $$2}' | sort
+	  awk 'BEGIN {FS = ":.*##"}; {printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2}' | sort
 
-install: ## Install all project dependencies (npm install)
+install: ## Install all project dependencies
 	$(NPM) install
 
-## ——— Development ————————————————————————————————————————————————————————————
+## ——— Run ————————————————————————————————————————————————————————————————————
 
-dev: ## Print instructions for running client and server dev servers concurrently
-	@echo "Run 'make server-dev' in one terminal and 'make client-dev' in another."
-	@echo "Tip: use tmux or a split terminal for convenience."
-
-server-dev: ## Start the server in watch mode — auto-restarts on any file change
-	$(NPM) run server:dev
-
-client-dev: ## Start the Vite dev server for the client on port 5173 with HMR
-	$(NPM) run client:dev
-
-## ——— Build & Start ——————————————————————————————————————————————————————————
-
-build: client-build ## Build all artefacts (alias for client-build)
-
-client-build: ## Compile and bundle the React client for production into client/dist
-	$(NPM) run client:build
-
-server-start: ## Start the server in production mode — serves the built client from client/dist
-	$(NPM) run server:start
-
-start: ## Start server in the background and preview the built client concurrently
-	$(NPM) run start
+dev: ## Build the client and start the server on http://localhost:3333 (watches both)
+	$(NPM) run dev
 
 ## ——— Quality ————————————————————————————————————————————————————————————————
 
@@ -49,13 +40,13 @@ lint: ## Run ESLint across all TypeScript and JavaScript source files
 format: ## Auto-format all source files with Prettier (writes changes in place)
 	$(NPM) run format
 
-format-check: ## Check formatting with Prettier without writing changes — use in CI
+format-check: ## Verify formatting with Prettier without writing changes
 	$(NPM) run format:check
 
 typecheck: ## Type-check both the client and server TypeScript projects (no emit)
 	$(NPM) run typecheck
 
-ci: ## Run all quality checks in sequence — lint, typecheck, format:check (for CI pipelines)
+ci: ## Run all quality checks — lint, typecheck, format:check
 	$(NPM) run ci
 
 test: ## Run the test suite (no runner configured yet — exits non-zero)
@@ -63,8 +54,8 @@ test: ## Run the test suite (no runner configured yet — exits non-zero)
 
 ## ——— Maintenance ————————————————————————————————————————————————————————————
 
-clean: ## Remove build output directories (client/dist, server/dist)
+clean: ## Remove build output (client/dist, server/dist)
 	$(NPM) run clean
 
-clean-all: ## Remove build outputs AND node_modules — requires npm install afterwards
+clean-all: ## Remove build output AND node_modules
 	$(NPM) run clean:all

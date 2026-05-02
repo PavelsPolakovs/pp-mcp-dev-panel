@@ -18,17 +18,5 @@ export default defineConfig({
       '@pages': resolve(__dirname, 'src/components/pages')
     }
   },
-  server: {
-    proxy: {
-      '/api': 'http://localhost:3333',
-      '/ws': { target: 'ws://localhost:3333', ws: true }
-    }
-  },
-  preview: {
-    proxy: {
-      '/api': 'http://localhost:3333',
-      '/ws': { target: 'ws://localhost:3333', ws: true }
-    }
-  },
   build: { outDir: 'dist' }
 })
