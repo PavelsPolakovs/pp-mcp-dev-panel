@@ -1,11 +1,19 @@
 # MCP Dev Panel — Makefile
 #
-# One canonical approach: `make dev` does an initial production-quality
-# build of the client, then concurrently watches the client (rebuilds on
-# any file change) and the server (auto-restarts via `node --watch`).
-# Both serve from a single origin — http://localhost:3333. No HMR, no
-# Vite dev server, no preview server, no port juggling. After saving a
-# file, refresh the browser tab to see the change.
+# Two run modes, single origin (http://localhost:3333):
+#
+#   make dev      Development. Initial client build + two concurrent watchers
+#                 (vite rebuilds the client on save, node --watch restarts
+#                 the server). Refresh the browser tab to see changes.
+#
+#   make start    Production. Builds the client one-shot and runs the server
+#                 with NODE_ENV=production and no watcher. Use for local
+#                 production parity or as the entry point on a deployment
+#                 host.
+#
+#   make build    Just builds the client into client/dist (no server run).
+#                 Useful in CI pipelines where build and run are separate
+#                 stages.
 #
 # All other targets are quality gates (`lint`, `typecheck`, `format`,
 # `format-check`, `ci`) and housekeeping (`install`, `clean`, `clean-all`).
@@ -16,7 +24,7 @@ NPM ?= npm
 
 .DEFAULT_GOAL := help
 
-.PHONY: help install dev lint format format-check typecheck ci test clean clean-all
+.PHONY: help install dev build start lint format format-check typecheck ci test clean clean-all
 
 ## ——— General ————————————————————————————————————————————————————————————————
 
@@ -29,8 +37,16 @@ install: ## Install all project dependencies
 
 ## ——— Run ————————————————————————————————————————————————————————————————————
 
-dev: ## Build the client and start the server on http://localhost:3333 (watches both)
+dev: ## Development. Build client + start server with watchers on http://localhost:3333
 	$(NPM) run dev
+
+## ——— Production —————————————————————————————————————————————————————————————
+
+build: ## Build the client into client/dist (one-shot, no server run)
+	$(NPM) run build
+
+start: ## Production. Build client + run server (NODE_ENV=production, no watch)
+	$(NPM) run start
 
 ## ——— Quality ————————————————————————————————————————————————————————————————
 

@@ -4,9 +4,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
+Single origin in every mode: `http://localhost:3333`.
+
 ```bash
-# Run — single canonical command, single port (http://localhost:3333)
-make dev             # build client + start server, watches both for changes
+# Development — watches client and server, rebuilds/restarts on save
+make dev
+
+# Production — builds client and runs server with NODE_ENV=production
+make start
+
+# CI build only — produces client/dist without running the server
+make build
 
 # Quality
 make lint            # ESLint
@@ -20,11 +28,20 @@ make clean           # remove client/dist and server/dist
 make clean-all       # clean + remove node_modules
 ```
 
-`make dev` does an initial production build of the client and then runs
-`vite build client --watch` and `node --watch server/index.ts` concurrently
-via `concurrently`. Express on :3333 serves the built client, REST API,
-and WebSocket. There is no separate Vite dev server, no preview server,
-no proxy. After saving a file, refresh the browser tab.
+**`make dev`**: initial `vite build client`, then concurrently runs
+`vite build client --watch` and `node --watch server/index.ts` via
+`concurrently`. Refresh the browser tab to see changes — no HMR.
+
+**`make start`**: one-shot `vite build client`, then
+`NODE_ENV=production node server/index.ts`. No watcher. Use for local
+production parity or as the entry point on a deployment host.
+
+**`make build`**: just `vite build client`. CI/CD pipelines that
+separate build and run stages should use this.
+
+There is no Vite dev server, no preview server, and no proxy in this
+project — Express on :3333 serves the built client, REST API, and
+WebSocket from a single origin in all modes.
 
 No test runner is configured (`make test` exits non-zero).
 
