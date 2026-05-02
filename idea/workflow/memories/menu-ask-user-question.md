@@ -10,13 +10,13 @@ natively in Claude Code with keyboard navigation.
 
 ## Rules
 
-| Rule | Detail |
-|---|---|
-| Options | 2–4 per menu (a 5th "Other" is added automatically by the tool) |
-| Header | Max 12 characters — shown as a label chip above the question |
-| `multiSelect` | Always `false` for navigation menus |
-| Back option | Every sub-agent menu must include a **Back** option that returns to the Orchestrator |
-| Loops | After completing an action, show the menu again so the user can pick another option or go back |
+| Rule          | Detail                                                                                         |
+| ------------- | ---------------------------------------------------------------------------------------------- |
+| Options       | 2–4 per menu (a 5th "Other" is added automatically by the tool)                                |
+| Header        | Max 12 characters — shown as a label chip above the question                                   |
+| `multiSelect` | Always `false` for navigation menus                                                            |
+| Back option   | Every sub-agent menu must include a **Back** option that returns to the Orchestrator           |
+| Loops         | After completing an action, show the menu again so the user can pick another option or go back |
 
 ---
 
@@ -31,4 +31,3 @@ Use the `AskUserQuestion` tool:
   1. label `"Do the thing"` — description `"Runs the main workflow"`
   2. label `"Back"`         — description `"Return to the Orchestrator menu"`
 ```
-

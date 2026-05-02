@@ -4,10 +4,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
+Single origin in every mode: `http://localhost:3333`.
+
 ```bash
-# Development (run in two separate terminals)
-make server-dev      # Express server on :3333, restarts on file change
-make client-dev      # Vite dev server on :5173 with HMR
+# Development — watches client and server, rebuilds/restarts on save
+make dev
+
+# Production — builds client and runs server with NODE_ENV=production
+make start
+
+# CI build only — produces client/dist without running the server
+make build
 
 # Quality
 make lint            # ESLint
@@ -15,10 +22,26 @@ make typecheck       # tsc --noEmit for both client and server
 make format          # Prettier (writes)
 make ci              # lint + typecheck + format:check (full pre-push check)
 
-# Production
-make client-build    # bundles React into client/dist
-make server-start    # serves built client + MCP stdio transport
+# Maintenance
+make install         # npm install
+make clean           # remove client/dist and server/dist
+make clean-all       # clean + remove node_modules
 ```
+
+**`make dev`**: initial `vite build client`, then concurrently runs
+`vite build client --watch` and `node --watch server/index.ts` via
+`concurrently`. Refresh the browser tab to see changes — no HMR.
+
+**`make start`**: one-shot `vite build client`, then
+`NODE_ENV=production node server/index.ts`. No watcher. Use for local
+production parity or as the entry point on a deployment host.
+
+**`make build`**: just `vite build client`. CI/CD pipelines that
+separate build and run stages should use this.
+
+There is no Vite dev server, no preview server, and no proxy in this
+project — Express on :3333 serves the built client, REST API, and
+WebSocket from a single origin in all modes.
 
 No test runner is configured (`make test` exits non-zero).
 
@@ -29,6 +52,7 @@ The project is a developer panel for the Model Context Protocol (MCP). It is a m
 ### Server (`server/`)
 
 Entry point is `server/index.ts`. It creates a single HTTP server that does three things simultaneously:
+
 1. Serves the Express app (`app.ts`) — REST API + static `client/dist`
 2. Attaches a WebSocket server (`ws.ts`) — broadcasts `WsMessage` events to all connected browser clients
 3. Connects an MCP stdio transport (`mcp.ts`) — exposes tools to MCP hosts over stdin/stdout
@@ -41,11 +65,12 @@ Tool execution results are streamed to the UI via `broadcast()` from `ws.ts`.
 
 ### Client (`client/`)
 
-React 18 + Vite + TypeScript + Tailwind CSS + react-router-dom v7 + i18next + Zustand.
+React 18 + Vite (build only) + TypeScript + Tailwind CSS + react-router-dom v7 + i18next + Zustand.
 
-In dev, Vite proxies `/api` → `http://localhost:3333` and `/ws` → `ws://localhost:3333`.
+The client bundle is built by `vite build` into `client/dist`; the Express server then serves those static assets alongside the API and WebSocket on the same origin (`:3333`). There is no Vite dev server in this project — `vite build --watch` rebuilds on file changes and the browser is refreshed manually.
 
 **Component structure** follows Atomic Design — place components in the matching layer:
+
 - `atoms/` — smallest reusable elements
 - `molecules/` — atoms composed together
 - `organisms/` — complex sections (Sidebar, Header, Terminal)

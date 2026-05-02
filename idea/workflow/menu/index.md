@@ -16,33 +16,40 @@ Each section defines one named menu block. Agents reference sections by name —
 **Step 1 — Initialize the session (only if not already started):**
 
 a. Clear stale data:
-   - Clear session data:
-     ```bash
-     node .a-local-workflow/workflow/scripts/session/session.js delete
-     ```
-   - Clear logger data:
-     ```bash
-     node .a-local-workflow/workflow/scripts/logger.js clear
-     ```
+
+- Clear session data:
+  ```bash
+  node .a-local-workflow/workflow/scripts/session/session.js delete
+  ```
+- Clear logger data:
+  ```bash
+  node .a-local-workflow/workflow/scripts/logger.js clear
+  ```
 
 b. Run this command and capture the output:
+
 ```bash
 node .a-local-workflow/workflow/scripts/session/session.js get startedAt
 ```
+
 If the output is empty, run:
+
 ```bash
 node .a-local-workflow/workflow/scripts/session/session.js init
 ```
 
 c. Compose the message:
-   ```bash
-   MSG="Session started at `<startedAt>`."
-   ```
+
+```bash
+MSG="Session started at `<startedAt>`."
+```
 
 d. Print the message:
-   > _"`$MSG`"_
+
+> _"`$MSG`"_
 
 e. Log the message:
+
 ```bash
 node .a-local-workflow/workflow/scripts/logger.js log "$MSG"
 ```

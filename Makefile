@@ -1,44 +1,51 @@
 # MCP Dev Panel — Makefile
-# All commands delegate to npm scripts defined in package.json.
-# Run `make help` to see available targets.
+#
+# Two run modes, single origin (http://localhost:3333):
+#
+#   make dev      Development. Initial client build + two concurrent watchers
+#                 (vite rebuilds the client on save, node --watch restarts
+#                 the server). Refresh the browser tab to see changes.
+#
+#   make start    Production. Builds the client one-shot and runs the server
+#                 with NODE_ENV=production and no watcher. Use for local
+#                 production parity or as the entry point on a deployment
+#                 host.
+#
+#   make build    Just builds the client into client/dist (no server run).
+#                 Useful in CI pipelines where build and run are separate
+#                 stages.
+#
+# All other targets are quality gates (`lint`, `typecheck`, `format`,
+# `format-check`, `ci`) and housekeeping (`install`, `clean`, `clean-all`).
+# The MCP stdio transport is exposed by `node server/index.ts` and is
+# typically launched by an MCP host (e.g. Claude Code) — not via make.
 
 NPM ?= npm
 
-.PHONY: help install dev server-dev client-dev build client-build server-start start \
-        lint format format-check typecheck ci test clean clean-all
+.DEFAULT_GOAL := help
+
+.PHONY: help install dev build start lint format format-check typecheck ci test clean clean-all
 
 ## ——— General ————————————————————————————————————————————————————————————————
 
 help: ## Show this help message
 	@grep -E '^[a-zA-Z_-]+:.*##' $(MAKEFILE_LIST) | \
-	  awk 'BEGIN {FS = ":.*##"}; {printf "  \033[36m%-18s\033[0m %s\n", $$1, $$2}' | sort
+	  awk 'BEGIN {FS = ":.*##"}; {printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2}' | sort
 
-install: ## Install all project dependencies (npm install)
+install: ## Install all project dependencies
 	$(NPM) install
 
-## ——— Development ————————————————————————————————————————————————————————————
+## ——— Run ————————————————————————————————————————————————————————————————————
 
-dev: ## Print instructions for running client and server dev servers concurrently
-	@echo "Run 'make server-dev' in one terminal and 'make client-dev' in another."
-	@echo "Tip: use tmux or a split terminal for convenience."
+dev: ## Development. Build client + start server with watchers on http://localhost:3333
+	$(NPM) run dev
 
-server-dev: ## Start the server in watch mode — auto-restarts on any file change
-	$(NPM) run server:dev
+## ——— Production —————————————————————————————————————————————————————————————
 
-client-dev: ## Start the Vite dev server for the client on port 5173 with HMR
-	$(NPM) run client:dev
+build: ## Build the client into client/dist (one-shot, no server run)
+	$(NPM) run build
 
-## ——— Build & Start ——————————————————————————————————————————————————————————
-
-build: client-build ## Build all artefacts (alias for client-build)
-
-client-build: ## Compile and bundle the React client for production into client/dist
-	$(NPM) run client:build
-
-server-start: ## Start the server in production mode — serves the built client from client/dist
-	$(NPM) run server:start
-
-start: ## Start server in the background and preview the built client concurrently
+start: ## Production. Build client + run server (NODE_ENV=production, no watch)
 	$(NPM) run start
 
 ## ——— Quality ————————————————————————————————————————————————————————————————
@@ -49,13 +56,13 @@ lint: ## Run ESLint across all TypeScript and JavaScript source files
 format: ## Auto-format all source files with Prettier (writes changes in place)
 	$(NPM) run format
 
-format-check: ## Check formatting with Prettier without writing changes — use in CI
+format-check: ## Verify formatting with Prettier without writing changes
 	$(NPM) run format:check
 
 typecheck: ## Type-check both the client and server TypeScript projects (no emit)
 	$(NPM) run typecheck
 
-ci: ## Run all quality checks in sequence — lint, typecheck, format:check (for CI pipelines)
+ci: ## Run all quality checks — lint, typecheck, format:check
 	$(NPM) run ci
 
 test: ## Run the test suite (no runner configured yet — exits non-zero)
@@ -63,8 +70,8 @@ test: ## Run the test suite (no runner configured yet — exits non-zero)
 
 ## ——— Maintenance ————————————————————————————————————————————————————————————
 
-clean: ## Remove build output directories (client/dist, server/dist)
+clean: ## Remove build output (client/dist, server/dist)
 	$(NPM) run clean
 
-clean-all: ## Remove build outputs AND node_modules — requires npm install afterwards
+clean-all: ## Remove build output AND node_modules
 	$(NPM) run clean:all

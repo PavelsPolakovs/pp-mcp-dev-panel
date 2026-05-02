@@ -8,6 +8,7 @@ export default defineConfig({
     alias: {
       '@components': resolve(__dirname, 'src/components'),
       '@store': resolve(__dirname, 'src/store'),
+      '@ws': resolve(__dirname, 'src/ws'),
       '@css': resolve(__dirname, 'src/css'),
       '@config': resolve(__dirname, 'src/config'),
       '@i18n': resolve(__dirname, 'src/i18n'),
@@ -15,12 +16,6 @@ export default defineConfig({
       '@molecules': resolve(__dirname, 'src/components/molecules'),
       '@organisms': resolve(__dirname, 'src/components/organisms'),
       '@pages': resolve(__dirname, 'src/components/pages')
-    }
-  },
-  server: {
-    proxy: {
-      '/api': 'http://localhost:3333',
-      '/ws': { target: 'ws://localhost:3333', ws: true }
     }
   },
   build: { outDir: 'dist' }

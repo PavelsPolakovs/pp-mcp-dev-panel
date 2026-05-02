@@ -14,66 +14,75 @@
  *   node session.js init                 → creates a fresh empty session (overwrites)
  */
 
-const fs   = require('fs');
-const path = require('path');
+const fs = require('fs')
+const path = require('path')
 
-const SESSION_FILE = path.resolve(__dirname, '../../tmp/session.json');
+const SESSION_FILE = path.resolve(__dirname, '../../tmp/session.json')
 
 function load() {
   try {
-    return JSON.parse(fs.readFileSync(SESSION_FILE, 'utf8'));
+    return JSON.parse(fs.readFileSync(SESSION_FILE, 'utf8'))
   } catch {
-    return {};
+    return {}
   }
 }
 
 function save(data) {
-  fs.mkdirSync(path.dirname(SESSION_FILE), { recursive: true });
-  fs.writeFileSync(SESSION_FILE, JSON.stringify(data, null, 2) + '\n', 'utf8');
+  fs.mkdirSync(path.dirname(SESSION_FILE), { recursive: true })
+  fs.writeFileSync(SESSION_FILE, JSON.stringify(data, null, 2) + '\n', 'utf8')
 }
 
-const [,, cmd, key, ...rest] = process.argv;
-const value = rest.join(' ');
+const [, , cmd, key, ...rest] = process.argv
+const value = rest.join(' ')
 
 switch (cmd) {
   case 'get': {
-    const data = load();
+    const data = load()
     if (key) {
-      const v = data[key];
-      process.stdout.write(v !== undefined ? String(v) + '\n' : '');
+      const v = data[key]
+      process.stdout.write(v !== undefined ? String(v) + '\n' : '')
     } else {
-      process.stdout.write(JSON.stringify(data, null, 2) + '\n');
+      process.stdout.write(JSON.stringify(data, null, 2) + '\n')
     }
-    break;
+    break
   }
   case 'set': {
-    if (!key) { process.stderr.write('set requires a key\n'); process.exit(1); }
-    const data = load();
-    data[key] = value;
-    save(data);
-    break;
+    if (!key) {
+      process.stderr.write('set requires a key\n')
+      process.exit(1)
+    }
+    const data = load()
+    data[key] = value
+    save(data)
+    break
   }
   case 'unset': {
-    if (!key) { process.stderr.write('unset requires a key\n'); process.exit(1); }
-    const data = load();
-    delete data[key];
-    save(data);
-    process.stdout.write(`Key "${key}" removed.\n`);
-    break;
+    if (!key) {
+      process.stderr.write('unset requires a key\n')
+      process.exit(1)
+    }
+    const data = load()
+    delete data[key]
+    save(data)
+    process.stdout.write(`Key "${key}" removed.\n`)
+    break
   }
   case 'delete': {
-    try { fs.unlinkSync(SESSION_FILE); } catch { /* already gone */ }
-    process.stdout.write('Session deleted.\n');
-    break;
+    try {
+      fs.unlinkSync(SESSION_FILE)
+    } catch {
+      /* already gone */
+    }
+    process.stdout.write('Session deleted.\n')
+    break
   }
   case 'init': {
-    save({ startedAt: new Date().toISOString() });
-    process.stdout.write('Session initialised.\n');
-    break;
+    save({ startedAt: new Date().toISOString() })
+    process.stdout.write('Session initialised.\n')
+    break
   }
   default: {
-    process.stderr.write('Usage: node session.js get|set|unset|delete|init [key] [value]\n');
-    process.exit(1);
+    process.stderr.write('Usage: node session.js get|set|unset|delete|init [key] [value]\n')
+    process.exit(1)
   }
 }
-

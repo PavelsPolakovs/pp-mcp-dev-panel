@@ -47,4 +47,3 @@ After setup, `.claude/commands/` must NOT appear in `git status`:
 git status --short | grep '.claude/commands'
 # expected: no output
 ```
-

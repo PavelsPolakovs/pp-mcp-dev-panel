@@ -31,22 +31,22 @@ Fixes auto-fixable issues (e.g. snapshot updates), hands off failing tests to th
 
 1. Discover all `www/` projects dynamically:
    a. Run:
-      ```bash
-      npx nx show projects --json 2>/dev/null \
-        | node -e "
-            const data = JSON.parse(require('fs').readFileSync('/dev/stdin','utf8'));
-            const list = data.filter(name => {
-              try {
-                const pj = require(\`./\${name}/project.json\`);
-                return (pj.root || '').startsWith('www/');
-              } catch { return false; }
-            });
-            console.log(list.join(','));
-          "
-      ```
+   ```bash
+   npx nx show projects --json 2>/dev/null \
+     | node -e "
+         const data = JSON.parse(require('fs').readFileSync('/dev/stdin','utf8'));
+         const list = data.filter(name => {
+           try {
+             const pj = require(\`./\${name}/project.json\`);
+             return (pj.root || '').startsWith('www/');
+           } catch { return false; }
+         });
+         console.log(list.join(','));
+       "
+   ```
    b. Store the comma-separated result as `WWW_PROJECTS` for use in all `--projects` flags below.
    c. If the command fails or returns empty, fall back to:
-      `brand-a,brand-b,brand-c,ui,core,brand-a-theme,brand-b-theme,brand-c-theme`
+   `brand-a,brand-b,brand-c,ui,core,brand-a-theme,brand-b-theme,brand-c-theme`
 
 ---
 
@@ -58,30 +58,39 @@ Every time control returns from the **Frontend Developer** agent after a fix, re
 **Before starting the loop:**
 
 a. Compose the message:
-   ```bash
-   MSG="Tests started at \`$(date '+%Y-%m-%d %H:%M:%S')\`."
-   ```
+
+```bash
+MSG="Tests started at \`$(date '+%Y-%m-%d %H:%M:%S')\`."
+```
+
 b. Print the message:
-   > _"`$MSG`"_
-c. Log the message:
-   ```bash
-   node .a-local-workflow/workflow/scripts/logger.js log "$MSG"
-   ```
+
+> _"`$MSG`"_
+> c. Log the message:
+
+```bash
+node .a-local-workflow/workflow/scripts/logger.js log "$MSG"
+```
 
 1. **Run Tests**
    a. Run:
-      ```bash
-      npx nx run-many -t test --projects=$WWW_PROJECTS 2>&1
-      ```
+
+   ```bash
+   npx nx run-many -t test --projects=$WWW_PROJECTS 2>&1
+   ```
+
    b. If all tests pass → continue to step 2.
    c. If any tests fail → inspect the output:
-      - **Snapshot mismatches only** → auto-update snapshots and re-run:
-        ```bash
-        npx nx run-many -t test --projects=$WWW_PROJECTS -- --updateSnapshot 2>&1
-        ```
-        - If re-run passes → continue to step 2.
-        - If re-run still fails → **hand off to Frontend Developer** (see [Hand-off Format](#hand-off-format)) and **restart from step 1** when control returns.
-      - **Any other failures** → **hand off to Frontend Developer** (see [Hand-off Format](#hand-off-format)) and **restart from step 1** when control returns.
+   - **Snapshot mismatches only** → auto-update snapshots and re-run:
+
+     ```bash
+     npx nx run-many -t test --projects=$WWW_PROJECTS -- --updateSnapshot 2>&1
+     ```
+
+     - If re-run passes → continue to step 2.
+     - If re-run still fails → **hand off to Frontend Developer** (see [Hand-off Format](#hand-off-format)) and **restart from step 1** when control returns.
+
+   - **Any other failures** → **hand off to Frontend Developer** (see [Hand-off Format](#hand-off-format)) and **restart from step 1** when control returns.
 
 2. **Confirm No Tests Were Skipped Unintentionally**
    a. Check the test output for lines matching `skipped` or `todo`.
@@ -90,15 +99,19 @@ c. Log the message:
 **After the loop completes (all tests passed):**
 
 a. Compose the message:
-   ```bash
-   MSG="Tests finished at \`$(date '+%Y-%m-%d %H:%M:%S')\` — status: \`passed\`."
-   ```
+
+```bash
+MSG="Tests finished at \`$(date '+%Y-%m-%d %H:%M:%S')\` — status: \`passed\`."
+```
+
 b. Print the message:
-   > _"`$MSG`"_
-c. Log the message:
-   ```bash
-   node .a-local-workflow/workflow/scripts/logger.js log "$MSG"
-   ```
+
+> _"`$MSG`"_
+> c. Log the message:
+
+```bash
+node .a-local-workflow/workflow/scripts/logger.js log "$MSG"
+```
 
 ## Hand-off Format
 
@@ -136,8 +149,9 @@ Include a note of any intentionally skipped/todo tests found in Step 2.
 ## Clean up and return control
 
 a. Unset the `action` key from the session:
-   ```bash
-   node .a-local-workflow/workflow/scripts/session/session.js unset action
-   ```
+
+```bash
+node .a-local-workflow/workflow/scripts/session/session.js unset action
+```
 
 b. Load `.a-local-workflow/workflow/menu/task-lifecycle.md` and transfer control to the **Task Lifecycle Orchestrator**.

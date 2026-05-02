@@ -36,7 +36,9 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
             <div className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 whitespace-nowrap">
               {user.name}
             </div>
-            <div className="text-xs text-zinc-500 dark:text-zinc-400 whitespace-nowrap">{user.role}</div>
+            <div className="text-xs text-zinc-500 dark:text-zinc-400 whitespace-nowrap">
+              {user.role}
+            </div>
           </div>
         </div>
       </div>

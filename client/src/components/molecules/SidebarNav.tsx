@@ -2,6 +2,7 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { NAV_CONFIG } from '@config/navigation'
+import { useSessionStore } from '@store/useSessionStore'
 
 export interface SidebarNavProps {
   collapsed: boolean
@@ -9,6 +10,12 @@ export interface SidebarNavProps {
 
 const SidebarNav: React.FC<SidebarNavProps> = ({ collapsed }) => {
   const { t } = useTranslation()
+  const historyCount = useSessionStore((s) => s.history.length)
+
+  const dynamicBadge = (key: string, base: number | undefined): number | undefined => {
+    if (key === 'history') return historyCount > 0 ? historyCount : undefined
+    return base
+  }
 
   return (
     <nav
@@ -45,15 +52,19 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ collapsed }) => {
               >
                 {t(item.labelKey)}
               </span>
-              {item.badge !== undefined && (
-                <span
-                  className={`ml-auto bg-rose-500 text-white text-[10px] font-bold leading-none px-2 py-0.5 rounded-full flex-shrink-0 transition-all duration-200 ${
-                    collapsed ? 'opacity-0 w-0 p-0' : 'opacity-100 w-auto'
-                  }`}
-                >
-                  {item.badge}
-                </span>
-              )}
+              {(() => {
+                const badge = dynamicBadge(item.key, item.badge)
+                if (badge === undefined) return null
+                return (
+                  <span
+                    className={`ml-auto bg-rose-500 text-white text-[10px] font-bold leading-none px-2 py-0.5 rounded-full flex-shrink-0 transition-all duration-200 ${
+                      collapsed ? 'opacity-0 w-0 p-0' : 'opacity-100 w-auto'
+                    }`}
+                  >
+                    {badge}
+                  </span>
+                )
+              })()}
             </NavLink>
           ))}
         </div>

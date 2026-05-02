@@ -13,6 +13,8 @@
       "@organisms": ["components/organisms"],
       "@organisms/*": ["components/organisms/*"],
       "@store/*": ["store/*"],
+      "@ws": ["ws"],
+      "@ws/*": ["ws/*"],
       "@css/*": ["css/*"],
       "@config": ["config"],
       "@config/*": ["config/*"],

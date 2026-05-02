@@ -28,6 +28,7 @@
     "@typescript-eslint/parser": "^8.59.1",
     "@vitejs/plugin-react": "^6.0.1",
     "autoprefixer": "^10.4.20",
+    "concurrently": "^9.2.1",
     "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.4",
@@ -43,12 +44,9 @@
     "vite": "^8.0.10"
   },
   "scripts": {
-    "client:dev": "vite client --port 5173",
-    "client:build": "vite build client",
-    "client:preview": "vite preview client",
-    "server:dev": "node --watch server/index.ts",
-    "server:start": "node server/index.ts",
-    "start": "npm run server:start & npm run client:preview",
+    "dev": "vite build client && concurrently --kill-others-on-fail --names client,server -c blue,green \"vite build client --watch\" \"node --watch server/index.ts\"",
+    "build": "vite build client",
+    "start": "npm run build && NODE_ENV=production node server/index.ts",
     "lint": "eslint .",
     "typecheck": "tsc -p client/tsconfig.json --noEmit && tsc -p server/tsconfig.json --noEmit",
     "format": "prettier --write .",

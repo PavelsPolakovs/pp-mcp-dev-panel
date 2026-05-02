@@ -1,11 +1,11 @@
 import { ClipboardList } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 
-export interface TaskCardProps {
+export interface TaskPlanCardProps {
   onClick: () => void
 }
 
-export default function TaskCard({ onClick }: TaskCardProps) {
+export default function TaskPlanCard({ onClick }: TaskPlanCardProps) {
   const { t } = useTranslation()
 
   return (

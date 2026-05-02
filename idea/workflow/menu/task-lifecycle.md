@@ -30,65 +30,84 @@ It routes the user to the correct specialist or utility for the current phase of
 
 1. **Create issue**
    a. Print the following message in the chat and wait for the user to reply:
-      > _"Please provide the path to the plan file:"_
-   b. Treat the user's next message as the plan file path. If the value is empty or blank, re-prompt once with the same message before proceeding.
-   c. Once a non-empty path is received, save it to the session:
-      ```bash
-      node .a-local-workflow/workflow/scripts/session/session.js set planFile "<received-path>"
-      ```
+
+   > _"Please provide the path to the plan file:"_
+   > b. Treat the user's next message as the plan file path. If the value is empty or blank, re-prompt once with the same message before proceeding.
+   > c. Once a non-empty path is received, save it to the session:
+
+   ```bash
+   node .a-local-workflow/workflow/scripts/session/session.js set planFile "<received-path>"
+   ```
+
    d. Set the session action to `create-issue`:
-      ```bash
-      node .a-local-workflow/workflow/scripts/session/session.js set action "create-issue"
-      ```
+
+   ```bash
+   node .a-local-workflow/workflow/scripts/session/session.js set action "create-issue"
+   ```
+
    e. → **[Handoff to GitLab Orchestrator]**
 
 2. **Create branch**
    a. Set the session action to `create-branch`:
-      ```bash
-      node .a-local-workflow/workflow/scripts/session/session.js set action "create-branch"
-      ```
+
+   ```bash
+   node .a-local-workflow/workflow/scripts/session/session.js set action "create-branch"
+   ```
+
    b. → **[Handoff to GitLab Orchestrator]**
 
 3. **Complete task**
    a. Set the session action to `develop`:
-      ```bash
-      node .a-local-workflow/workflow/scripts/session/session.js set action "develop"
-      ```
+
+   ```bash
+   node .a-local-workflow/workflow/scripts/session/session.js set action "develop"
+   ```
+
    b. Load `.a-local-workflow/workflow/agents/frontend/index.md` and transfer control to the **Frontend Agent**.
 
 4. **Quality checks**
    a. Set the session action to `quality-check`:
-      ```bash
-      node .a-local-workflow/workflow/scripts/session/session.js set action "quality-check"
-      ```
+
+   ```bash
+   node .a-local-workflow/workflow/scripts/session/session.js set action "quality-check"
+   ```
+
    b. Load `.a-local-workflow/workflow/agents/frontend/index.md` and transfer control to the **Frontend Agent**.
 
 5. **Run tests**
    a. Set the session action to `test`:
-      ```bash
-      node .a-local-workflow/workflow/scripts/session/session.js set action "test"
-      ```
+
+   ```bash
+   node .a-local-workflow/workflow/scripts/session/session.js set action "test"
+   ```
+
    b. Load `.a-local-workflow/workflow/agents/frontend/index.md` and transfer control to the **Frontend Agent**.
 
 6. **Commit and push**
    a. Set the session action to `commit-and-push`:
-      ```bash
-      node .a-local-workflow/workflow/scripts/session/session.js set action "commit-and-push"
-      ```
+
+   ```bash
+   node .a-local-workflow/workflow/scripts/session/session.js set action "commit-and-push"
+   ```
+
    b. → **[Handoff to GitLab Orchestrator]**
 
 7. **Merge branch**
    a. Set the session action to `merge-branch`:
-      ```bash
-      node .a-local-workflow/workflow/scripts/session/session.js set action "merge-branch"
-      ```
+
+   ```bash
+   node .a-local-workflow/workflow/scripts/session/session.js set action "merge-branch"
+   ```
+
    b. → **[Handoff to GitLab Orchestrator]**
 
 8. **Close issue**
    a. Set the session action to `close-issue`:
-      ```bash
-      node .a-local-workflow/workflow/scripts/session/session.js set action "close-issue"
-      ```
+
+   ```bash
+   node .a-local-workflow/workflow/scripts/session/session.js set action "close-issue"
+   ```
+
    b. → **[Handoff to GitLab Orchestrator]**
 
 9. **Metrics**
