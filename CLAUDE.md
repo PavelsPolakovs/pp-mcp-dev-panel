@@ -70,5 +70,11 @@ Always add both the folder and wildcard alias when adding a new alias to `vite.c
 
 ## Git workflow
 
-See `.claude/skills/git.md` for the full GitHub/GitLab operation reference.
+See `.claude/skills/git/SKILL.md` for the full GitHub/GitLab operation reference.
 Use `Closes #N` in commit messages to auto-close issues when the PR merges to main.
+
+## .claude/ folder
+
+The `.claude/` folder stores metadata for claude.ai Projects — it is NOT instructions for Claude Code.
+
+- `.claude/project-instructions.md` — context snapshot for pasting into claude.ai Project Instructions. Claude Code ignores this file and always works directly with the real source files.

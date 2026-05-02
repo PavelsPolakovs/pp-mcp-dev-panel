@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FlaskConical, Hammer, ScanSearch, Wifi, WifiOff, FolderOpen, LayoutDashboard } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { CommandButton } from '@molecules'
-import { Terminal } from '@organisms'
+import { CommandButton, TaskCard } from '@molecules'
+import { Terminal, TaskPlanPanel } from '@organisms'
 import { useStore } from '@store/useStore'
 
 const TOOLS = [
@@ -34,6 +34,7 @@ export default function DashboardPage() {
   const wsConnected = useStore((s) => s.wsConnected)
   const projectDir = useStore((s) => s.projectDir)
   const setProjectDir = useStore((s) => s.setProjectDir)
+  const [showTaskPanel, setShowTaskPanel] = useState(false)
 
   return (
     <div className="flex flex-col gap-6">
@@ -87,6 +88,7 @@ export default function DashboardPage() {
           {TOOLS.map((tool) => (
             <CommandButton key={tool.tool} {...tool} />
           ))}
+          <TaskCard onClick={() => setShowTaskPanel(true)} />
         </div>
       </div>
 
@@ -104,6 +106,8 @@ export default function DashboardPage() {
         <code className="text-zinc-500 dark:text-zinc-600">build-project</code> ·{' '}
         <code className="text-zinc-500 dark:text-zinc-600">lint-project</code>
       </p>
+
+      {showTaskPanel && <TaskPlanPanel onClose={() => setShowTaskPanel(false)} />}
     </div>
   )
 }
