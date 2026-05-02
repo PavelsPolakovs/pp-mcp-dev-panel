@@ -70,6 +70,17 @@ const en = {
     comingSoon: 'Coming soon',
     comingSoonSubtitle: 'This section is under construction.',
   },
+  taskPlan: {
+    cardTitle: 'Test Task',
+    cardDescription: 'Browse and preview a task plan file',
+    panelTitle: 'Task plan',
+    panelDescription: 'Pick a task plan file to preview its contents.',
+    browseHint: 'Add a .md or .json file to inspect its contents below.',
+    browseButton: 'Browse file',
+    confirmButton: 'Confirm',
+    closeButton: 'Close',
+    noFileSelected: 'No file selected yet.',
+  },
 }
 
 export default en
