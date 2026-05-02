@@ -10,6 +10,7 @@ export interface LogEntry {
 }
 
 export interface User {
+  id: string
   name: string
   initials: string
   role: string
@@ -41,12 +42,21 @@ function getInitialTheme(): Theme {
   return 'light'
 }
 
+function getInitialUserId(): string {
+  if (typeof window === 'undefined') return ''
+  const stored = localStorage.getItem('userId')
+  if (stored) return stored
+  const id = crypto.randomUUID()
+  localStorage.setItem('userId', id)
+  return id
+}
+
 export const useStore = create<StoreState>((set) => ({
   logs: [],
   activeTask: null,
   wsConnected: false,
   projectDir: '',
-  user: { name: 'Pavels P.', initials: 'PP', role: 'Admin' },
+  user: { id: getInitialUserId(), name: 'Pavels P.', initials: 'PP', role: 'Admin' },
 
   theme: getInitialTheme(),
   setTheme: (theme: Theme) => {
@@ -81,5 +91,5 @@ export const useStore = create<StoreState>((set) => ({
 
   setProjectDir: (dir: string) => set({ projectDir: dir }),
 
-  setUser: (user: Partial<User>) => set((state) => ({ user: { ...state.user, ...user } })),
+  setUser: (user: Partial<User>) => set((state) => ({ user: { ...state.user, ...user } }))
 }))

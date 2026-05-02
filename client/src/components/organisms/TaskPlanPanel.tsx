@@ -1,6 +1,8 @@
 import { useRef, useState } from 'react'
 import { Upload, X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { useSessionStore } from '@store/useSessionStore'
+import { sendWs } from '@ws/socket'
 
 export interface TaskPlanPanelProps {
   onClose: () => void
@@ -29,6 +31,15 @@ export default function TaskPlanPanel({ onClose }: TaskPlanPanelProps) {
 
   const onConfirm = () => {
     if (!fileName) return
+    const session = useSessionStore.getState()
+    session.setPlan(content, fileName)
+    let { sessionId, userId, status } = session
+    if (status !== 'active' || !sessionId) {
+      const started = session.startSession()
+      sessionId = started.sessionId
+      userId = started.userId
+    }
+    sendWs({ type: 'plan_added', sessionId, userId, fileName })
     onClose()
   }
 
@@ -55,9 +66,7 @@ export default function TaskPlanPanel({ onClose }: TaskPlanPanelProps) {
         </div>
 
         <div className="flex flex-col gap-3 px-5 py-4 overflow-hidden">
-          <p className="text-xs text-zinc-500 dark:text-zinc-400">
-            {t('taskPlan.browseHint')}
-          </p>
+          <p className="text-xs text-zinc-500 dark:text-zinc-400">{t('taskPlan.browseHint')}</p>
 
           <div className="flex items-center gap-3">
             <button

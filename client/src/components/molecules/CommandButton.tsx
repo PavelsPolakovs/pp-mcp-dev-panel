@@ -1,5 +1,6 @@
 import { Loader2 } from 'lucide-react'
 import { useStore } from '@store/useStore'
+import { useSessionStore } from '@store/useSessionStore'
 import React from 'react'
 
 export interface CommandButtonProps {
@@ -27,10 +28,15 @@ export default function CommandButton({
     useStore.getState().setActiveTask(tool)
     useStore.getState().clearLogs()
     try {
+      const sessionId = useSessionStore.getState().sessionId
       await fetch('/api/run-tool', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tool, projectDir: projectDir || undefined })
+        body: JSON.stringify({
+          tool,
+          projectDir: projectDir || undefined,
+          sessionId: sessionId || undefined
+        })
       })
     } catch (err: unknown) {
       let message = 'Unknown error'

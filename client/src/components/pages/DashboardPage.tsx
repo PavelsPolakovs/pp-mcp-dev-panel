@@ -1,9 +1,19 @@
 import React, { useState } from 'react'
-import { FlaskConical, Hammer, ScanSearch, Wifi, WifiOff, FolderOpen, LayoutDashboard } from 'lucide-react'
+import {
+  FlaskConical,
+  Hammer,
+  ScanSearch,
+  Wifi,
+  WifiOff,
+  FolderOpen,
+  LayoutDashboard,
+  RotateCcw
+} from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { CommandButton, TaskCard } from '@molecules'
+import { CommandButton, TaskPlanCard } from '@molecules'
 import { Terminal, TaskPlanPanel } from '@organisms'
 import { useStore } from '@store/useStore'
+import { useSessionStore } from '@store/useSessionStore'
 
 const TOOLS = [
   {
@@ -11,22 +21,22 @@ const TOOLS = [
     label: 'Run Tests',
     description: 'npm test --watchAll=false',
     icon: FlaskConical,
-    colorClass: 'text-green-500',
+    colorClass: 'text-green-500'
   },
   {
     tool: 'build',
     label: 'Build Project',
     description: 'npm run build',
     icon: Hammer,
-    colorClass: 'text-blue-500',
+    colorClass: 'text-blue-500'
   },
   {
     tool: 'lint',
     label: 'Lint Code',
     description: 'eslint . --ext .js,.jsx,.ts,.tsx',
     icon: ScanSearch,
-    colorClass: 'text-yellow-500',
-  },
+    colorClass: 'text-yellow-500'
+  }
 ]
 
 export default function DashboardPage() {
@@ -34,6 +44,8 @@ export default function DashboardPage() {
   const wsConnected = useStore((s) => s.wsConnected)
   const projectDir = useStore((s) => s.projectDir)
   const setProjectDir = useStore((s) => s.setProjectDir)
+  const planFileName = useSessionStore((s) => s.planFileName)
+  const resetPlan = useSessionStore((s) => s.resetPlan)
   const [showTaskPanel, setShowTaskPanel] = useState(false)
 
   return (
@@ -49,6 +61,15 @@ export default function DashboardPage() {
           <p className="text-xs text-zinc-500 dark:text-zinc-400">{t('dashboard.subtitle')}</p>
         </div>
         <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={resetPlan}
+            className="flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full border mt-0.5 border-zinc-300 bg-zinc-100 text-zinc-600 hover:bg-zinc-200 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
+            title={planFileName ? `${t('dashboard.reset')}: ${planFileName}` : t('dashboard.reset')}
+          >
+            <RotateCcw size={11} />
+            {t('dashboard.reset')}
+          </button>
           <div
             className={`flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full border mt-0.5 ${
               wsConnected
@@ -88,7 +109,7 @@ export default function DashboardPage() {
           {TOOLS.map((tool) => (
             <CommandButton key={tool.tool} {...tool} />
           ))}
-          <TaskCard onClick={() => setShowTaskPanel(true)} />
+          <TaskPlanCard onClick={() => setShowTaskPanel(true)} />
         </div>
       </div>
 
