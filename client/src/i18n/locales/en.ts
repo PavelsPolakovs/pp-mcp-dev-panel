@@ -33,14 +33,7 @@ const en = {
   dashboard: {
     title: 'Dashboard',
     subtitle: 'Run project commands from Claude or the browser',
-    commands: 'Commands',
-    output: 'Output',
-    projectDir: 'Project directory (optional override)',
-    projectDirPlaceholder: '/absolute/path/to/your/project',
-    statusLive: 'Live',
-    statusOffline: 'Offline',
-    mcpTools: 'MCP tools',
-    reset: 'Reset'
+    output: 'Output'
   },
   history: {
     title: 'Session History',

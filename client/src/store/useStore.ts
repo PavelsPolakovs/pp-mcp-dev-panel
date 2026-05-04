@@ -79,22 +79,20 @@ export interface User {
 export interface StoreState {
   /**
    * Append-only buffer of WebSocket frames rendered by the Terminal organism.
-   * Cleared on each new tool run by `CommandButton` so the Terminal shows
-   * output for the current invocation only. Order matches arrival.
+   * Cleared via `clearLogs` so the Terminal shows output for the current
+   * invocation only. Order matches arrival.
    */
   logs: LogEntry[]
 
   /**
-   * Identifier of the tool currently executing on the server (e.g. `'lint'`),
-   * or `null` when nothing is running. Acts as a single-flight guard for the
-   * Dashboard `CommandButton`s — disables every other button while one is
-   * active. Cleared by the WS `task_end` handler in `useWebSocketConnection`.
+   * Identifier of the tool currently executing on the server, or `null` when
+   * nothing is running. Cleared by the WS `task_end` handler in
+   * `useWebSocketConnection`.
    */
   activeTask: string | null
 
   /**
-   * Whether the browser→server WebSocket is currently OPEN. Drives the
-   * Live/Offline pill in the dashboard header. Toggled inside
+   * Whether the browser→server WebSocket is currently OPEN. Toggled inside
    * `useWebSocketConnection` from `onopen` / `onclose` / `onerror`.
    */
   wsConnected: boolean
@@ -137,13 +135,12 @@ export interface StoreState {
   /** Push a single WS frame onto `logs`. Called by `useWebSocketConnection.onmessage`. */
   addLog: (entry: LogEntry) => void
 
-  /** Empty `logs`. Called by `CommandButton` before each tool run. */
+  /** Empty `logs`. Wired to the Terminal Clear button. */
   clearLogs: () => void
 
   /**
    * Mark a tool as currently running, or release the guard with `null`.
-   * `null` is set by the WS `task_end` handler and by `CommandButton`'s
-   * `finally` block on REST failure.
+   * `null` is set by the WS `task_end` handler in `useWebSocketConnection`.
    */
   setActiveTask: (tool: string | null) => void
 
