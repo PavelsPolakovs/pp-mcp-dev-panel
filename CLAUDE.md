@@ -45,6 +45,20 @@ WebSocket from a single origin in all modes.
 
 No test runner is configured (`make test` exits non-zero).
 
+### Rule: use `make` for everything project-related
+
+When running any project task (build, run, lint, typecheck, format, install, clean, etc.) Claude Code MUST use the corresponding `make` target instead of invoking the underlying tool directly (`npm`, `npx`, `tsc`, `eslint`, `vite`, `prettier`, `node …`). The Makefile is the single source of truth — bypassing it risks running the wrong command, missing flags, or skipping steps that the target wraps.
+
+If the task you need to run does not have a matching `make` target:
+
+1. Do **not** silently fall back to `npm`/`npx`/raw tool invocations.
+2. Stop and tell the user: `"There is no 'make <target>' for this. How would you like to proceed?"`
+3. Offer concrete options, for example:
+   - Add a new target to the `Makefile` (preferred when the command is reusable).
+   - Run the underlying command once, ad-hoc, with the user's explicit approval.
+   - Adjust the request so an existing target covers it.
+4. Only proceed once the user picks an option.
+
 ## Architecture
 
 The project is a developer panel for the Model Context Protocol (MCP). It is a monorepo with a single root `package.json` and two separate TypeScript projects sharing `tsconfig.base.json`.
