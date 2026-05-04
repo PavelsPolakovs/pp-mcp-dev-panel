@@ -79,9 +79,15 @@ const en = {
     createBranch: {
       title: 'Create Branch',
       description: 'Create a new git branch in the project directory',
-      comingSoon: 'Coming soon',
+      modalTitle: 'Create branch',
+      modalDescription: 'Enter a name for the new git branch.',
+      inputLabel: 'Branch name',
+      inputPlaceholder: 'feat/my-new-branch',
+      drawerTitle: 'Branch',
+      empty: 'No branch created yet.',
       cta: {
-        create: 'Create Branch'
+        create: 'Create Branch',
+        show: 'Show Branch'
       }
     }
   },

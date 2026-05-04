@@ -58,7 +58,13 @@ export const WORKFLOW_CONFIG: WorkflowStepConfig[] = [
     ctaConfig: {
       idle: {
         labelKey: 'workflows.createBranch.cta.create',
-        actionType: 'none'
+        actionType: 'modal',
+        targetId: 'create-branch'
+      },
+      done: {
+        labelKey: 'workflows.createBranch.cta.show',
+        actionType: 'drawer',
+        targetId: 'create-branch'
       }
     }
   }

@@ -148,8 +148,51 @@ function AddPlanModal() {
   )
 }
 
+function CreateBranchModal() {
+  const { t } = useTranslation()
+  const branchName = useStore((s) => s.branchName)
+  const setBranchName = useStore((s) => s.setBranchName)
+  const setStepStatus = useStore((s) => s.setStepStatus)
+  const closeModal = useStore((s) => s.closeModal)
+  const [draft, setDraft] = useState(branchName)
+
+  const trimmed = draft.trim()
+
+  return (
+    <ModalChrome
+      titleKey="workflows.createBranch.modalTitle"
+      descriptionKey="workflows.createBranch.modalDescription"
+      canConfirm={trimmed.length > 0}
+      body={
+        <div className="flex flex-col gap-2">
+          <label htmlFor="create-branch-input" className="text-xs font-medium text-text">
+            {t('workflows.createBranch.inputLabel')}
+          </label>
+          <input
+            id="create-branch-input"
+            type="text"
+            value={draft}
+            onChange={(e) => setDraft(e.target.value)}
+            placeholder={t('workflows.createBranch.inputPlaceholder')}
+            className="w-full rounded-lg border border-border bg-surface-offset px-3 py-2 text-xs font-mono leading-6 text-text focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+        </div>
+      }
+      onConfirm={() => {
+        setBranchName(trimmed)
+        setStepStatus('create-branch', 'done')
+        closeModal()
+      }}
+      onCancel={() => {
+        closeModal()
+      }}
+    />
+  )
+}
+
 function ModalBody({ id }: { id: string }) {
   if (id === 'add-plan') return <AddPlanModal />
+  if (id === 'create-branch') return <CreateBranchModal />
   return null
 }
 
