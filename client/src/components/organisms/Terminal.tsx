@@ -11,11 +11,14 @@ export default function Terminal() {
   }, [logs])
 
   const getClass = (log: LogEntry) => {
-    if (log.type === 'task_start') return 'text-cyan-400 font-medium'
-    if (log.type === 'task_end' && log.status === 'success') return 'text-green-400 font-semibold'
-    if (log.type === 'task_end' && log.status === 'error') return 'text-red-400 font-semibold'
-    if (log.type === 'task_end' && log.status === 'warning') return 'text-yellow-400 font-semibold'
-    return 'text-zinc-300'
+    if (log.type === 'task_start') return 'text-cyan-700 dark:text-cyan-400 font-medium'
+    if (log.type === 'task_end' && log.status === 'success')
+      return 'text-emerald-700 dark:text-emerald-400 font-semibold'
+    if (log.type === 'task_end' && log.status === 'error')
+      return 'text-rose-700 dark:text-rose-400 font-semibold'
+    if (log.type === 'task_end' && log.status === 'warning')
+      return 'text-amber-700 dark:text-amber-400 font-semibold'
+    return 'text-zinc-700 dark:text-zinc-300'
   }
 
   return (

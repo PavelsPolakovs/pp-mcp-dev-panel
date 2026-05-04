@@ -7,18 +7,19 @@ export default function ThemeToggle() {
   const theme = useStore((s: { theme: Theme }) => s.theme)
   const toggleTheme = useStore((s: { toggleTheme: () => void }) => s.toggleTheme)
 
+  const isDark = theme === 'dark'
+
   return (
     <button
       aria-label="Toggle theme"
-      className="rounded-full p-2 border border-zinc-700 bg-zinc-900 hover:bg-zinc-800 transition-colors"
       onClick={toggleTheme}
-      title={theme === 'dark' ? t('theme.switchToLight') : t('theme.switchToDark')}
-      style={{ lineHeight: 0 }}
+      title={isDark ? t('theme.switchToLight') : t('theme.switchToDark')}
+      className="inline-flex items-center justify-center rounded-full p-2 leading-none border border-zinc-300 bg-white text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-100 transition-colors"
     >
-      {theme === 'dark' ? (
-        <Sun size={16} className="text-yellow-400" />
+      {isDark ? (
+        <Sun size={16} className="text-amber-500 dark:text-amber-400" />
       ) : (
-        <Moon size={16} className="text-slate-400" />
+        <Moon size={16} className="text-indigo-500 dark:text-indigo-400" />
       )}
     </button>
   )

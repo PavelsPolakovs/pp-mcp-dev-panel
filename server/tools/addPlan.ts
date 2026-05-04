@@ -39,7 +39,7 @@ export async function runAddPlan(entry: HistoryEntry): Promise<void> {
     return
   }
 
-  if (!/\.(md|json)$/i.test(fileName)) {
+  if (!/\.md$/i.test(fileName)) {
     send({
       type: 'task_end',
       tool: TOOL_NAME,

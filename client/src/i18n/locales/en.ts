@@ -41,22 +41,48 @@ const en = {
   workflows: {
     title: 'Workflows',
     subtitle: 'Run a workflow — every action is logged on the server',
-    addPlan: {
-      title: 'Add Plan',
-      description: 'Upload a markdown or JSON plan file',
-      modalTitle: 'Add plan file',
-      modalDescription: 'Pick a plan file to send to the server.',
-      browseHint: 'Add a .md or .json file to inspect its contents below.',
-      browseButton: 'Browse file',
-      noFileSelected: 'No file selected yet.',
+    badge: {
+      idle: 'Idle',
+      running: 'Running',
+      done: 'Done',
+      locked: 'Locked',
+      error: 'Error'
+    },
+    locked: {
+      tooltip: 'Complete step {{step}} first'
+    },
+    modal: {
       confirm: 'Confirm',
       cancel: 'Cancel',
       close: 'Close'
     },
+    drawer: {
+      close: 'Close'
+    },
+    addPlan: {
+      title: 'Add Plan',
+      description: 'Browse a markdown plan file or paste it as text',
+      modalTitle: 'Add plan',
+      modalDescription: 'Browse a markdown (.md) file, or paste the plan as text.',
+      inputLabel: 'Plan',
+      inputPlaceholder: 'Outline the plan…',
+      browseButton: 'Browse file',
+      browseHint: 'Pick a markdown (.md) file to load its contents into the editor below.',
+      noFileSelected: 'No file selected.',
+      drawerTitle: 'Plan',
+      empty: 'No plan content saved yet.',
+      cta: {
+        add: 'Add Plan',
+        show: 'Show Plan'
+      }
+    },
     createBranch: {
       title: 'Create Branch',
       description: 'Create a new git branch in the project directory',
-      comingSoon: 'Coming soon'
+      comingSoon: 'Coming soon',
+      cta: {
+        create: 'Create Branch'
+      }
     }
   },
   settings: {

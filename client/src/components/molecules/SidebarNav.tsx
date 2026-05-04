@@ -19,7 +19,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ collapsed }) => {
       {NAV_CONFIG.map((section) => (
         <div className="mb-4" key={section.key}>
           <div
-            className={`text-[10px] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-600 px-4 py-2 whitespace-nowrap overflow-hidden transition-all duration-200 ${
+            className={`text-[10px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-500 px-4 py-2 whitespace-nowrap overflow-hidden transition-all duration-200 ${
               collapsed ? 'opacity-0 w-0' : 'opacity-100 w-auto'
             }`}
           >

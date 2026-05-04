@@ -1,4 +1,6 @@
 import { create } from 'zustand'
+import type { StepStatus } from '@config/workflow'
+import { WORKFLOW_CONFIG } from '@config/workflow'
 
 export type Theme = 'light' | 'dark'
 
@@ -109,6 +111,22 @@ export interface StoreState {
    */
   user: User
 
+  /**
+   * Per-step status for every entry in `WORKFLOW_CONFIG`. Initialised with
+   * every configured step set to `idle`; the WorkflowCard derives `locked`
+   * from `dependsOn` rather than storing it here.
+   */
+  workflowSteps: Record<string, StepStatus>
+
+  /** Free-text plan saved by the "Add Plan" modal; rendered by the Drawer. */
+  planContent: string
+
+  /** Step id of the currently-open Drawer, or `null` when closed. */
+  activeDrawer: string | null
+
+  /** Step id of the currently-open Modal, or `null` when closed. */
+  activeModal: string | null
+
   /** Switch theme to a specific value. Persists and updates the DOM class. */
   setTheme: (theme: Theme) => void
 
@@ -139,6 +157,31 @@ export interface StoreState {
    * `theme` are persisted).
    */
   setUser: (user: Partial<User>) => void
+
+  /** Update one workflow step's status. */
+  setStepStatus: (id: string, status: StepStatus) => void
+
+  /** Replace the saved plan content shown in the Drawer. */
+  setPlanContent: (content: string) => void
+
+  /** Open the Drawer for a given step id. */
+  openDrawer: (id: string) => void
+
+  /** Close the Drawer. */
+  closeDrawer: () => void
+
+  /** Open the Modal for a given step id. */
+  openModal: (id: string) => void
+
+  /** Close the Modal. */
+  closeModal: () => void
+}
+
+function initialWorkflowSteps(): Record<string, StepStatus> {
+  return WORKFLOW_CONFIG.reduce<Record<string, StepStatus>>((acc, step) => {
+    acc[step.id] = 'idle'
+    return acc
+  }, {})
 }
 
 function getInitialTheme(): Theme {
@@ -148,6 +191,16 @@ function getInitialTheme(): Theme {
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) return 'dark'
   }
   return 'light'
+}
+
+function applyThemeClass(theme: Theme): void {
+  if (typeof document === 'undefined') return
+  if (theme === 'dark') document.documentElement.classList.add('dark')
+  else document.documentElement.classList.remove('dark')
+}
+
+if (typeof window !== 'undefined') {
+  applyThemeClass(getInitialTheme())
 }
 
 function getInitialUserId(): string {
@@ -165,25 +218,21 @@ export const useStore = create<StoreState>((set) => ({
   wsConnected: false,
   projectDir: '',
   user: { id: getInitialUserId(), name: 'Pavels P.', initials: 'PP', role: 'Admin' },
+  workflowSteps: initialWorkflowSteps(),
+  planContent: '',
+  activeDrawer: null,
+  activeModal: null,
 
   theme: getInitialTheme(),
   setTheme: (theme: Theme) => {
     set({ theme })
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
+    applyThemeClass(theme)
     localStorage.setItem('theme', theme)
   },
   toggleTheme: () => {
     set((state) => {
       const newTheme: Theme = state.theme === 'dark' ? 'light' : 'dark'
-      if (newTheme === 'dark') {
-        document.documentElement.classList.add('dark')
-      } else {
-        document.documentElement.classList.remove('dark')
-      }
+      applyThemeClass(newTheme)
       localStorage.setItem('theme', newTheme)
       return { theme: newTheme }
     })
@@ -199,5 +248,15 @@ export const useStore = create<StoreState>((set) => ({
 
   setProjectDir: (dir: string) => set({ projectDir: dir }),
 
-  setUser: (user: Partial<User>) => set((state) => ({ user: { ...state.user, ...user } }))
+  setUser: (user: Partial<User>) => set((state) => ({ user: { ...state.user, ...user } })),
+
+  setStepStatus: (id: string, status: StepStatus) =>
+    set((state) => ({ workflowSteps: { ...state.workflowSteps, [id]: status } })),
+
+  setPlanContent: (content: string) => set({ planContent: content }),
+
+  openDrawer: (id: string) => set({ activeDrawer: id }),
+  closeDrawer: () => set({ activeDrawer: null }),
+  openModal: (id: string) => set({ activeModal: id }),
+  closeModal: () => set({ activeModal: null })
 }))

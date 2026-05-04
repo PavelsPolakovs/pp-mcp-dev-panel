@@ -1,0 +1,78 @@
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { X } from 'lucide-react'
+import { PlanContent } from '@atoms'
+import { useStore } from '@store/useStore'
+
+function PlanDrawerBody() {
+  const { t } = useTranslation()
+  const planContent = useStore((s) => s.planContent)
+  return (
+    <div className="flex flex-col gap-3 px-5 py-4 overflow-y-auto">
+      {planContent.trim().length === 0 ? (
+        <p className="text-xs text-zinc-500 dark:text-zinc-400">{t('workflows.addPlan.empty')}</p>
+      ) : (
+        <PlanContent content={planContent} />
+      )}
+    </div>
+  )
+}
+
+function DrawerBody({ id }: { id: string }) {
+  if (id === 'add-plan') return <PlanDrawerBody />
+  return null
+}
+
+function DrawerTitleKey(id: string): string {
+  if (id === 'add-plan') return 'workflows.addPlan.drawerTitle'
+  return ''
+}
+
+export default function Drawer() {
+  const { t } = useTranslation()
+  const activeDrawer = useStore((s) => s.activeDrawer)
+  const closeDrawer = useStore((s) => s.closeDrawer)
+  const [lastId, setLastId] = useState<string | null>(null)
+
+  if (activeDrawer && activeDrawer !== lastId) {
+    setLastId(activeDrawer)
+  }
+
+  const isOpen = !!activeDrawer
+  const titleKey = lastId ? DrawerTitleKey(lastId) : ''
+
+  return (
+    <>
+      <div
+        onClick={closeDrawer}
+        aria-hidden="true"
+        className={`fixed inset-0 z-40 bg-black/40 backdrop-blur-sm transition-opacity duration-300 ease-out ${
+          isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+      />
+      <aside
+        aria-hidden={!isOpen}
+        className={`fixed top-0 right-0 z-50 h-full w-full max-w-md bg-white dark:bg-zinc-950 border-l border-zinc-300 dark:border-zinc-800 shadow-2xl flex flex-col will-change-transform transform transition-transform duration-300 ${
+          isOpen
+            ? 'translate-x-0 ease-out pointer-events-auto'
+            : 'translate-x-full ease-in pointer-events-none'
+        }`}
+      >
+        <div className="flex items-start justify-between gap-4 px-5 py-4 border-b border-zinc-200 dark:border-zinc-800">
+          <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100 tracking-tight">
+            {titleKey ? t(titleKey) : ''}
+          </h2>
+          <button
+            type="button"
+            onClick={closeDrawer}
+            aria-label={t('workflows.drawer.close')}
+            className="text-zinc-400 hover:text-zinc-700 dark:text-zinc-500 dark:hover:text-zinc-200 transition-colors"
+          >
+            <X size={18} />
+          </button>
+        </div>
+        {lastId && <DrawerBody id={lastId} />}
+      </aside>
+    </>
+  )
+}

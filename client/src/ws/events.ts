@@ -1,9 +1,4 @@
-import type {
-  EventRequest,
-  EventResponse,
-  WorkflowAction,
-  Initiator
-} from '@shared/contracts'
+import type { EventRequest, EventResponse, WorkflowAction, Initiator } from '@shared/contracts'
 import { useSessionStore } from '@store/useSessionStore'
 import { useStore } from '@store/useStore'
 

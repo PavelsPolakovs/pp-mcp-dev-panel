@@ -23,7 +23,7 @@ export default function SettingsPage() {
       </div>
 
       <section className="flex flex-col gap-3">
-        <h2 className="text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-600">
+        <h2 className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-500">
           {t('settings.appearance')}
         </h2>
         <div className="bg-white dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 rounded-lg p-4 flex items-center justify-between">
@@ -56,7 +56,7 @@ export default function SettingsPage() {
       </section>
 
       <section className="flex flex-col gap-3">
-        <h2 className="text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-600">
+        <h2 className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-500">
           {t('settings.project')}
         </h2>
         <div className="bg-white dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 rounded-lg p-4 flex flex-col gap-2">
@@ -75,7 +75,7 @@ export default function SettingsPage() {
             placeholder={t('settings.projectDirPlaceholder')}
             className="w-full bg-zinc-100 border border-zinc-300 dark:bg-zinc-900 dark:border-zinc-800 rounded-lg px-3 py-2 text-xs font-mono text-zinc-900 dark:text-zinc-300 placeholder-zinc-400 dark:placeholder-zinc-600 focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition-colors"
           />
-          <p className="text-xs text-zinc-400 dark:text-zinc-600">{t('settings.projectDirHint')}</p>
+          <p className="text-xs text-zinc-500 dark:text-zinc-500">{t('settings.projectDirHint')}</p>
         </div>
       </section>
     </div>
