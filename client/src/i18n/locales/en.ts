@@ -7,6 +7,7 @@ const en = {
     },
     items: {
       dashboard: 'Dashboard',
+      workflows: 'Workflows',
       analytics: 'Analytics',
       reports: 'Reports',
       users: 'Users',
@@ -15,8 +16,7 @@ const en = {
       content: 'Content',
       integrations: 'Integrations',
       settings: 'Settings',
-      logs: 'Logs',
-      history: 'Session History'
+      logs: 'Logs'
     }
   },
   theme: {
@@ -32,21 +32,32 @@ const en = {
   },
   dashboard: {
     title: 'Dashboard',
-    subtitle: 'Run project commands from Claude or the browser',
-    commands: 'Commands',
-    output: 'Output',
-    projectDir: 'Project directory (optional override)',
-    projectDirPlaceholder: '/absolute/path/to/your/project',
-    statusLive: 'Live',
-    statusOffline: 'Offline',
-    mcpTools: 'MCP tools',
-    reset: 'Reset'
+    subtitle: 'Pick a workflow to get started',
+    workflowsCard: {
+      title: 'Workflows',
+      description: 'Open the workflows page to add a plan or create a branch'
+    }
   },
-  history: {
-    title: 'Session History',
-    subtitle: 'Actions taken in the current and previous sessions',
-    empty: 'No actions recorded yet',
-    loading: 'Loading history...'
+  workflows: {
+    title: 'Workflows',
+    subtitle: 'Run a workflow — every action is logged on the server',
+    addPlan: {
+      title: 'Add Plan',
+      description: 'Upload a markdown or JSON plan file',
+      modalTitle: 'Add plan file',
+      modalDescription: 'Pick a plan file to send to the server.',
+      browseHint: 'Add a .md or .json file to inspect its contents below.',
+      browseButton: 'Browse file',
+      noFileSelected: 'No file selected yet.',
+      confirm: 'Confirm',
+      cancel: 'Cancel',
+      close: 'Close'
+    },
+    createBranch: {
+      title: 'Create Branch',
+      description: 'Create a new git branch in the project directory',
+      comingSoon: 'Coming soon'
+    }
   },
   settings: {
     title: 'Settings',
@@ -77,24 +88,6 @@ const en = {
   page: {
     comingSoon: 'Coming soon',
     comingSoonSubtitle: 'This section is under construction.'
-  },
-  taskPlan: {
-    cardTitle: 'Test Task',
-    cardDescription: 'Browse and preview a task plan file',
-    panelTitle: 'Task plan',
-    panelDescription: 'Pick a task plan file to preview its contents.',
-    browseHint: 'Add a .md or .json file to inspect its contents below.',
-    browseButton: 'Browse file',
-    confirmButton: 'Confirm',
-    closeButton: 'Close',
-    noFileSelected: 'No file selected yet.',
-    activePlan: {
-      title: 'Active Plan',
-      loaded: 'Loaded',
-      show: 'Show preview',
-      hide: 'Hide preview',
-      clear: 'Clear plan'
-    }
   },
   session: {
     none: 'no session',

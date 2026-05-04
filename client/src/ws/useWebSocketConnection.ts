@@ -1,7 +1,29 @@
 import { useEffect } from 'react'
+import type { WsMessage } from '@shared/contracts'
 import { useStore } from '@store/useStore'
 import { useSessionStore } from '@store/useSessionStore'
 import { setSocket } from './socket'
+
+const STAGE_STYLES: Record<string, string> = {
+  queued: 'color:#a1a1aa',
+  running: 'color:#eab308;font-weight:bold',
+  done: 'color:#16a34a;font-weight:bold',
+  failed: 'color:#dc2626;font-weight:bold',
+  cancelled: 'color:#71717a'
+}
+
+function logHistory(msg: WsMessage): void {
+  if (msg.type !== 'history_update') return
+  const { entry } = msg
+  const style = STAGE_STYLES[entry.stage] ?? ''
+  console.log(
+    `%c[history] ${entry.stage.padEnd(9)} %c${entry.action} %c${entry.correlationId.slice(0, 8)}`,
+    style,
+    'color:inherit',
+    'color:#71717a',
+    entry
+  )
+}
 
 export function useWebSocketConnection(): void {
   useEffect(() => {
@@ -16,7 +38,6 @@ export function useWebSocketConnection(): void {
       useStore.getState().setWsConnected(true)
       const { sessionId, userId } = useSessionStore.getState().startSession()
       ws.send(JSON.stringify({ type: 'session_init', sessionId, userId }))
-      void useSessionStore.getState().fetchHistory(userId)
     }
 
     ws.onclose = () => {
@@ -33,18 +54,19 @@ export function useWebSocketConnection(): void {
 
     ws.onmessage = (e) => {
       if (aborted) return
+      let msg: WsMessage
       try {
-        const msg = JSON.parse(e.data)
-        if (msg.type === 'connected') return
-        if (msg.type === 'history_update') {
-          useSessionStore.getState().addHistoryRecord(msg.record)
-          return
-        }
-        if (msg.type === 'task_end') useStore.getState().setActiveTask(null)
-        useStore.getState().addLog(msg)
+        msg = JSON.parse(e.data) as WsMessage
       } catch {
-        // ignore non-JSON or malformed frames
+        return
       }
+      if (msg.type === 'connected') return
+      if (msg.type === 'history_update') {
+        logHistory(msg)
+        return
+      }
+      if (msg.type === 'task_end') useStore.getState().setActiveTask(null)
+      useStore.getState().addLog(msg)
     }
 
     return () => {

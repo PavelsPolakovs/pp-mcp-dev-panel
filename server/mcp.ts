@@ -1,9 +1,12 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { z } from 'zod'
+import { randomUUID } from 'crypto'
 import open from 'open'
-import { UI_PORT, PROJECT_DIR } from './config.ts'
+import type { HistoryEntry } from '../shared/contracts.ts'
+import { UI_PORT } from './config.ts'
 import { broadcast } from './ws.ts'
-import { lint } from './tools/lint.ts'
+import { addEntry } from './store/history.ts'
+import { runAddPlan } from './tools/addPlan.ts'
 
 export const server = new McpServer({ name: 'mcp-dev-panel', version: '1.0.0' })
 
@@ -13,18 +16,26 @@ server.tool('open-dashboard', 'Opens the MCP Dev Panel UI in the browser', {}, a
 })
 
 server.tool(
-  'lint-project',
-  'Runs ESLint on the project and streams output to the dashboard',
-  { projectDir: z.string().optional().describe('Absolute path to the project.') } as Record<
-    string,
-    unknown
-  >,
-  async ({
-    projectDir
-  }: {
-    projectDir?: string
-  }): Promise<{ content: { type: 'text'; text: string }[] }> => {
-    const result = await lint(projectDir || PROJECT_DIR, broadcast)
-    return { content: [{ type: 'text', text: String(result) }] }
+  'add-plan',
+  'Stores a plan file (markdown or JSON) on the dev panel server.',
+  {
+    fileName: z.string().describe('Plan file name, must end in .md or .json'),
+    content: z.string().describe('Plan file contents')
+  } as Record<string, unknown>,
+  async (args: { fileName?: unknown; content?: unknown }) => {
+    const fileName = typeof args.fileName === 'string' ? args.fileName : ''
+    const content = typeof args.content === 'string' ? args.content : ''
+    const entry: HistoryEntry = {
+      correlationId: randomUUID(),
+      action: 'plan_confirmed',
+      initiator: { kind: 'agent', sessionId: null, userId: null },
+      stage: 'queued',
+      timestamp: new Date().toISOString(),
+      meta: { fileName, content }
+    }
+    addEntry(entry)
+    broadcast({ type: 'history_update', entry })
+    await runAddPlan(entry)
+    return { content: [{ type: 'text', text: `Plan accepted: ${fileName}` }] }
   }
 )

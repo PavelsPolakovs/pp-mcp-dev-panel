@@ -15,7 +15,8 @@ export default defineConfig({
       '@atoms': resolve(__dirname, 'src/components/atoms'),
       '@molecules': resolve(__dirname, 'src/components/molecules'),
       '@organisms': resolve(__dirname, 'src/components/organisms'),
-      '@pages': resolve(__dirname, 'src/components/pages')
+      '@pages': resolve(__dirname, 'src/components/pages'),
+      '@shared': resolve(__dirname, '../shared')
     }
   },
   build: { outDir: 'dist' }

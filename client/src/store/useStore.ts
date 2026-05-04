@@ -7,29 +7,18 @@ export type Theme = 'light' | 'dark'
  *
  * Receives every WebSocket frame the server pushes that isn't handled
  * specially (i.e. anything other than `connected` / `history_update`).
- * Effectively a flattened, weakly-typed mirror of `ServerWsMessage` from
- * `server/ws.ts`:
+ * Mirrors `task_start` / `output` / `task_end` from `shared/contracts.ts`.
  *
- *   - `task_start` → `{ type, tool, message }`
- *   - `output`     → `{ type, tool, data }`
- *   - `task_end`   → `{ type, tool, status, message }`
- *
- * The shape is intentionally open (`type: string`, all payload fields
- * optional) so that adding a new server-side message type doesn't require a
- * client-side migration before the Terminal can render it. The Terminal
- * organism inspects `type` to decide which fields to read.
- *
- * Order in `state.logs` matches arrival; `clearLogs` empties the buffer at
- * the start of each tool run.
+ * The shape is intentionally open so adding a new server-side message type
+ * doesn't require a client-side migration before the Terminal can render it.
+ * The Terminal organism inspects `type` to decide which fields to read.
  */
 export interface LogEntry {
-  /** Discriminator. Mirrors the `type` of `ServerWsMessage`. */
   type: string
-  /** Final status of a tool run. Only present on `task_end` frames. */
+  tool?: string
+  correlationId?: string
   status?: string
-  /** Human-readable banner. Present on `task_start` / `task_end` / `connected`. */
   message?: string
-  /** Raw stdout/stderr chunk from the running tool. Present on `output` frames. */
   data?: string
 }
 
@@ -37,10 +26,9 @@ export interface LogEntry {
  * Locally-known user profile.
  *
  * There is no auth yet — this is a placeholder that the dashboard renders
- * (avatar/initials/role) and that the server uses to bucket per-user
- * `ActionRecord` history. Once real auth lands, the shape will be replaced
- * with whatever the auth provider returns and `id` will become a server-issued
- * subject claim instead of a client-generated UUID.
+ * (avatar/initials/role) and that the server uses as the `userId` of the
+ * `Initiator` on every workflow event. Once real auth lands, `id` will become
+ * a server-issued subject claim instead of a client-generated UUID.
  */
 export interface User {
   /**
@@ -72,42 +60,35 @@ export interface User {
  *     (`projectDir`)
  *   - Theme + user identity (persisted to `localStorage`)
  *
- * Session-scoped data (the active sessionId, action history, uploaded plan
- * file, etc.) lives in `useSessionStore` and is reset whenever the session
- * ends — keep that data out of here.
+ * Session-scoped data (sessionId, status) lives in `useSessionStore` and is
+ * reset whenever the session ends — keep that data out of here.
  */
 export interface StoreState {
   /**
    * Append-only buffer of WebSocket frames rendered by the Terminal organism.
-   * Cleared on each new tool run by `CommandButton` so the Terminal shows
-   * output for the current invocation only. Order matches arrival.
+   * Cleared via `clearLogs` so the Terminal shows output for the current
+   * invocation only. Order matches arrival.
    */
   logs: LogEntry[]
 
   /**
-   * Identifier of the tool currently executing on the server (e.g. `'lint'`),
-   * or `null` when nothing is running. Acts as a single-flight guard for the
-   * Dashboard `CommandButton`s — disables every other button while one is
-   * active. Cleared by the WS `task_end` handler in `useWebSocketConnection`.
+   * Identifier of the tool currently executing on the server, or `null` when
+   * nothing is running. Cleared by the WS `task_end` handler in
+   * `useWebSocketConnection`.
    */
   activeTask: string | null
 
   /**
-   * Whether the browser→server WebSocket is currently OPEN. Drives the
-   * Live/Offline pill in the dashboard header. Toggled inside
+   * Whether the browser→server WebSocket is currently OPEN. Toggled inside
    * `useWebSocketConnection` from `onopen` / `onclose` / `onerror`.
    */
   wsConnected: boolean
 
   /**
-   * Optional absolute path the user typed into the dashboard input. When
+   * Optional absolute path the user typed into the Settings input. When
    * non-empty, REST tool calls forward it as `projectDir` so the server runs
    * the tool against this directory instead of `PROJECT_DIR` from env.
    * Empty string means "use the server default".
-   *
-   * Watched in `App.tsx` — when this string changes,
-   * `useSessionStore.resetPlan()` fires so a stale Task Plan doesn't leak
-   * into a different project context.
    */
   projectDir: string
 
@@ -122,8 +103,8 @@ export interface StoreState {
   /**
    * Locally-known user profile. `id` is a stable identity token persisted in
    * `localStorage['userId']` (generated once via `crypto.randomUUID()`); it's
-   * sent in `session_init` over the WS so the server can key
-   * `ActionRecord` history per user. `name`/`initials`/`role` are display-only
+   * sent in `session_init` over the WS and used as the `Initiator.userId` on
+   * every workflow event. `name`/`initials`/`role` are display-only
    * placeholders until real auth is wired in.
    */
   user: User
@@ -137,13 +118,12 @@ export interface StoreState {
   /** Push a single WS frame onto `logs`. Called by `useWebSocketConnection.onmessage`. */
   addLog: (entry: LogEntry) => void
 
-  /** Empty `logs`. Called by `CommandButton` before each tool run. */
+  /** Empty `logs`. Wired to the Terminal Clear button. */
   clearLogs: () => void
 
   /**
    * Mark a tool as currently running, or release the guard with `null`.
-   * `null` is set by the WS `task_end` handler and by `CommandButton`'s
-   * `finally` block on REST failure.
+   * `null` is set by the WS `task_end` handler in `useWebSocketConnection`.
    */
   setActiveTask: (tool: string | null) => void
 

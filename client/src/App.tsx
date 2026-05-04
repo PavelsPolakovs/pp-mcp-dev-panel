@@ -1,10 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { TrendingUp, FileText, ShoppingCart, Package, FileEdit, Plug2 } from 'lucide-react'
 
 import { Header, Sidebar } from '@organisms'
-import { useStore, StoreState } from '@store/useStore'
-import { useSessionStore } from '@store/useSessionStore'
 import { useWebSocketConnection } from '@ws/useWebSocketConnection'
 import {
   DashboardPage,
@@ -12,18 +10,13 @@ import {
   LogsPage,
   UsersPage,
   PlaceholderPage,
-  SessionHistoryPage
+  WorkflowsPage
 } from '@pages'
 
 export default function App() {
   const [collapsed, setCollapsed] = useState(false)
-  const projectDir = useStore((s: StoreState) => s.projectDir)
 
   useWebSocketConnection()
-
-  useEffect(() => {
-    useSessionStore.getState().resetPlan()
-  }, [projectDir])
 
   return (
     <BrowserRouter>
@@ -39,6 +32,7 @@ export default function App() {
             <Routes>
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="/workflows" element={<WorkflowsPage />} />
               <Route
                 path="/analytics"
                 element={<PlaceholderPage titleKey="nav.items.analytics" icon={TrendingUp} />}
@@ -66,7 +60,6 @@ export default function App() {
               />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/logs" element={<LogsPage />} />
-              <Route path="/history" element={<SessionHistoryPage />} />
             </Routes>
           </main>
         </div>
