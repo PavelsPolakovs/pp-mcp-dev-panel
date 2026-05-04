@@ -18,13 +18,29 @@ function PlanDrawerBody() {
   )
 }
 
+function BranchDrawerBody() {
+  const { t } = useTranslation()
+  const branchName = useStore((s) => s.branchName)
+  return (
+    <div className="flex flex-col gap-3 px-5 py-4 overflow-y-auto">
+      {branchName.trim().length === 0 ? (
+        <p className="text-xs text-text-muted">{t('workflows.createBranch.empty')}</p>
+      ) : (
+        <p className="text-xs font-mono text-text break-all">{branchName}</p>
+      )}
+    </div>
+  )
+}
+
 function DrawerBody({ id }: { id: string }) {
   if (id === 'add-plan') return <PlanDrawerBody />
+  if (id === 'create-branch') return <BranchDrawerBody />
   return null
 }
 
 function DrawerTitleKey(id: string): string {
   if (id === 'add-plan') return 'workflows.addPlan.drawerTitle'
+  if (id === 'create-branch') return 'workflows.createBranch.drawerTitle'
   return ''
 }
 

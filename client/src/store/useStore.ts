@@ -121,6 +121,9 @@ export interface StoreState {
   /** Free-text plan saved by the "Add Plan" modal; rendered by the Drawer. */
   planContent: string
 
+  /** Branch name saved by the "Create Branch" modal; rendered by the Drawer. */
+  branchName: string
+
   /** Step id of the currently-open Drawer, or `null` when closed. */
   activeDrawer: string | null
 
@@ -163,6 +166,9 @@ export interface StoreState {
 
   /** Replace the saved plan content shown in the Drawer. */
   setPlanContent: (content: string) => void
+
+  /** Replace the saved branch name shown in the Drawer. */
+  setBranchName: (name: string) => void
 
   /** Open the Drawer for a given step id. */
   openDrawer: (id: string) => void
@@ -219,6 +225,7 @@ export const useStore = create<StoreState>((set) => ({
   user: { id: getInitialUserId(), name: 'Pavels P.', initials: 'PP', role: 'Admin' },
   workflowSteps: initialWorkflowSteps(),
   planContent: '',
+  branchName: '',
   activeDrawer: null,
   activeModal: null,
 
@@ -253,6 +260,8 @@ export const useStore = create<StoreState>((set) => ({
     set((state) => ({ workflowSteps: { ...state.workflowSteps, [id]: status } })),
 
   setPlanContent: (content: string) => set({ planContent: content }),
+
+  setBranchName: (name: string) => set({ branchName: name }),
 
   openDrawer: (id: string) => set({ activeDrawer: id }),
   closeDrawer: () => set({ activeDrawer: null }),
