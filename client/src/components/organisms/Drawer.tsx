@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { X } from 'lucide-react'
+import { PlanContent } from '@atoms'
 import { useStore } from '@store/useStore'
 
 function PlanDrawerBody() {
@@ -10,9 +12,7 @@ function PlanDrawerBody() {
       {planContent.trim().length === 0 ? (
         <p className="text-xs text-zinc-500 dark:text-zinc-400">{t('workflows.addPlan.empty')}</p>
       ) : (
-        <pre className="font-mono text-xs leading-6 text-zinc-800 dark:text-zinc-200 whitespace-pre-wrap break-words">
-          {planContent}
-        </pre>
+        <PlanContent content={planContent} />
       )}
     </div>
   )
@@ -32,19 +32,32 @@ export default function Drawer() {
   const { t } = useTranslation()
   const activeDrawer = useStore((s) => s.activeDrawer)
   const closeDrawer = useStore((s) => s.closeDrawer)
+  const [lastId, setLastId] = useState<string | null>(null)
 
-  if (!activeDrawer) return null
+  if (activeDrawer && activeDrawer !== lastId) {
+    setLastId(activeDrawer)
+  }
 
-  const titleKey = DrawerTitleKey(activeDrawer)
+  const isOpen = !!activeDrawer
+  const titleKey = lastId ? DrawerTitleKey(lastId) : ''
 
   return (
-    <div className="fixed inset-0 z-50 flex">
+    <>
       <div
-        className="flex-1 bg-black/40 backdrop-blur-sm"
         onClick={closeDrawer}
         aria-hidden="true"
+        className={`fixed inset-0 z-40 bg-black/40 backdrop-blur-sm transition-opacity duration-300 ease-out ${
+          isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
       />
-      <aside className="w-full max-w-md h-full bg-white dark:bg-zinc-950 border-l border-zinc-300 dark:border-zinc-800 shadow-xl flex flex-col">
+      <aside
+        aria-hidden={!isOpen}
+        className={`fixed top-0 right-0 z-50 h-full w-full max-w-md bg-white dark:bg-zinc-950 border-l border-zinc-300 dark:border-zinc-800 shadow-2xl flex flex-col will-change-transform transform transition-transform duration-300 ${
+          isOpen
+            ? 'translate-x-0 ease-out pointer-events-auto'
+            : 'translate-x-full ease-in pointer-events-none'
+        }`}
+      >
         <div className="flex items-start justify-between gap-4 px-5 py-4 border-b border-zinc-200 dark:border-zinc-800">
           <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100 tracking-tight">
             {titleKey ? t(titleKey) : ''}
@@ -58,8 +71,8 @@ export default function Drawer() {
             <X size={18} />
           </button>
         </div>
-        <DrawerBody id={activeDrawer} />
+        {lastId && <DrawerBody id={lastId} />}
       </aside>
-    </div>
+    </>
   )
 }

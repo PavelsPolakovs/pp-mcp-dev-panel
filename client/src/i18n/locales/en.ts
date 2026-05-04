@@ -61,11 +61,14 @@ const en = {
     },
     addPlan: {
       title: 'Add Plan',
-      description: 'Write a free-text plan describing what to do',
+      description: 'Browse a markdown plan file or paste it as text',
       modalTitle: 'Add plan',
-      modalDescription: 'Describe your plan in free text.',
+      modalDescription: 'Browse a markdown (.md) file, or paste the plan as text.',
       inputLabel: 'Plan',
       inputPlaceholder: 'Outline the plan…',
+      browseButton: 'Browse file',
+      browseHint: 'Pick a markdown (.md) file to load its contents into the editor below.',
+      noFileSelected: 'No file selected.',
       drawerTitle: 'Plan',
       empty: 'No plan content saved yet.',
       cta: {

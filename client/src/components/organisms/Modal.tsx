@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { X } from 'lucide-react'
+import { Upload, X } from 'lucide-react'
 import { useStore } from '@store/useStore'
 import { postEvent } from '@ws/events'
 
@@ -76,12 +76,35 @@ function AddPlanModal() {
   const setStepStatus = useStore((s) => s.setStepStatus)
   const closeModal = useStore((s) => s.closeModal)
   const [draft, setDraft] = useState(planContent)
+  const [fileName, setFileName] = useState<string | null>(null)
+  const inputRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
     void postEvent('plan_modal_open')
   }, [])
 
+  const onBrowse = () => inputRef.current?.click()
+
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    if (!/\.md$/i.test(file.name)) {
+      e.target.value = ''
+      return
+    }
+    const reader = new FileReader()
+    reader.onload = () => {
+      const text = typeof reader.result === 'string' ? reader.result : ''
+      setFileName(file.name)
+      setDraft(text)
+      void postEvent('plan_file_selected', { fileName: file.name, size: text.length })
+    }
+    reader.readAsText(file)
+    e.target.value = ''
+  }
+
   const trimmed = draft.trim()
+  const confirmFileName = fileName ?? 'plan.md'
 
   return (
     <ModalChrome
@@ -89,27 +112,57 @@ function AddPlanModal() {
       descriptionKey="workflows.addPlan.modalDescription"
       canConfirm={trimmed.length > 0}
       body={
-        <div className="flex flex-col gap-2">
-          <label
-            htmlFor="add-plan-textarea"
-            className="text-xs font-medium text-zinc-700 dark:text-zinc-300"
-          >
-            {t('workflows.addPlan.inputLabel')}
-          </label>
-          <textarea
-            id="add-plan-textarea"
-            value={draft}
-            onChange={(e) => setDraft(e.target.value)}
-            placeholder={t('workflows.addPlan.inputPlaceholder')}
-            rows={10}
-            className="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 px-3 py-2 text-xs font-mono leading-6 text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-          />
+        <div className="flex flex-col gap-3">
+          <p className="text-xs text-zinc-500 dark:text-zinc-400">
+            {t('workflows.addPlan.browseHint')}
+          </p>
+
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={onBrowse}
+              className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-zinc-300 bg-zinc-50 hover:bg-zinc-100 text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:hover:bg-zinc-800 dark:text-zinc-200 text-xs font-medium transition-colors"
+            >
+              <Upload size={14} />
+              {t('workflows.addPlan.browseButton')}
+            </button>
+            <span className="text-xs font-mono text-zinc-500 dark:text-zinc-400 truncate">
+              {fileName ?? t('workflows.addPlan.noFileSelected')}
+            </span>
+            <input
+              ref={inputRef}
+              type="file"
+              accept=".md,text/markdown"
+              onChange={onFileChange}
+              className="hidden"
+            />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label
+              htmlFor="add-plan-textarea"
+              className="text-xs font-medium text-zinc-700 dark:text-zinc-300"
+            >
+              {t('workflows.addPlan.inputLabel')}
+            </label>
+            <textarea
+              id="add-plan-textarea"
+              value={draft}
+              onChange={(e) => {
+                setDraft(e.target.value)
+                if (fileName) setFileName(null)
+              }}
+              placeholder={t('workflows.addPlan.inputPlaceholder')}
+              rows={10}
+              className="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 px-3 py-2 text-xs font-mono leading-6 text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            />
+          </div>
         </div>
       }
       onConfirm={async () => {
         setPlanContent(draft)
         setStepStatus('add-plan', 'done')
-        await postEvent('plan_confirmed', { fileName: 'plan.md', content: draft })
+        await postEvent('plan_confirmed', { fileName: confirmFileName, content: draft })
         closeModal()
       }}
       onCancel={async () => {
