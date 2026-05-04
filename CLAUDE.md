@@ -107,6 +107,22 @@ Always add both the folder and wildcard alias when adding a new alias to `vite.c
 
 **Navigation** items are driven by config in `client/src/config/navigation.ts`.
 
+### Rule: every UI element must support both light and dark themes
+
+The theme is controlled by the `dark` class on `<html>` (toggled by `useStore.setTheme` / `toggleTheme`). Tailwind is configured with `darkMode: 'class'`, so `dark:` variants react to that class.
+
+For **every** new or modified UI element (atoms, molecules, organisms, pages), the following are required:
+
+1. **Pair every theme-sensitive Tailwind class with a `dark:` variant.** Backgrounds, text colours, borders, ring/focus colours, shadow tints, badge/chip palettes, hover/active states, disabled states, placeholders. Examples:
+   - `bg-white dark:bg-zinc-900`
+   - `text-zinc-900 dark:text-zinc-100`
+   - `border-zinc-300 dark:border-zinc-800`
+   - `placeholder:text-zinc-400 dark:placeholder:text-zinc-500`
+2. **Never hardcode raw hex/rgb colours in JSX** (`style={{ color: '#fff' }}`, inline-styles, etc.) unless the value comes from a CSS variable that is itself defined for both themes.
+3. **Custom CSS** in `client/src/index.css` must either use the design tokens (`var(--color-bg)`, `var(--color-text)`, etc., which are already defined for both themes) or provide explicit overrides under both the `:root`/`[data-theme='light']` and the dark selector. Do **not** ship single-theme CSS.
+4. **Verify both themes** before reporting work as done — toggle the theme via the header switch and confirm contrast on backgrounds, borders, text, focus rings, and any state colour (idle/done/error/locked badges, hover, etc.). Do not assume a `dark:` variant just by looking at the light one — pick concrete values that read well against the dark surface.
+5. When in doubt, lean on the project's existing dark/light pairs (`zinc-50`/`zinc-900`, `zinc-300`/`zinc-700`, `cyan-600`/`cyan-400`, `emerald-500`/`emerald-400`, etc.) for consistency.
+
 ## Git workflow
 
 See `.claude/skills/git/SKILL.md` for the full GitHub/GitLab operation reference.

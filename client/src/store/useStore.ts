@@ -193,6 +193,16 @@ function getInitialTheme(): Theme {
   return 'light'
 }
 
+function applyThemeClass(theme: Theme): void {
+  if (typeof document === 'undefined') return
+  if (theme === 'dark') document.documentElement.classList.add('dark')
+  else document.documentElement.classList.remove('dark')
+}
+
+if (typeof window !== 'undefined') {
+  applyThemeClass(getInitialTheme())
+}
+
 function getInitialUserId(): string {
   if (typeof window === 'undefined') return ''
   const stored = localStorage.getItem('userId')
@@ -216,21 +226,13 @@ export const useStore = create<StoreState>((set) => ({
   theme: getInitialTheme(),
   setTheme: (theme: Theme) => {
     set({ theme })
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
+    applyThemeClass(theme)
     localStorage.setItem('theme', theme)
   },
   toggleTheme: () => {
     set((state) => {
       const newTheme: Theme = state.theme === 'dark' ? 'light' : 'dark'
-      if (newTheme === 'dark') {
-        document.documentElement.classList.add('dark')
-      } else {
-        document.documentElement.classList.remove('dark')
-      }
+      applyThemeClass(newTheme)
       localStorage.setItem('theme', newTheme)
       return { theme: newTheme }
     })
