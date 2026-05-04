@@ -141,7 +141,7 @@ function renderInline(text: string): ReactNode {
       return (
         <code
           key={idx}
-          className="px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 font-mono text-[0.85em] text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700"
+          className="px-1.5 py-0.5 rounded bg-surface-dynamic font-mono text-[0.85em] text-text border border-divider"
         >
           {tok.text}
         </code>
@@ -149,7 +149,7 @@ function renderInline(text: string): ReactNode {
     }
     if (tok.type === 'bold') {
       return (
-        <strong key={idx} className="font-semibold text-zinc-900 dark:text-zinc-100">
+        <strong key={idx} className="font-semibold text-text">
           {tok.text}
         </strong>
       )
@@ -178,11 +178,7 @@ const HEADING_CLASSES = [
 function HeadingBlock({ level, text }: { level: number; text: string }) {
   const cls = HEADING_CLASSES[level] ?? HEADING_CLASSES[6]
   const Tag = `h${Math.min(Math.max(level, 1), 6)}` as unknown as keyof JSX.IntrinsicElements
-  return (
-    <Tag className={`${cls} text-zinc-900 dark:text-zinc-100 mt-1 first:mt-0`}>
-      {renderInline(text)}
-    </Tag>
-  )
+  return <Tag className={`${cls} text-text mt-1 first:mt-0`}>{renderInline(text)}</Tag>
 }
 
 function renderBlock(block: Block, idx: number): ReactNode {
@@ -191,7 +187,7 @@ function renderBlock(block: Block, idx: number): ReactNode {
       return <HeadingBlock key={idx} level={block.level} text={block.text} />
     case 'paragraph':
       return (
-        <p key={idx} className="text-sm leading-6 text-zinc-700 dark:text-zinc-300">
+        <p key={idx} className="text-sm leading-6 text-text-muted">
           {renderInline(block.text)}
         </p>
       )
@@ -199,7 +195,7 @@ function renderBlock(block: Block, idx: number): ReactNode {
       return (
         <ul
           key={idx}
-          className="flex flex-col gap-1.5 list-disc list-outside pl-5 text-sm leading-6 text-zinc-700 dark:text-zinc-300 marker:text-zinc-400 dark:marker:text-zinc-600"
+          className="flex flex-col gap-1.5 list-disc list-outside pl-5 text-sm leading-6 text-text-muted marker:text-text-faint"
         >
           {block.items.map((item, i) => (
             <li key={i}>{renderInline(item)}</li>
@@ -210,7 +206,7 @@ function renderBlock(block: Block, idx: number): ReactNode {
       return (
         <pre
           key={idx}
-          className="font-mono text-xs leading-6 text-zinc-800 dark:text-zinc-200 whitespace-pre rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 p-3 overflow-x-auto"
+          className="font-mono text-xs leading-6 text-text whitespace-pre rounded-lg border border-divider bg-surface-offset p-3 overflow-x-auto"
         >
           {block.text}
         </pre>
@@ -219,13 +215,13 @@ function renderBlock(block: Block, idx: number): ReactNode {
       return (
         <blockquote
           key={idx}
-          className="border-l-2 border-zinc-300 dark:border-zinc-700 pl-3 text-sm italic text-zinc-600 dark:text-zinc-400"
+          className="border-l-2 border-border pl-3 text-sm italic text-text-muted"
         >
           {renderInline(block.text)}
         </blockquote>
       )
     case 'hr':
-      return <hr key={idx} className="border-zinc-200 dark:border-zinc-800" />
+      return <hr key={idx} className="border-divider" />
   }
 }
 

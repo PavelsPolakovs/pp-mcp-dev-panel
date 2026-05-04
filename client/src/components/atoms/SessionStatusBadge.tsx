@@ -3,7 +3,7 @@ import { useSessionStore } from '@store/useSessionStore'
 
 const STATUS_DOT: Record<string, string> = {
   active: 'bg-emerald-500 dark:bg-emerald-400',
-  idle: 'bg-zinc-400 dark:bg-zinc-600',
+  idle: 'bg-text-faint',
   ended: 'bg-rose-500 dark:bg-rose-400'
 }
 
@@ -26,7 +26,7 @@ export default function SessionStatusBadge() {
 
   return (
     <div
-      className="flex items-center gap-1.5 text-[11px] px-2 py-1 rounded-md border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300 cursor-default"
+      className="flex items-center gap-1.5 text-[11px] px-2 py-1 rounded-md border border-divider bg-surface text-text-muted cursor-default"
       title={tooltip}
     >
       <span className={`w-1.5 h-1.5 rounded-full ${STATUS_DOT[status] ?? STATUS_DOT.idle}`} />

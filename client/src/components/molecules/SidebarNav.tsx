@@ -19,7 +19,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ collapsed }) => {
       {NAV_CONFIG.map((section) => (
         <div className="mb-4" key={section.key}>
           <div
-            className={`text-[10px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-500 px-4 py-2 whitespace-nowrap overflow-hidden transition-all duration-200 ${
+            className={`text-[10px] font-semibold uppercase tracking-wider text-text-faint px-4 py-2 whitespace-nowrap overflow-hidden transition-all duration-200 ${
               collapsed ? 'opacity-0 w-0' : 'opacity-100 w-auto'
             }`}
           >
@@ -30,10 +30,10 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ collapsed }) => {
               to={item.path}
               key={item.key}
               className={({ isActive }) =>
-                `flex items-center gap-3 px-4 py-2 rounded-md mx-2 cursor-pointer whitespace-nowrap text-zinc-500 dark:text-zinc-400 relative transition-colors ${
+                `flex items-center gap-3 px-4 py-2 rounded-md mx-2 cursor-pointer whitespace-nowrap text-text-muted relative transition-colors ${
                   isActive
-                    ? 'bg-cyan-100 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-300 font-semibold'
-                    : 'hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-100'
+                    ? 'bg-primary-highlight text-primary font-semibold'
+                    : 'hover:bg-surface-dynamic hover:text-text'
                 }`
               }
             >
@@ -47,7 +47,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ collapsed }) => {
               </span>
               {item.badge !== undefined && (
                 <span
-                  className={`ml-auto bg-rose-500 text-white text-[10px] font-bold leading-none px-2 py-0.5 rounded-full flex-shrink-0 transition-all duration-200 ${
+                  className={`ml-auto bg-notification text-text-inverse text-[10px] font-bold leading-none px-2 py-0.5 rounded-full flex-shrink-0 transition-all duration-200 ${
                     collapsed ? 'opacity-0 w-0 p-0' : 'opacity-100 w-auto'
                   }`}
                 >

@@ -96,9 +96,9 @@ export interface StoreState {
 
   /**
    * Active visual theme. Initialised from `localStorage['theme']` if present,
-   * otherwise from `prefers-color-scheme`. The setters persist back to
-   * `localStorage` and toggle the `dark` class on `documentElement` so
-   * Tailwind's `dark:` variants take effect.
+   * otherwise defaults to `'light'`. The setters persist back to `localStorage`
+   * and toggle the `dark` class on `documentElement` so Tailwind's `dark:`
+   * variants take effect.
    */
   theme: Theme
 
@@ -188,7 +188,6 @@ function getInitialTheme(): Theme {
   if (typeof window !== 'undefined') {
     const stored = localStorage.getItem('theme')
     if (stored === 'dark' || stored === 'light') return stored
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) return 'dark'
   }
   return 'light'
 }
