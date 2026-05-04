@@ -10,7 +10,7 @@ function PlanDrawerBody() {
   return (
     <div className="flex flex-col gap-3 px-5 py-4 overflow-y-auto">
       {planContent.trim().length === 0 ? (
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">{t('workflows.addPlan.empty')}</p>
+        <p className="text-xs text-text-muted">{t('workflows.addPlan.empty')}</p>
       ) : (
         <PlanContent content={planContent} />
       )}
@@ -52,21 +52,21 @@ export default function Drawer() {
       />
       <aside
         aria-hidden={!isOpen}
-        className={`fixed top-0 right-0 z-50 h-full w-full max-w-md bg-white dark:bg-zinc-950 border-l border-zinc-300 dark:border-zinc-800 shadow-2xl flex flex-col will-change-transform transform transition-transform duration-300 ${
+        className={`fixed top-0 right-0 z-50 h-full w-full max-w-md bg-surface border-l border-border shadow-2xl flex flex-col will-change-transform transform transition-transform duration-300 ${
           isOpen
             ? 'translate-x-0 ease-out pointer-events-auto'
             : 'translate-x-full ease-in pointer-events-none'
         }`}
       >
-        <div className="flex items-start justify-between gap-4 px-5 py-4 border-b border-zinc-200 dark:border-zinc-800">
-          <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100 tracking-tight">
+        <div className="flex items-start justify-between gap-4 px-5 py-4 border-b border-divider">
+          <h2 className="text-base font-semibold text-text tracking-tight">
             {titleKey ? t(titleKey) : ''}
           </h2>
           <button
             type="button"
             onClick={closeDrawer}
             aria-label={t('workflows.drawer.close')}
-            className="text-zinc-400 hover:text-zinc-700 dark:text-zinc-500 dark:hover:text-zinc-200 transition-colors"
+            className="text-text-faint hover:text-text transition-colors"
           >
             <X size={18} />
           </button>

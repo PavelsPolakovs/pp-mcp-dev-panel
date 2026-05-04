@@ -14,7 +14,7 @@ export default function ThemeToggle() {
       aria-label="Toggle theme"
       onClick={toggleTheme}
       title={isDark ? t('theme.switchToLight') : t('theme.switchToDark')}
-      className="inline-flex items-center justify-center rounded-full p-2 leading-none border border-zinc-300 bg-white text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-100 transition-colors"
+      className="inline-flex items-center justify-center rounded-full p-2 leading-none border border-border bg-surface text-text-muted hover:bg-surface-dynamic hover:text-text transition-colors"
     >
       {isDark ? (
         <Sun size={16} className="text-amber-500 dark:text-amber-400" />

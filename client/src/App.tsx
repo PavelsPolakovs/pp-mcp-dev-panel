@@ -28,7 +28,7 @@ export default function App() {
         <Sidebar collapsed={collapsed} />
         <div className="grid grid-rows-[56px_1fr] min-w-0 overflow-hidden">
           <Header onToggleSidebar={() => setCollapsed((c) => !c)} />
-          <main className="overflow-y-auto bg-zinc-50 dark:bg-zinc-900 p-8">
+          <main className="overflow-y-auto bg-bg p-8">
             <Routes>
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route path="/dashboard" element={<DashboardPage />} />

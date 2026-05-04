@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Upload, X } from 'lucide-react'
+import { Button } from '@atoms'
 import { useStore } from '@store/useStore'
 import { postEvent } from '@ws/events'
 
@@ -25,45 +26,28 @@ function ModalChrome({
   const { t } = useTranslation()
   return (
     <>
-      <div className="flex items-start justify-between gap-4 px-5 py-4 border-b border-zinc-200 dark:border-zinc-800">
+      <div className="flex items-start justify-between gap-4 px-5 py-4 border-b border-divider">
         <div>
-          <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100 tracking-tight">
-            {t(titleKey)}
-          </h2>
-          {descriptionKey && (
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">{t(descriptionKey)}</p>
-          )}
+          <h2 className="text-base font-semibold text-text tracking-tight">{t(titleKey)}</h2>
+          {descriptionKey && <p className="text-xs text-text-muted mt-0.5">{t(descriptionKey)}</p>}
         </div>
         <button
           type="button"
           onClick={() => void onCancel()}
           aria-label={t('workflows.modal.close')}
-          className="text-zinc-400 hover:text-zinc-700 dark:text-zinc-500 dark:hover:text-zinc-200 transition-colors"
+          className="text-text-faint hover:text-text transition-colors"
         >
           <X size={18} />
         </button>
       </div>
       <div className="px-5 py-4 overflow-y-auto">{body}</div>
-      <div className="flex items-center justify-end gap-2 px-5 py-3 border-t border-zinc-200 dark:border-zinc-800">
-        <button
-          type="button"
-          onClick={() => void onCancel()}
-          className="px-4 py-2 rounded-lg text-xs font-medium border border-zinc-300 text-zinc-700 hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-800 transition-colors"
-        >
+      <div className="flex items-center justify-end gap-2 px-5 py-3 border-t border-divider">
+        <Button intent="secondary" size="lg" onClick={() => void onCancel()}>
           {t('workflows.modal.cancel')}
-        </button>
-        <button
-          type="button"
-          onClick={() => void onConfirm()}
-          disabled={!canConfirm}
-          className={`px-4 py-2 rounded-lg text-xs font-medium transition-colors ${
-            canConfirm
-              ? 'bg-cyan-600 hover:bg-cyan-500 text-white cursor-pointer'
-              : 'bg-zinc-200 text-zinc-400 cursor-not-allowed dark:bg-zinc-800 dark:text-zinc-600'
-          }`}
-        >
+        </Button>
+        <Button intent="primary" size="lg" onClick={() => void onConfirm()} disabled={!canConfirm}>
           {t('workflows.modal.confirm')}
-        </button>
+        </Button>
       </div>
     </>
   )
@@ -113,20 +97,14 @@ function AddPlanModal() {
       canConfirm={trimmed.length > 0}
       body={
         <div className="flex flex-col gap-3">
-          <p className="text-xs text-zinc-500 dark:text-zinc-400">
-            {t('workflows.addPlan.browseHint')}
-          </p>
+          <p className="text-xs text-text-muted">{t('workflows.addPlan.browseHint')}</p>
 
           <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={onBrowse}
-              className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-zinc-300 bg-zinc-50 hover:bg-zinc-100 text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:hover:bg-zinc-800 dark:text-zinc-200 text-xs font-medium transition-colors"
-            >
+            <Button intent="subtle" size="md" onClick={onBrowse}>
               <Upload size={14} />
               {t('workflows.addPlan.browseButton')}
-            </button>
-            <span className="text-xs font-mono text-zinc-500 dark:text-zinc-400 truncate">
+            </Button>
+            <span className="text-xs font-mono text-text-muted truncate">
               {fileName ?? t('workflows.addPlan.noFileSelected')}
             </span>
             <input
@@ -139,10 +117,7 @@ function AddPlanModal() {
           </div>
 
           <div className="flex flex-col gap-2">
-            <label
-              htmlFor="add-plan-textarea"
-              className="text-xs font-medium text-zinc-700 dark:text-zinc-300"
-            >
+            <label htmlFor="add-plan-textarea" className="text-xs font-medium text-text">
               {t('workflows.addPlan.inputLabel')}
             </label>
             <textarea
@@ -154,7 +129,7 @@ function AddPlanModal() {
               }}
               placeholder={t('workflows.addPlan.inputPlaceholder')}
               rows={10}
-              className="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 px-3 py-2 text-xs font-mono leading-6 text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className="w-full rounded-lg border border-border bg-surface-offset px-3 py-2 text-xs font-mono leading-6 text-text focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
         </div>
@@ -184,7 +159,7 @@ export default function Modal() {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-      <div className="w-full max-w-2xl rounded-2xl border border-zinc-300 bg-white dark:border-zinc-800 dark:bg-zinc-950 shadow-xl flex flex-col max-h-[80vh]">
+      <div className="w-full max-w-2xl rounded-2xl border border-border bg-surface shadow-xl flex flex-col max-h-[80vh]">
         <ModalBody id={activeModal} />
       </div>
     </div>

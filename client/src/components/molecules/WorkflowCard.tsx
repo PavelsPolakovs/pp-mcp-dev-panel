@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { BaseCard, StatusBadge } from '@atoms'
+import { BaseCard, Button, StatusBadge } from '@atoms'
 import type { StatusBadgeVariant } from '@atoms/StatusBadge'
 import { useStore } from '@store/useStore'
 import type { CtaState, StepStatus, WorkflowStepConfig } from '@config/workflow'
@@ -53,18 +53,9 @@ export default function WorkflowCard({ step }: WorkflowCardProps) {
       tooltip={tooltip}
       ctaSlot={
         cta ? (
-          <button
-            type="button"
-            onClick={onCtaClick}
-            disabled={ctaDisabled}
-            className={`w-full px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
-              ctaDisabled
-                ? 'bg-zinc-100 text-zinc-400 cursor-not-allowed dark:bg-zinc-800 dark:text-zinc-600'
-                : 'bg-cyan-600 hover:bg-cyan-500 text-white cursor-pointer'
-            }`}
-          >
+          <Button intent="primary" fullWidth onClick={onCtaClick} disabled={ctaDisabled}>
             {t(cta.labelKey)}
-          </button>
+          </Button>
         ) : null
       }
     />
