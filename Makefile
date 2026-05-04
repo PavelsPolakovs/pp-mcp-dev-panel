@@ -24,7 +24,7 @@ NPM ?= npm
 
 .DEFAULT_GOAL := help
 
-.PHONY: help install dev build start lint format format-check typecheck ci test clean clean-all
+.PHONY: help install dev build start lint format format-check typecheck ci test smoke-mcp clean clean-all
 
 ## ——— General ————————————————————————————————————————————————————————————————
 
@@ -67,6 +67,9 @@ ci: ## Run all quality checks — lint, typecheck, format:check
 
 test: ## Run the test suite (no runner configured yet — exits non-zero)
 	$(NPM) run test
+
+smoke-mcp: ## End-to-end smoke test of the MCP stdio server (spawns on UI_PORT=3334)
+	node scripts/smoke-mcp.ts
 
 ## ——— Maintenance ————————————————————————————————————————————————————————————
 

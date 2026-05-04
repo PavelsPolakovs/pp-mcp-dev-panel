@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "pp-mcp-dev-panel": {
+      "command": "node",
+      "args": ["server/index.ts"],
+      "env": {
+        "UI_PORT": "3335"
+      }
+    }
+  }
+}
