@@ -1,12 +1,11 @@
-import { useState } from 'react'
-import { LayoutDashboard } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { TaskPlanCard } from '@molecules'
-import { Terminal, TaskPlanPanel } from '@organisms'
+import { LayoutDashboard, Workflow } from 'lucide-react'
+import { WorkflowCard } from '@molecules'
 
 export default function DashboardPage() {
   const { t } = useTranslation()
-  const [showTaskPanel, setShowTaskPanel] = useState(false)
+  const navigate = useNavigate()
 
   return (
     <div className="flex flex-col gap-6">
@@ -21,17 +20,14 @@ export default function DashboardPage() {
       </div>
 
       <div className="space-y-2">
-        <TaskPlanCard onClick={() => setShowTaskPanel(true)} />
+        <WorkflowCard
+          icon={Workflow}
+          iconColorClass="text-cyan-500"
+          title={t('dashboard.workflowsCard.title')}
+          description={t('dashboard.workflowsCard.description')}
+          onClick={() => navigate('/workflows')}
+        />
       </div>
-
-      <div>
-        <h2 className="text-xs text-zinc-500 dark:text-zinc-400 uppercase tracking-wider font-medium mb-2">
-          {t('dashboard.output')}
-        </h2>
-        <Terminal />
-      </div>
-
-      {showTaskPanel && <TaskPlanPanel onClose={() => setShowTaskPanel(false)} />}
     </div>
   )
 }

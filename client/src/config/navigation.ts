@@ -9,7 +9,7 @@ import {
   Plug2,
   Settings,
   ScrollText,
-  Clock
+  Workflow
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
@@ -38,6 +38,7 @@ export const NAV_CONFIG: NavSection[] = [
         path: '/dashboard',
         icon: LayoutDashboard
       },
+      { key: 'workflows', labelKey: 'nav.items.workflows', path: '/workflows', icon: Workflow },
       { key: 'analytics', labelKey: 'nav.items.analytics', path: '/analytics', icon: TrendingUp },
       { key: 'reports', labelKey: 'nav.items.reports', path: '/reports', icon: FileText }
     ]
@@ -69,8 +70,7 @@ export const NAV_CONFIG: NavSection[] = [
         icon: Plug2
       },
       { key: 'settings', labelKey: 'nav.items.settings', path: '/settings', icon: Settings },
-      { key: 'logs', labelKey: 'nav.items.logs', path: '/logs', icon: ScrollText },
-      { key: 'history', labelKey: 'nav.items.history', path: '/history', icon: Clock }
+      { key: 'logs', labelKey: 'nav.items.logs', path: '/logs', icon: ScrollText }
     ]
   }
 ]

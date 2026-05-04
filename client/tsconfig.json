@@ -21,10 +21,11 @@
       "@i18n": ["i18n"],
       "@i18n/*": ["i18n/*"],
       "@pages": ["components/pages"],
-      "@pages/*": ["components/pages/*"]
+      "@pages/*": ["components/pages/*"],
+      "@shared/*": ["../../shared/*"]
     },
     "composite": true
   },
-  "include": ["src"],
+  "include": ["src", "../shared/**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }
