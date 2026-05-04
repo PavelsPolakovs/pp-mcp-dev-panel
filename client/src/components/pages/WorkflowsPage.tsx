@@ -1,17 +1,9 @@
-import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ClipboardList, GitBranch, Workflow } from 'lucide-react'
-import { WorkflowCard, PlanFileModal } from '@molecules'
-import { postEvent } from '@ws/events'
+import { Workflow } from 'lucide-react'
+import { Drawer, Modal, WorkflowBoard } from '@organisms'
 
 export default function WorkflowsPage() {
   const { t } = useTranslation()
-  const [planOpen, setPlanOpen] = useState(false)
-
-  const onAddPlanClick = () => {
-    void postEvent('plan_modal_open')
-    setPlanOpen(true)
-  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -25,25 +17,10 @@ export default function WorkflowsPage() {
         <p className="text-xs text-zinc-500 dark:text-zinc-400">{t('workflows.subtitle')}</p>
       </div>
 
-      <div className="space-y-2">
-        <WorkflowCard
-          icon={ClipboardList}
-          iconColorClass="text-purple-500"
-          title={t('workflows.addPlan.title')}
-          description={t('workflows.addPlan.description')}
-          onClick={onAddPlanClick}
-        />
-        <WorkflowCard
-          icon={GitBranch}
-          iconColorClass="text-emerald-500"
-          title={t('workflows.createBranch.title')}
-          description={t('workflows.createBranch.description')}
-          hint={t('workflows.createBranch.comingSoon')}
-          disabled
-        />
-      </div>
+      <WorkflowBoard />
 
-      {planOpen && <PlanFileModal onClose={() => setPlanOpen(false)} />}
+      <Drawer />
+      <Modal />
     </div>
   )
 }

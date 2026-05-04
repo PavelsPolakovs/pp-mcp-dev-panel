@@ -1,3 +1,6 @@
 export { default as Terminal } from './Terminal'
 export { default as Header } from './Header'
 export { default as Sidebar } from './Sidebar'
+export { default as Drawer } from './Drawer'
+export { default as Modal } from './Modal'
+export { default as WorkflowBoard } from './WorkflowBoard'

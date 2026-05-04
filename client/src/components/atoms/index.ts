@@ -1,3 +1,5 @@
 export { default as AppLogo } from './AppLogo'
 export { default as ThemeToggle } from './ThemeToggle'
 export { default as SessionStatusBadge } from './SessionStatusBadge'
+export { default as StatusBadge } from './StatusBadge'
+export { default as BaseCard } from './BaseCard'
